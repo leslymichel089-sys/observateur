@@ -21,12 +21,12 @@
         .card { background: rgba(26, 30, 38, 0.9); border: 2px solid var(--main); border-radius: 20px; padding: 20px; margin-bottom: 15px; text-align: center; }
 
         .btn-gold { background: var(--main); color: #000; padding: 15px; border-radius: 30px; border: none; font-weight: 900; text-transform: uppercase; cursor: pointer; width: 100%; margin-top: 10px; }
+        .btn-panic { background: #ff4d4d !important; color: #fff !important; box-shadow: 0 0 20px #ff4d4d; margin-top: 20px; }
         .input-supreme { width: 100%; padding: 15px; background: #000; color: var(--main); border: 2px solid var(--main); border-radius: 12px; margin-bottom: 10px; text-align: center; }
 
-        /* NAVIGATEUR & MÉDIA */
-        #webFrame { width: 100%; height: 300px; border: 2px solid var(--main); border-radius: 15px; margin-top: 10px; display: none; background: #fff; }
+        #webFrame { width: 100%; height: 350px; border: 2px solid var(--main); border-radius: 15px; margin-top: 15px; display: none; background: #fff; }
 
-        nav { display: flex; background: #0f1217; border-top: 3px solid var(--main); height: 100px; }
+        nav { display: flex; background: #0f1217; border-top: 3px solid var(--main); height: 100px; padding-bottom: env(safe-area-inset-bottom); }
         nav button { flex: 1; background: none; border: none; color: #555; font-size: 10px; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         nav button.active { color: var(--main); }
         nav button span { font-size: 28px; }
@@ -43,32 +43,32 @@
 
     <div id="home" class="page active-page">
         <div class="card">
-            <h3 style="color:var(--main);">MULTIMÉDIA & WEB</h3>
-            <input type="text" id="webUrl" class="input-supreme" placeholder="Lien Vidéo, Musique ou Site...">
+            <h3 style="color:var(--main);">UNITÉ MULTIMÉDIA</h3>
+            <input type="text" id="webUrl" class="input-supreme" placeholder="URL ou Recherche...">
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                 <button class="btn-gold" onclick="openWeb()">🌐 NAVIGUER</button>
                 <button class="btn-gold" onclick="openMedia()">🎬 LECTURE</button>
             </div>
+            
             <iframe id="webFrame"></iframe>
+
+            <button class="btn-gold btn-panic" id="panicBtn" style="display:none;" onclick="triggerPanic()">🚨 PANIQUE</button>
         </div>
     </div>
 
     <div id="vault" class="page">
         <div class="card">
             <h3 style="color:var(--main);">⚙️ CONFIGURATION</h3>
-            <p style="font-size:0.8em; margin-bottom:10px;">CHANGER LE FOND D'ÉCRAN</p>
+            <p style="font-size:0.8em; margin-bottom:10px;">FOND D'ÉCRAN PERSONNALISÉ</p>
             <input type="file" id="bgUpload" accept="image/*" style="display:none;" onchange="changeBg(event)">
             <button class="btn-gold" onclick="document.getElementById('bgUpload').click()">🖼️ CHOISIR IMAGE</button>
-            
-            <p style="font-size:0.8em; margin-top:20px;">COULEUR SYSTÈME</p>
-            <input type="color" onchange="document.documentElement.style.setProperty('--main', this.value)" style="width:100%; height:40px; border:none; background:none;">
         </div>
     </div>
 
     <nav>
         <button class="active" onclick="showPage('home')"><span>🏠</span>Accueil</button>
-        <button onclick="showPage('vault')"><span>🔐</span>Paramètres</button>
-        <button onclick="location.reload()"><span>🔄</span>Reload</button>
+        <button onclick="showPage('vault')"><span>🔐</span>Réglages</button>
+        <button onclick="location.reload()"><span>🔄</span>Reset</button>
     </nav>
 
     <script>
@@ -78,18 +78,29 @@
             const frame = document.getElementById('webFrame');
             frame.src = url;
             frame.style.display = 'block';
-            window.speechSynthesis.speak(new SpeechSynthesisUtterance("Navigation incognito activée."));
+            document.getElementById('panicBtn').style.display = 'block';
         }
 
         function openMedia() {
             const url = document.getElementById('webUrl').value;
+            const frame = document.getElementById('webFrame');
             if(url.includes('youtube') || url.includes('youtu.be')) {
-                const videoId = url.split('v=')[1] || url.split('/').pop();
-                document.getElementById('webFrame').src = `https://www.youtube.com/embed/${videoId}`;
-                document.getElementById('webFrame').style.display = 'block';
+                const videoId = url.split('v=')[1]?.split('&')[0] || url.split('/').pop();
+                frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
             } else {
-                alert("Collez un lien YouTube ou un fichier audio/vidéo.");
+                frame.src = url;
             }
+            frame.style.display = 'block';
+            document.getElementById('panicBtn').style.display = 'block';
+        }
+
+        function triggerPanic() {
+            const frame = document.getElementById('webFrame');
+            frame.src = "";
+            frame.style.display = 'none';
+            document.getElementById('panicBtn').style.display = 'none';
+            document.getElementById('webUrl').value = "";
+            window.speechSynthesis.cancel();
         }
 
         function changeBg(event) {
