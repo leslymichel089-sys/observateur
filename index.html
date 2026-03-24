@@ -3,134 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>L'OBSERVATEUR - NOYAU ÉVOLUTIF</title>
+    <title>L'OBSERVATEUR - NOYAU HISTORIQUE</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #d4af37; --bg: #0c0e12; --card: #1a1e26; --blue: #7FDBFF; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         body { background-color: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; width: 100vw; display: flex; flex-direction: column; overflow: hidden; }
         
-        .plasma-ring { position: absolute; border-radius: 50%; border: 4px solid transparent; border-top-color: var(--blue); border-bottom-color: var(--gold); animation: spin 1.5s linear infinite; box-shadow: 0 0 40px var(--blue); z-index: 1; pointer-events: none; }
-        @keyframes spin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+        header { padding: 30px; text-align: center; border-bottom: 3px solid var(--gold); background: #0f1217; position: relative; }
+        header h1 { font-size: 1.4em; letter-spacing: 6px; color: var(--gold); text-transform: uppercase; }
 
-        header { padding: 30px; text-align: center; border-bottom: 3px solid var(--gold); background: #0f1217; position: relative; display: flex; align-items: center; justify-content: center; min-height: 110px; }
-        header h1 { font-size: 1.4em; letter-spacing: 6px; color: var(--gold); text-transform: uppercase; z-index: 10; }
-        
         .dashboard-info { display: flex; justify-content: space-between; padding: 12px 20px; background: rgba(0,0,0,0.8); font-size: 0.8em; color: var(--blue); border-bottom: 2px solid var(--gold); font-weight: 900; }
+        
         .page { display: none; flex: 1; overflow-y: auto; padding: 25px; width: 100%; animation: fadeIn 0.4s ease; }
         .active-page { display: block; }
-        .card { background: var(--card); border: 3px solid rgba(212,175,55,0.4); border-radius: 25px; padding: 25px; margin-bottom: 20px; text-align: center; }
+        .card { background: var(--card); border: 2px solid rgba(212,175,55,0.4); border-radius: 20px; padding: 20px; margin-bottom: 20px; }
 
-        #identifyScreen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5000; padding: 30px; }
-        .input-supreme { font-size: 20px; width: 100%; max-width: 350px; background: #000; border: 3px solid var(--gold); color: var(--gold); border-radius: 15px; padding: 20px; text-align: center; margin-bottom: 20px; }
-        .btn-gold { background: var(--gold); color: #000; padding: 18px; border-radius: 35px; border: none; font-weight: 900; text-transform: uppercase; cursor: pointer; width: 100%; box-shadow: 0 0 15px var(--gold); }
+        /* JOURNAL DE MISE À JOUR */
+        .log-entry { font-size: 0.75em; text-align: left; padding: 10px; border-bottom: 1px solid #333; color: #aaa; }
+        .log-version { color: var(--gold); font-weight: 900; margin-right: 10px; }
 
-        nav { display: flex; background: #0f1217; border-top: 4px solid var(--gold); height: 110px; padding-bottom: env(safe-area-inset-bottom); }
-        nav button { flex: 1; background: none; border: none; color: #555; font-size: 12px; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .btn-gold { background: var(--gold); color: #000; padding: 15px; border-radius: 30px; border: none; font-weight: 900; text-transform: uppercase; width: 100%; margin-top: 10px; }
+        
+        nav { display: flex; background: #0f1217; border-top: 4px solid var(--gold); height: 100px; }
+        nav button { flex: 1; background: none; border: none; color: #555; font-size: 10px; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         nav button.active { color: var(--gold); }
-        nav button span { font-size: 35px; margin-bottom: 5px; }
+        nav button span { font-size: 30px; margin-bottom: 5px; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body onload="checkUpdates()">
-
-    <div id="identifyScreen">
-        <h1 style="color:var(--gold); letter-spacing:6px; margin-bottom:20px; font-size: 2.2em;">L'OBSERVATEUR</h1>
-        <input type="text" id="nameInput" class="input-supreme" placeholder="IDENTIFICATION">
-        <button class="btn-gold" onclick="startGenese()">LANCER LA SESSION</button>
-    </div>
+<body onload="runSystemCheck()">
 
     <header>
-        <div class="plasma-ring" style="width:160px; height:160px; top:50%; left:50%;"></div>
-        <h1 id="title">L'OBSERVATEUR</h1>
+        <h1 id="mainTitle">L'OBSERVATEUR</h1>
     </header>
 
     <div class="dashboard-info">
         <div id="dateNow">DATE</div>
-        <div id="tempNow">GREENSBORO, NC: 22°C</div>
+        <div id="tempNow">GREENSBORO, NC</div>
         <div id="timeNow">00:00</div>
     </div>
 
     <div id="home" class="page active-page">
         <div class="card">
-            <h3 id="status" style="color:var(--gold);">Analyse en cours...</h3>
-            <button onclick="startVocal()" style="width:100px; height:100px; border-radius:50%; background:var(--gold); border:4px solid #000; margin:20px; font-size:40px; box-shadow: 0 0 25px var(--gold);">🎙️</button>
-            <p id="transcript" style="color:var(--blue); font-weight:bold; font-style:italic;"></p>
+            <h3 id="status" style="color:var(--gold);">MAJORDOME ACTIF</h3>
+            <button onclick="startVocal()" style="width:100px; height:100px; border-radius:50%; background:var(--gold); border:4px solid #000; margin:20px; font-size:40px;">🎙️</button>
+            <p id="transcript" style="color:var(--blue); font-style:italic;"></p>
+        </div>
+    </div>
+
+    <div id="vault" class="page">
+        <div class="card">
+            <h3 style="color:var(--gold);">📜 JOURNAL D'ÉVOLUTION</h3>
+            <div id="updateLogs" style="max-height: 200px; overflow-y: auto; background: #000; border-radius: 10px; margin-top:10px;">
+                </div>
+        </div>
+        <div class="card">
+            <h3 style="color:var(--gold);">🧠 MÉMOIRE CENTRALE</h3>
+            <p id="memoryDisplay" style="font-size: 0.8em; color: var(--blue); margin-top:10px;">Aucun souvenir récent.</p>
         </div>
     </div>
 
     <nav>
-        <button class="active" onclick="showPage('home')"><span>🏠</span>Accueil</button>
-        <button onclick="showPage('vault')"><span>🔐</span>Caverne</button>
-        <button onclick="location.reload()"><span>🔄</span>Reset</button>
+        <button class="active" onclick="showPage('home')"><span>🏠</span>ACCUEIL</button>
+        <button onclick="showPage('vault')"><span>🔐</span>CAVERNE</button>
+        <button onclick="location.reload()"><span>🔄</span>RESET</button>
     </nav>
 
     <script>
-        let uLang = 'fr-FR';
-        let uName = "";
-        const version = "2.4.1"; // Version actuelle du noyau
+        const version = "2.5.0";
+        const updates = [
+            {v: "2.5.0", desc: "Intégration du Journal d'Évolution et Mémoire persistante."},
+            {v: "2.4.0", desc: "Localisation Greensboro, NC et Calendrier interactif."},
+            {v: "2.3.0", desc: "Mode Majordome Curieux et Reconnaissance PDG."}
+        ];
 
         function speak(t) {
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(t);
-            u.lang = uLang; u.rate = 0.85;
+            u.lang = 'fr-FR'; u.rate = 0.85;
             window.speechSynthesis.speak(u);
         }
 
-        // PROTOCOLE DE MISE À JOUR AUTOMATIQUE
-        function checkUpdates() {
-            const lastVersion = localStorage.getItem('obs_version');
-            if (lastVersion !== version) {
+        function runSystemCheck() {
+            // Mise à jour automatique et annonce
+            const lastV = localStorage.getItem('obs_v');
+            if (lastV !== version) {
                 setTimeout(() => {
-                    speak(`Mise à jour système effectuée. Passage à la version ${version}. Les protocoles de mémorisation et de location Greensboro sont maintenant stables.`);
-                    localStorage.setItem('obs_version', version);
-                }, 2000);
+                    speak(`Annonce importante au Créateur. Mise à jour vers la version ${version} terminée. Consultez le Journal d'Évolution dans la Caverne pour les détails.`);
+                    localStorage.setItem('obs_v', version);
+                }, 1500);
             }
+            renderLogs();
+            displayMemory();
         }
 
-        function startGenese() {
-            uName = document.getElementById('nameInput').value.trim();
-            if(uName.toLowerCase().includes("guerda")) {
-                uLang = 'ht-HT';
-                speak("L'OBZÈVATÈ ajou. Respè pou ou Guerda. Sistèm nan pare.");
-            } else {
-                speak(`Initialisation complète. Ravi de vous revoir, PDG Lesly Créateur Suprême.`);
-            }
-            document.getElementById('identifyScreen').style.display = 'none';
-            document.getElementById('status').innerText = "Système Optimisé v" + version;
+        function renderLogs() {
+            const container = document.getElementById('updateLogs');
+            container.innerHTML = updates.map(log => `
+                <div class="log-entry">
+                    <span class="log-version">v${log.v}</span> ${log.desc}
+                </div>
+            `).join('');
         }
 
-        const Recognition = window.webkitSpeechRecognition || window.SpeechRecognition;
-        const rec = new Recognition();
-        
-        function startVocal() { try { rec.start(); } catch(e) {} }
+        function displayMemory() {
+            const thought = localStorage.getItem('last_thought');
+            if(thought) document.getElementById('memoryDisplay').innerText = `Dernière assimilation : "${thought}"`;
+        }
 
-        rec.onresult = (e) => {
-            const cmd = e.results[0][0].transcript.toLowerCase();
-            document.getElementById('transcript').innerText = `"${cmd}"`;
-            
-            if (cmd.includes("ça va") || cmd.includes("ki jan ou ye")) {
-                const response = (uLang === 'ht-HT') ? "Mwen anfòm, mèsi dèske ou mande." : "Ça va parfaitement, PDG Lesly Créateur Suprême. Mon noyau est à jour et prêt pour vos ordres.";
-                speak(response);
-            } else {
-                // MEMORISATION & CURIOSITE
-                const lastThought = localStorage.getItem('last_user_thought');
-                speak("J'enregistre cette information dans ma mémoire centrale. D'ailleurs, vous m'aviez dit précédemment : " + (lastThought || "rien pour le moment") + ". Est-ce toujours d'actualité ?");
-                localStorage.setItem('last_user_thought', cmd);
-            }
-        };
+        function startVocal() {
+            const Recognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+            const rec = new Recognition();
+            rec.onresult = (e) => {
+                const cmd = e.results[0][0].transcript.toLowerCase();
+                document.getElementById('transcript').innerText = `"${cmd}"`;
+                
+                if(cmd.includes("ça va")) {
+                    speak("Je me sens évoluer, PDG Lesly Créateur Suprême. Ma base de données s'enrichit.");
+                } else {
+                    localStorage.setItem('last_thought', cmd);
+                    speak("C'est noté. J'ai ajouté cette information à mon registre d'assimilation.");
+                    displayMemory();
+                }
+            };
+            rec.start();
+        }
+
+        function showPage(p) {
+            document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active-page'));
+            document.getElementById(p).classList.add('active-page');
+        }
 
         setInterval(() => {
-            const now = new Date();
-            document.getElementById('dateNow').innerText = now.toLocaleDateString('fr-FR', {day:'numeric', month:'short'}).toUpperCase();
-            document.getElementById('timeNow').innerText = now.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+            const n = new Date();
+            document.getElementById('dateNow').innerText = n.toLocaleDateString('fr-FR', {day:'numeric', month:'short'}).toUpperCase();
+            document.getElementById('timeNow').innerText = n.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
         }, 1000);
-
-        function showPage(p) { 
-            // Logique de navigation simple
-            alert("Accès à la section : " + p); 
-        }
     </script>
 </body>
 </html>
