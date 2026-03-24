@@ -3,54 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>L'OBSERVATEUR</title>
+    <title>L'OBSERVATEUR - GARDIEN SUPRÊME</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg: #0c0e12; --card: #1a1e26; --blue: #7FDBFF; --text: #ffffff; --plasma: rgba(127, 219, 255, 0.6); }
+        :root { --gold: #d4af37; --bg: #0c0e12; --card: #1a1e26; --blue: #7FDBFF; --text: #ffffff; --red: #ff4d4d; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* ÉCRAN DE VERROUILLAGE & ANIMA-CŒUR */
-        #lockScreen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5000; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        .lock-title { font-size: 8vw; letter-spacing: 5px; margin-bottom: 20px; text-transform: uppercase; font-weight: 900; color: var(--gold); text-align: center; position: relative; z-index: 10; }
-        
-        /* L'ANIMATION DE COURANT ÉLECTRIQUE */
-        .plasma-core { position: absolute; width: 300px; height: 300px; border-radius: 50%; opacity: 0; transition: opacity 0.3s; }
-        .plasma-ring { position: absolute; inset: 0; border-radius: 50%; border: 4px solid transparent; border-top-color: var(--blue); border-bottom-color: var(--gold); animation: plasmaRotate 2s linear infinite; box-shadow: 0 0 20px var(--plasma), inset 0 0 20px var(--plasma); }
-        .plasma-ring.inner { inset: 20px; border-top-color: var(--gold); border-bottom-color: var(--blue); animation-duration: 1s; animation-direction: reverse; }
-        
-        @keyframes plasmaRotate { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.05); } to { transform: rotate(360deg) scale(1); } }
-        .active-plasma { opacity: 1 !important; }
+        #lockScreen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5000; transition: 0.6s ease; }
+        .lock-title { font-size: 8vw; letter-spacing: 5px; font-weight: 900; color: var(--gold); text-align: center; margin-bottom: 20px; }
 
-        .pin-input { font-size: 40px; width: 180px; text-align: center; border: 3px solid var(--gold); border-radius: 15px; background: transparent; color: var(--gold); padding: 15px; outline: none; margin-bottom: 30px; position: relative; z-index: 10; }
-        .btn-main { background: var(--gold); color: var(--bg); border: none; padding: 20px 50px; border-radius: 40px; font-weight: 900; font-size: 1.1em; cursor: pointer; position: relative; z-index: 10; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        header { padding: 15px; text-align: center; border-bottom: 1px solid rgba(212,175,55,0.3); background: #0f1217; }
+        .dashboard-info { display: flex; justify-content: space-between; padding: 10px 15px; background: rgba(0,0,0,0.4); font-size: 0.7em; color: var(--blue); }
 
-        /* HEADER DYNAMIQUE (OMNISCIENCE) */
-        header { padding: 15px; text-align: center; border-bottom: 1px solid rgba(212,175,55,0.3); background: #0f1217; position: relative; }
-        header h1 { margin: 0; font-size: 1.3em; letter-spacing: 4px; color: var(--gold); position: relative; z-index: 10; }
-        .dashboard-info { display: flex; justify-content: space-between; padding: 8px 15px; background: rgba(0,0,0,0.4); font-size: 0.75em; color: var(--blue); letter-spacing: 1px; }
-
-        /* CONTENU ACTIF & IMPULSION TACTILE */
         .page { display: none; flex: 1; overflow-y: auto; padding: 20px; animation: fadeIn 0.3s ease; }
         .active-page { display: block; }
-        .card { background: var(--card); border: 2px solid rgba(212,175,55,0.2); border-radius: 18px; padding: 25px; margin-bottom: 15px; transition: 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.5); position: relative; overflow: hidden; }
-        .card:active { transform: scale(0.96); border-color: var(--gold); background: #252a34; }
-        .card:active::after { content:''; position: absolute; inset: 0; background: radial-gradient(circle, var(--plasma) 0%, transparent 70%); animation: pulseTactile 0.3s ease-out; }
+        .card { background: var(--card); border: 2px solid rgba(212,175,55,0.1); border-radius: 18px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         
-        @keyframes pulseTactile { from { opacity: 1; transform: scale(0); } to { opacity: 0; transform: scale(2); } }
-        
-        .card h3 { margin: 0 0 10px 0; color: var(--gold); text-transform: uppercase; font-size: 1.1em; }
-        .card p { margin: 0; color: #bbb; font-size: 0.95em; line-height: 1.4; }
+        /* BOUTON GALERIE */
+        .btn-gallery { background: var(--gold); color: #000; padding: 15px; border-radius: 12px; display: block; text-align: center; font-weight: 900; cursor: pointer; border: none; width: 100%; margin-top: 10px; }
 
-        /* FENETRE DE PROJET (MODAL) */
-        .project-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; padding: 30px; flex-direction: column; justify-content: center; text-align: center; }
-        .project-overlay h2 { color: var(--gold); font-size: 1.8em; margin-bottom: 10px;}
+        /* SENTINELLE SECTION */
+        .spam-alert { border: 2px solid var(--red); background: rgba(255, 77, 77, 0.1); padding: 15px; border-radius: 12px; margin-top: 10px; display: none; }
+        .blacklist-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #333; font-size: 0.9em; }
 
-        /* NAVIGATION BASSE MAJEURE */
-        nav { display: flex; background: #0f1217; border-top: 2px solid var(--gold); height: 80px; padding-bottom: env(safe-area-inset-bottom); }
-        nav button { flex: 1; background: none; border: none; color: #555; font-size: 10px; text-transform: uppercase; font-weight: 900; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+        nav { display: flex; background: #0f1217; border-top: 2px solid var(--gold); height: 80px; }
+        nav button { flex: 1; background: none; border: none; color: #555; font-size: 9px; text-transform: uppercase; font-weight: 900; }
         nav button.active { color: var(--gold); }
-        nav button span { font-size: 20px; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
@@ -58,166 +37,124 @@
 <body>
 
     <div id="lockScreen">
-        <div id="plasmaLock" class="plasma-core">
-            <div class="plasma-ring"></div>
-            <div class="plasma-ring inner"></div>
-        </div>
-        
         <div class="lock-title">L'OBSERVATEUR</div>
-        <input type="password" id="pinInput" class="pin-input" maxlength="4" placeholder="••••">
-        <button class="btn-main" onclick="unlock()">DÉVERROUILLER</button>
+        <input type="password" id="pinInput" style="font-size:30px; width:150px; text-align:center; background:none; border:2px solid var(--gold); color:var(--gold); border-radius:10px; padding:10px; margin-bottom:20px;" maxlength="4" placeholder="••••">
+        <button onclick="unlock()" style="background:var(--gold); padding:15px 40px; border-radius:30px; border:none; font-weight:900;">ACCÉDER</button>
     </div>
 
-    <header>
-        <div id="plasmaHeader" class="plasma-core" style="width:100px; height:100px; top:5px; left:50%; transform:translateX(-50%);">
-            <div class="plasma-ring" style="border-width:2px;"></div>
-            <div class="plasma-ring inner" style="border-width:2px;"></div>
-        </div>
-        <h1>L'OBSERVATEUR</h1>
-    </header>
+    <header><h1>L'OBSERVATEUR</h1></header>
     
     <div class="dashboard-info">
-        <div id="dateNow">Chargement...</div>
-        <div id="timeNow">--:--</div>
-        <div id="tempNow">☀️ 24°C</div>
+        <div id="dateNow">Date</div>
+        <div id="batLevel">🔋 --%</div>
+        <div id="sentinelStatus">🛡️ SENTINELLE : ACTIVE</div>
     </div>
 
     <div id="home" class="page active-page">
-        <div class="card" onclick="speak('Le système est opérationnel, Créateur Suprême.')">
-            <h3>🛰️ SURVEILLANCE GLOBALE</h3>
-            <p>État : <span style="color:#2ecc71; font-weight:bold;">ACTIF</span><br>Localisation : Greensboro, NC</p>
-        </div>
-        <div class="card" onclick="speak('Men pwovèb jounen an : Piti piti zwazo fè nich li.')">
-            <h3>📜 PWOVÈB JOUNEN AN</h3>
-            <p id="pwovebText" style="font-style: italic; color: var(--blue);">"Piti piti, zwazo fè nich li."</p>
-        </div>
-    </div>
-
-    <div id="projects" class="page">
-        <div class="card" onclick="openProject('TORO509 AI')">
-            <h3>🛡️ TORO509 AI</h3>
-            <p>Module de création d'images et d'IA mobile.</p>
-        </div>
-        <div class="card" onclick="openProject('BALLADES SPIRITUELLES')">
-            <h3>🎵 BALLADES SPIRITUELLES</h3>
-            <p>Gestion des 12 pistes et compositions évangéliques.</p>
-        </div>
-        <div class="card" onclick="openProject('GWOUP VISION')">
-            <h3>👁️ GWOUP VISION</h3>
-            <p>Archives de l'entité et stratégies.</p>
+        <div class="card" onclick="openGallery()">
+            <h3>📸 ACCÈS GALERIE DIRECT</h3>
+            <p>Explorer et sélectionner des médias de la famille Michel ou Gwoup VISION.</p>
+            <button class="btn-gallery">OUVRIR LA GALERIE</button>
+            <input type="file" id="galleryPicker" style="display:none;" onchange="previewMedia(event)">
+            <div id="mediaPreviewContainer" style="margin-top:15px; display:none;">
+                <img id="imgView" style="width:100%; border-radius:10px;">
+                <video id="vidView" controls style="width:100%; border-radius:10px; display:none;"></video>
+            </div>
         </div>
     </div>
 
-    <div id="vault" class="page">
-        <h2 style="font-size: 1em; color:var(--gold); margin-bottom:15px;">🔐 REGISTRE SECRET</h2>
-        <textarea id="secretNotes" style="width:100%; height:250px; background:#000; color:#fff; border:2px solid var(--gold); border-radius:15px; padding:20px; font-size:1.1em; outline:none; font-family:inherit;" placeholder="Écrivez vos ordres..."></textarea>
-        <button class="btn-main" style="width:100%; margin-top:20px;" onclick="saveNotes()">ENREGISTRER</button>
-    </div>
+    <div id="sentinel" class="page">
+        <div class="card">
+            <h3 style="color:var(--red);">🛡️ FILTRAGE DES MENACES</h3>
+            <p>Collez un numéro ou un SMS suspect pour analyse :</p>
+            <input type="text" id="spamInput" placeholder="Numéro ou texte..." style="width:100%; padding:15px; border-radius:10px; background:#000; color:#fff; border:1px solid var(--red);">
+            <button class="btn-gallery" style="background:var(--red); color:#fff; margin-top:10px;" onclick="analyzeSpam()">ANALYSER LA MENACE</button>
+            
+            <div id="spamResult" class="spam-alert">
+                <strong id="alertTitle">ALERTE DÉTECTÉE</strong>
+                <p id="alertMsg"></p>
+                <button onclick="confirmBlock()" style="background:var(--text); color:var(--red); border:none; padding:10px; border-radius:5px; font-weight:bold; width:100%;">BLOQUER DÉFINITIVEMENT</button>
+            </div>
+        </div>
 
-    <div id="settings" class="page">
-        <div class="card" onclick="location.reload()">
-            <h3>🔒 VERROUILLER L'UNITÉ</h3>
-            <p>Déconnexion immédiate du système.</p>
+        <div class="card">
+            <h3>🚫 LISTE NOIRE ACTIVE</h3>
+            <div id="blacklist">
+                <div class="blacklist-item"><span>+1 800-SPAM-01</span> <span style="color:var(--red);">BLOQUÉ</span></div>
+            </div>
         </div>
-        <div class="card" onclick="speak('Unité L observateur. Version 2.0.7 Prestige active.')">
-            <h3>⚙️ VERSION SYSTÈME</h3>
-            <p>V 2.0.7 - Noyau Stable [NC]</p>
-        </div>
-    </div>
-
-    <div id="projectOverlay" class="project-overlay">
-        <h2 id="projectName">NOM DU PROJET</h2>
-        <p style="color:var(--blue); margin-bottom:30px;">Initialisation du module en cours...</p>
-        <div style="background:rgba(212,175,55,0.05); padding:20px; border-radius:15px; border:1px dashed var(--gold); color:#eee; font-size:0.9em;">
-            Contrôle d'accès : <span style="color:#2ecc71">OK</span><br>Données : Sécurisées
-        </div>
-        <button class="btn-main" style="margin-top:40px;" onclick="closeProject()">RETOUR</button>
     </div>
 
     <nav>
-        <button id="btn-home" class="active" onclick="showPage('home')"><span>🏠</span>Accueil</button>
-        <button id="btn-projects" onclick="showPage('projects')"><span>📂</span>Projets</button>
-        <button id="btn-vault" onclick="showPage('vault')"><span>🔐</span>Caverne</button>
-        <button id="btn-settings" onclick="showPage('settings')"><span>⚙️</span>Réglages</button>
+        <button class="active" onclick="showPage('home')">🏠 Accueil</button>
+        <button onclick="showPage('sentinel')">🛡️ Sentinelle</button>
+        <button onclick="location.reload()">⚙️ Sortie</button>
     </nav>
 
     <script>
-        // --- SYSTÈME OMNISCIENCE (Heure/Date) ---
-        function updateDashboard() {
-            const now = new Date();
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-            document.getElementById('dateNow').innerText = now.toLocaleDateString('fr-FR', options);
-            document.getElementById('timeNow').innerText = now.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+        const pin = "1575";
+
+        function speak(t) {
+            const u = new SpeechSynthesisUtterance(t); u.lang='fr-FR'; u.rate=0.9;
+            window.speechSynthesis.speak(u);
         }
 
-        // --- SYSTÈME VOCAL & ANIMA-CŒUR ---
-        function setPlasma(active) {
-            const cores = [document.getElementById('plasmaLock'), document.getElementById('plasmaHeader')];
-            cores.forEach(core => {
-                if(active) core.classList.add('active-plasma');
-                else core.classList.remove('active-plasma');
-            });
-        }
+        function openGallery() { document.getElementById('galleryPicker').click(); }
 
-        function speak(text) {
-            if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'fr-FR'; 
-            utterance.rate = 0.9;
-            utterance.pitch = 1.0;
-
-            // Activer le courant électrique quand la voix commence
-            utterance.onstart = () => setPlasma(true);
-            // Désactiver le courant électrique quand la voix finit
-            utterance.onend = () => setPlasma(false);
+        function previewMedia(e) {
+            const file = e.target.files[0];
+            const url = URL.createObjectURL(file);
+            const container = document.getElementById('mediaPreviewContainer');
+            container.style.display = 'block';
+            speak("Accès à la galerie réussi. Fichier " + file.name + " chargé pour le Créateur.");
             
-            window.speechSynthesis.speak(utterance);
-        }
-
-        // --- NAVIGATION & CONTRÔLE ---
-        function unlock() {
-            const pin = document.getElementById('pinInput').value;
-            if (pin === '1575') {
-                document.getElementById('lockScreen').style.transform = 'translateY(-100%)';
-                updateDashboard();
-                // Animation de bienvenue
-                speak("Unité activée. Salutations Créateur Suprême Lesly Michel. Le système est prêt.");
+            if(file.type.includes('image')) {
+                document.getElementById('imgView').src = url;
+                document.getElementById('imgView').style.display = 'block';
+                document.getElementById('vidView').style.display = 'none';
             } else {
-                speak("Erreur d'authentification. Identité non reconnue.");
-                document.getElementById('pinInput').value = '';
+                document.getElementById('vidView').src = url;
+                document.getElementById('vidView').style.display = 'block';
+                document.getElementById('imgView').style.display = 'none';
             }
         }
 
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active-page');
-            document.getElementById('btn-' + pageId).classList.add('active');
+        function analyzeSpam() {
+            const val = document.getElementById('spamInput').value;
+            if(!val) return;
+            document.getElementById('spamResult').style.display = 'block';
+            document.getElementById('alertMsg').innerText = `Le numéro ${val} présente des caractéristiques de fraude. Attente de votre ordre suprême pour le blocage.`;
+            speak("Menace détectée. J'attends votre ordre définitif pour bloquer cette entité.");
         }
 
-        function openProject(name) {
-            document.getElementById('projectName').innerText = name;
-            document.getElementById('projectOverlay').style.display = 'flex';
-            speak("Initialisation du module " + name);
+        function confirmBlock() {
+            const val = document.getElementById('spamInput').value;
+            const item = document.createElement('div');
+            item.className = 'blacklist-item';
+            item.innerHTML = `<span>${val}</span> <span style="color:var(--red);">BLOQUÉ</span>`;
+            document.getElementById('blacklist').appendChild(item);
+            document.getElementById('spamResult').style.display = 'none';
+            speak("Entité bannie. Elle ne pourra plus franchir le périmètre de l'Observateur.");
         }
 
-        function closeProject() {
-            document.getElementById('projectOverlay').style.display = 'none';
+        async function unlock() {
+            if (document.getElementById('pinInput').value === pin) {
+                document.getElementById('lockScreen').style.transform = 'translateY(-100%)';
+                const bat = await navigator.getBattery();
+                document.getElementById('batLevel').innerText = `🔋 ${Math.round(bat.level*100)}%`;
+                speak("Unité Gardienne activée. Galerie et Sentinelle opérationnelles, Créateur.");
+            }
         }
 
-        function saveNotes() {
-            localStorage.setItem('supremeNotes', document.getElementById('secretNotes').value);
-            speak("Données enregistrées dans la mémoire de l'Observateur.");
-            alert("Ordres sauvegardés.");
+        function showPage(p) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active-page'));
+            document.getElementById(p).classList.add('active-page');
         }
 
-        // --- INITIALISATION ---
-        setInterval(updateDashboard, 1000); // Mise à jour seconde par seconde
-        window.onload = () => {
-            const saved = localStorage.getItem('supremeNotes');
-            if(saved) document.getElementById('secretNotes').value = saved;
-            updateDashboard();
-        };
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('dateNow').innerText = now.toLocaleDateString('fr-FR', {day:'numeric', month:'long'});
+        }, 1000);
     </script>
 </body>
 </html>
