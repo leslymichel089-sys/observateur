@@ -3,26 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>L'OBSERVATEUR - NOYAU DE SAVOIR</title>
+    <title>L'OBSERVATEUR - LEXIQUE SUPRÊME</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #d4af37; --bg: #0c0e12; --card: #1a1e26; --blue: #7FDBFF; --text: #ffffff; }
+        * { box-sizing: border-box; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        #lockScreen, #identifyScreen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5000; text-align: center; padding: 20px; transition: 0.5s; }
-        .input-supreme { font-size: 24px; width: 85%; max-width: 350px; background: none; border: 2px solid var(--gold); color: var(--gold); border-radius: 15px; padding: 15px; text-align: center; outline: none; margin-bottom: 20px; }
-        .btn-action { background: var(--gold); color: #000; padding: 15px 40px; border-radius: 30px; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; }
+        #lockScreen, #identifyScreen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5000; padding: 20px; transition: 0.5s; }
+        .input-supreme { font-size: 20px; width: 90%; max-width: 400px; background: #000; border: 2px solid var(--gold); color: var(--gold); border-radius: 15px; padding: 15px; text-align: center; outline: none; margin-bottom: 20px; }
+        .btn-action { background: var(--gold); color: #000; padding: 18px 45px; border-radius: 35px; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; }
 
         header { padding: 15px; text-align: center; border-bottom: 1px solid rgba(212,175,55,0.3); background: #0f1217; }
         .dashboard-info { display: flex; justify-content: space-between; padding: 8px 15px; background: rgba(0,0,0,0.4); font-size: 0.7em; color: var(--blue); }
 
-        .page { display: none; flex: 1; overflow-y: auto; padding: 20px; }
+        .page { display: none; flex: 1; overflow-y: auto; padding: 20px; animation: fadeIn 0.3s ease; }
         .active-page { display: block; }
         .card { background: var(--card); border: 1px solid var(--gold); border-radius: 18px; padding: 20px; margin-bottom: 15px; }
+
+        .dict-result { margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.5); border-radius: 10px; border-left: 4px solid var(--blue); }
 
         nav { display: flex; background: #0f1217; border-top: 2px solid var(--gold); height: 80px; }
         nav button { flex: 1; background: none; border: none; color: #555; font-size: 10px; font-weight: 900; }
         nav button.active { color: var(--gold); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -34,97 +38,113 @@
     </div>
 
     <div id="identifyScreen" style="display:none;">
-        <h2 style="color:var(--blue);">QUI DEMANDE L'ACCÈS ?</h2>
-        <p style="font-size: 0.8em; margin-bottom:20px;">Entrez votre nom pour que l'unité vous reconnaisse.</p>
-        <input type="text" id="nameInput" class="input-supreme" placeholder="Votre Nom">
-        <button class="btn-action" onclick="identifyUser()">S'IDENTIFIER</button>
+        <h2 style="color:var(--blue);">IDENTIFICATION REQUISE</h2>
+        <input type="text" id="nameInput" class="input-supreme" placeholder="Entrez votre nom">
+        <button class="btn-action" onclick="identifyUser()">CONFIRMER</button>
     </div>
 
     <header><h1>L'OBSERVATEUR</h1></header>
     <div class="dashboard-info">
         <div id="dateNow">Date</div>
-        <div id="userTag">👤 Identité requise</div>
+        <div id="userTag">👤 --</div>
         <div id="tempNow">☀️ 22°C</div>
     </div>
 
     <div id="home" class="page active-page">
         <div class="card">
-            <h3 id="welcomeMsg">Unité en attente...</h3>
-            <p id="roleMsg" style="color:var(--blue); font-size:0.9em;"></p>
+            <h3 id="welcomeMsg">Initialisation...</h3>
+            <p id="roleMsg" style="color:var(--blue); font-size:0.8em;"></p>
         </div>
-        <div class="card">
-            <h3>📖 ENCYCLOPÉDIE INTERNE</h3>
-            <p>Le savoir est la base de la puissance. Posez vos questions à l'unité.</p>
+        <div class="card" onclick="showPage('lexicon')">
+            <h3>🌍 DICTIONNAIRE MULTILINGUE</h3>
+            <p>Traduisez et apprenez : Français, Créole, Anglais, Espagnol.</p>
         </div>
     </div>
 
-    <div id="encyclopedia" class="page">
+    <div id="lexicon" class="page">
         <div class="card">
-            <h3>🔍 RECHERCHE DE SAVOIR</h3>
-            <input type="text" id="wikiQuery" class="input-supreme" style="font-size:16px; width:100%; border-color:var(--blue);" placeholder="Ex: Mathématiques, Histoire...">
-            <button class="btn-action" style="width:100%; background:var(--blue);" onclick="searchWiki()">CONSULTER</button>
-            <div id="wikiResult" style="margin-top:20px; font-size:0.9em; color:#ccc; line-height:1.5;"></div>
+            <h3 style="color:var(--blue);">🔍 TRADUCTEUR & LEXIQUE</h3>
+            <input type="text" id="wordQuery" class="input-supreme" style="font-size:18px; width:100%;" placeholder="Mot à traduire...">
+            <select id="langTarget" class="input-supreme" style="font-size:14px; width:100%;">
+                <option value="en">Vers l'Anglais</option>
+                <option value="ht">Vers le Créole</option>
+                <option value="es">Vers l'Espagnol</option>
+                <option value="fr">Vers le Français</option>
+            </select>
+            <button class="btn-action" style="width:100%;" onclick="translateWord()">TRADUIRE</button>
+            
+            <div id="dictResult" class="dict-result" style="display:none;">
+                <strong style="color:var(--gold);">Résultat :</strong>
+                <p id="translatedWord" style="font-size:1.4em; margin:10px 0;"></p>
+                <button class="btn-action" style="padding:10px 20px; font-size:12px;" onclick="pronounceResult()">🔊 ÉCOUTER</button>
+            </div>
         </div>
     </div>
 
     <nav>
         <button class="active" onclick="showPage('home')">🏠 Accueil</button>
-        <button onclick="showPage('encyclopedia')">📖 Savoir</button>
+        <button onclick="showPage('lexicon')">📖 Lexique</button>
         <button onclick="location.reload()">🔒 Sortie</button>
     </nav>
 
     <script>
         const familyDB = ["Lesly Michel", "Guerda", "Jean-Daniel Lesly", "Samuel", "Léïssa", "Luc", "Esterlande Belfond", "Esterlande"];
+        let lastTranslation = "";
 
-        function speak(t) {
+        function speak(t, lang = 'fr-FR') {
             if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(t); u.lang='fr-FR'; u.rate=0.9;
+            const u = new SpeechSynthesisUtterance(t); u.lang = lang; u.rate = 0.9;
             window.speechSynthesis.speak(u);
         }
 
         function checkPin() {
             if (document.getElementById('pinInput').value === '1575') {
                 document.getElementById('lockScreen').style.display = 'none';
-                // Vérifier si un utilisateur est déjà connu
                 const saved = localStorage.getItem('currentUser');
-                if (saved) { loginSuccess(saved); } 
-                else { document.getElementById('identifyScreen').style.display = 'flex'; }
+                if (saved) loginSuccess(saved);
+                else document.getElementById('identifyScreen').style.display = 'flex';
             }
         }
 
         function identifyUser() {
             const name = document.getElementById('nameInput').value.trim();
-            if (familyDB.some(member => name.toLowerCase().includes(member.toLowerCase()))) {
+            if (familyDB.some(m => name.toLowerCase().includes(m.toLowerCase()))) {
                 localStorage.setItem('currentUser', name);
                 loginSuccess(name);
-            } else {
-                speak("Nom inconnu. Accès refusé par le Créateur.");
-                alert("Identité non enregistrée.");
-            }
+            } else { alert("Nom non reconnu."); }
         }
 
         function loginSuccess(name) {
             document.getElementById('identifyScreen').style.display = 'none';
             document.getElementById('userTag').innerText = "👤 " + name;
-            document.getElementById('welcomeMsg').innerText = "Salutations, " + name;
-            
-            if (name.includes("Lesly Michel")) {
-                document.getElementById('roleMsg').innerText = "ACCÈS SUPRÊME : TOUTES LES FONCTIONS ACTIVES.";
-                speak("Bienvenue, Créateur Suprême. L'encyclopédie et la sentinelle sont à vos ordres.");
-            } else {
-                document.getElementById('roleMsg').innerText = "ACCÈS FAMILLE : MODE ACADÉMIE ACTIF.";
-                speak("Bonjour " + name + ". Je suis prêt à vous aider dans vos recherches ou vos devoirs.");
-            }
+            document.getElementById('welcomeMsg').innerText = "Unité à votre service, " + name;
+            speak("Identification réussie. Bonjour " + name);
         }
 
-        function searchWiki() {
-            const q = document.getElementById('wikiQuery').value.toLowerCase();
-            const res = document.getElementById('wikiResult');
-            speak("Recherche dans les archives de l'Observateur.");
+        function translateWord() {
+            const word = document.getElementById('wordQuery').value.toLowerCase();
+            const target = document.getElementById('langTarget').value;
+            const res = document.getElementById('dictResult');
+            const output = document.getElementById('translatedWord');
             
-            if(q.includes("math")) res.innerHTML = "<strong>Mathématiques :</strong> Science des nombres, des formes et des structures. Utile pour l'ingénierie et la musique.";
-            else if(q.includes("haïti")) res.innerHTML = "<strong>Haïti :</strong> Première république noire indépendante (1804). Terre de courage et de proverbes profonds.";
-            else res.innerHTML = "L'unité a besoin d'une connexion au moteur Toro509 pour cette recherche spécifique. Archive locale limitée.";
+            // Simulation de base de données (Sera remplacée par API Toro509)
+            let result = "Recherche via Toro509 requise...";
+            if(word === "bonjour" && target === "en") result = "Hello";
+            if(word === "bonjour" && target === "ht") result = "Bonjou";
+            if(word === "maison" && target === "es") result = "Casa";
+            
+            lastTranslation = result;
+            output.innerText = result;
+            res.style.display = 'block';
+            speak("Traduction effectuée.");
+        }
+
+        function pronounceResult() {
+            const target = document.getElementById('langTarget').value;
+            let langCode = 'en-US';
+            if(target === 'ht') langCode = 'fr-FR'; // Approximation créole
+            if(target === 'es') langCode = 'es-ES';
+            speak(lastTranslation, langCode);
         }
 
         function showPage(p) {
