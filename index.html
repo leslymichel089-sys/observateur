@@ -3,149 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>L'OBSERVATEUR - SYSTEM</title>
+    <title>L'OBSERVATEUR - STATION SUPRÊME</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg: #050505; --card: #111; --blue: #00d4ff; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
-        body { background: var(--bg); color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        :root { --gold: #d4af37; --bg: #050505; --card: #121212; --blue: #00d4ff; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* ECRAN D'IDENTIFICATION OBLIGATOIRE */
-        #login-screen { position: fixed; inset: 0; background: #000; z-index: 20000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; }
-        .input-box { width: 100%; max-width: 300px; padding: 15px; background: #111; border: 2px solid var(--gold); color: #fff; border-radius: 10px; margin: 10px 0; text-align: center; font-size: 1.1em; }
-        .lang-select { display: flex; gap: 10px; margin-bottom: 20px; }
-        .lang-btn { padding: 10px 20px; border: 1px solid var(--gold); background: none; color: var(--gold); border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .lang-btn.active { background: var(--gold); color: #000; }
+        /* DASHBOARD & HEADER */
+        header { padding: 25px; text-align: center; border-bottom: 3px solid var(--gold); background: #000; position: relative; }
+        header h1 { font-size: 1.4em; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; }
+        .dash-xl { display: grid; grid-template-columns: 1fr 1fr; padding: 15px; background: rgba(20,20,20,0.9); border-bottom: 2px solid var(--gold); text-align: center; }
+        .dash-xl div { font-size: 1em; font-weight: 900; color: var(--blue); }
+        .date-xl { grid-column: 1 / span 2; font-size: 1.3em !important; color: var(--gold) !important; margin-bottom: 5px; }
 
-        /* INTERFACE PRINCIPALE */
-        .aura { height: 220px; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, #1a1a1a 0%, #050505 100%); border-bottom: 2px solid var(--gold); position: relative; }
-        .core-orb { width: 80px; height: 80px; background: var(--blue); border-radius: 50%; box-shadow: 0 0 40px var(--blue); z-index: 5; transition: 0.4s; }
-        .core-orb.talk { animation: vibrate 0.3s infinite alternate; background: var(--gold); box-shadow: 0 0 60px var(--gold); }
-        @keyframes vibrate { from { transform: scale(1); } to { transform: scale(1.2); } }
+        /* SIDEBAR */
+        .sidebar { position: fixed; top: 0; left: -100%; width: 85%; height: 100%; background: var(--card); border-right: 3px solid var(--gold); transition: 0.4s; z-index: 10000; padding: 25px; overflow-y: auto; }
+        .sidebar.active { left: 0; }
+        .side-tool { width: 100%; padding: 15px; background: #000; border: 1px solid var(--gold); color: #fff; margin-bottom: 12px; border-radius: 10px; cursor: pointer; text-align: left; font-weight: 700; }
 
-        header { padding: 15px; text-align: center; font-weight: 900; letter-spacing: 4px; color: var(--gold); border-bottom: 1px solid #222; text-transform: uppercase; }
-        .page { display: none; flex: 1; overflow-y: auto; padding: 20px; }
+        /* MULTIMÉDIA & WEB */
+        #webFrame, #mediaPlayer { width: 100%; height: 350px; border: 2px solid var(--gold); border-radius: 15px; margin-top: 15px; display: none; background: #000; }
+
+        /* ANIMA-CŒUR CSS */
+        .anima-box { height: 150px; display: flex; align-items: center; justify-content: center; }
+        .orb { width: 80px; height: 80px; background: var(--blue); border-radius: 50%; box-shadow: 0 0 40px var(--blue); transition: 0.3s; }
+        .orb.talking { animation: speak-pulse 0.4s infinite alternate; background: var(--gold); box-shadow: 0 0 60px var(--gold); }
+        @keyframes speak-pulse { from { transform: scale(1); } to { transform: scale(1.2); } }
+
+        /* PAGES */
+        .page { display: none; flex: 1; overflow-y: auto; padding: 20px; animation: fadeIn 0.3s ease; }
         .active-page { display: block; }
-        .card { background: var(--card); border: 1px solid #333; border-radius: 15px; padding: 20px; margin-bottom: 15px; text-align: center; }
+        .card { background: var(--card); border: 1px solid #333; border-radius: 20px; padding: 20px; margin-bottom: 15px; text-align: center; }
 
-        nav { display: flex; background: #000; border-top: 2px solid var(--gold); height: 85px; }
-        nav button { flex: 1; background: none; border: none; color: #555; font-size: 10px; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        nav button.sel { color: var(--gold); }
-        nav button span { font-size: 24px; margin-bottom: 5px; }
+        /* LOGIN */
+        #id-screen { position: fixed; inset: 0; background: #000; z-index: 20000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; }
+        .input-supreme { width: 100%; max-width: 300px; padding: 15px; background: #111; border: 2px solid var(--gold); color: #fff; text-align: center; border-radius: 10px; margin-bottom: 15px; }
+
+        nav { display: flex; background: #000; border-top: 3px solid var(--gold); height: 95px; padding-bottom: env(safe-area-inset-bottom); }
+        nav button { flex: 1; background: none; border: none; color: #555; font-size: 11px; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        nav button.active { color: var(--gold); }
+        nav button span { font-size: 28px; margin-bottom: 5px; }
+
+        footer { padding: 10px; text-align: center; font-size: 0.7em; color: #444; font-weight: 900; border-top: 1px solid #222; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body>
+<body onload="initSystem()">
 
-    <div id="login-screen">
-        <h1 style="color:var(--gold); margin-bottom:20px; letter-spacing:3px;">L'OBSERVATEUR</h1>
-        <p id="welcome-txt" style="font-size:0.9em; line-height:1.6; color:#aaa; margin-bottom:20px; max-width:400px;"></p>
-        <input type="text" id="user-name" class="input-box" placeholder="Votre prénom">
-        <div class="lang-select">
-            <button class="lang-btn active" id="btn-fr" onclick="setL('fr-FR')">FRANÇAIS</button>
-            <button class="lang-btn" id="btn-ht" onclick="setL('ht-HT')">KREYÒL</button>
-        </div>
-        <button onclick="accessSystem()" style="background:var(--gold); border:none; padding:15px 40px; border-radius:30px; font-weight:900; cursor:pointer; width:100%; max-width:300px;">ACCÉDER AU NOYAU</button>
+    <div id="id-screen">
+        <h1 style="color:var(--gold); margin-bottom:20px;">L'OBSERVATEUR</h1>
+        <p id="welcome-txt" style="font-size:0.85em; color:#888; margin-bottom:20px; max-width:400px; line-height:1.5;"></p>
+        <input type="text" id="p-name" class="input-supreme" placeholder="Votre Prénom">
+        <select id="p-lang" class="input-supreme">
+            <option value="fr-FR">FRANÇAIS</option>
+            <option value="ht-HT">KREYÒL AYISYEN</option>
+        </select>
+        <button onclick="startSession()" style="background:var(--gold); padding:18px; border-radius:35px; border:none; font-weight:900; width:100%; max-width:300px; cursor:pointer; color:#000;">ACCÉDER AU SYSTÈME</button>
     </div>
 
-    <div class="aura">
-        <div id="orb" class="core-orb"></div>
+    <div id="side" class="sidebar">
+        <h2 style="color:var(--gold); border-bottom:2px solid var(--gold); padding-bottom:10px; margin-bottom:20px;">MATRICE D'OUTILS</h2>
+        <button class="side-tool" onclick="window.open('https://www.larousse.fr')">📖 DICTIONNAIRE</button>
+        <button class="side-tool" onclick="window.open('https://fr.wikipedia.org')">🌐 ENCYCLOPÉDIE</button>
+        <button class="side-tool" onclick="showP('vault'); toggleS();">🔐 ACCÈS CAVERNE</button>
+        <button class="btn-gold" style="background:var(--gold); padding:15px; border-radius:10px; width:100%; border:none; font-weight:900; margin-top:20px;" onclick="toggleS()">RETOUR</button>
     </div>
 
-    <header>L'OBSERVATEUR</header>
+    <header onclick="checkPanic()">
+        <button onclick="toggleS()" style="position:absolute; left:20px; top:35px; background:none; border:none; color:var(--gold); font-size:30px;">☰</button>
+        <h1>L'OBSERVATEUR</h1>
+    </header>
+
+    <div class="dash-xl">
+        <div id="xl-date" class="date-xl">CHARGEMENT...</div>
+        <div id="xl-time">00:00</div>
+        <div id="xl-temp">SYSTÈME PRÊT</div>
+    </div>
 
     <div id="home" class="page active-page">
+        <div class="anima-box"><div id="orb" class="orb"></div></div>
         <div class="card">
-            <h3 id="user-greet" style="color:var(--gold); margin-bottom:15px;">SESSION ACTIVE</h3>
-            <button onclick="startListen()" style="width:90px; height:90px; border-radius:50%; background:var(--gold); border:none; font-size:40px; box-shadow: 0 0 20px var(--gold);">🎙️</button>
-            <p id="out" style="color:var(--blue); margin-top:15px; font-style:italic; font-weight:bold;"></p>
+            <h3 id="user-greet" style="color:var(--gold); margin-bottom:10px;">CENTRE DE FLUX</h3>
+            
+            <input type="text" id="webUrl" style="width:100%; padding:12px; background:#000; border:1px solid var(--gold); color:#fff; border-radius:10px; margin-bottom:10px; text-align:center;" placeholder="Recherche Web...">
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px;">
+                <button class="side-tool" style="text-align:center; background:var(--gold); color:#000; font-size:0.7em;" onclick="openNav()">🌐 WEB PRIVÉ</button>
+                <button class="side-tool" style="text-align:center; background:var(--blue); color:#000; font-size:0.7em;" onclick="document.getElementById('fileIn').click()">📂 GALERIE</button>
+            </div>
+
+            <input type="file" id="fileIn" style="display:none;" accept="video/*,audio/*" onchange="loadMedia(event)">
+            
+            <iframe id="webFrame"></iframe>
+            <video id="mediaPlayer" controls></video>
+
+            <button onclick="startVoice()" style="width:70px; height:70px; border-radius:50%; background:var(--gold); border:none; font-size:30px; box-shadow: 0 0 20px var(--gold); margin-top:10px;">🎙️</button>
+            <p id="tx-out" style="color:var(--blue); font-style:italic; font-weight:bold; margin-top:10px;"></p>
         </div>
     </div>
 
     <div id="vault" class="page">
         <div class="card">
-            <h3 style="color:var(--gold);">🔐 CAVERNE</h3>
-            <textarea id="note-area" style="width:100%; height:120px; background:#000; color:var(--blue); border:1px solid #333; padding:15px; margin-top:15px; border-radius:10px;"></textarea>
-            <button onclick="saveNote()" style="width:100%; padding:15px; background:var(--gold); border:none; margin-top:10px; font-weight:bold; border-radius:10px;">ARCHIVER DANS LA MÉMOIRE</button>
+            <h3 style="color:var(--gold); margin-bottom:10px;">🔐 ARCHIVES</h3>
+            <textarea id="notes-db" style="width:100%; height:120px; background:#000; color:var(--blue); border:1px solid #333; padding:15px; border-radius:10px;"></textarea>
+            <button onclick="saveN()" style="width:100%; padding:15px; background:var(--gold); border:none; font-weight:bold; margin-top:10px; border-radius:10px;">SAUVEGARDER</button>
         </div>
     </div>
 
+    <footer>© 2026 LESLY MICHEL - TOUS DROITS RÉSERVÉS</footer>
+
     <nav>
-        <button class="sel" id="nh" onclick="showP('home', this)"><span>🏠</span>ACCUEIL</button>
-        <button id="nv" onclick="showP('vault', this)"><span>🔐</span>CAVERNE</button>
-        <button onclick="location.reload()"><span>🔄</span>RESET</button>
+        <button class="active" id="nh" onclick="showP('home', this)"><span>🏠</span>Accueil</button>
+        <button id="nv" onclick="showP('vault', this)"><span>🔐</span>Caverne</button>
+        <button onclick="location.reload()"><span>🔄</span>Reset</button>
     </nav>
 
     <script>
-        let currentLang = 'fr-FR';
-        let userName = "";
+        let uLang = 'fr-FR', uName = "", pCount = 0;
+        const wMsg = "Salut, je suis L'OBSERVATEUR, un majordome numérique créé par PDG Lesly Michel, je vous souhaite la bienvenue. D'abord veuillez vous identifier en me donnant simplement votre prénom et votre langue préférée afin que je puisse mémoriser vos préférences dans la base de données interne";
 
-        const welcomeMsg = "Salut, je suis L'OBSERVATEUR, un majordome numérique créé par PDG Lesly Michel, je vous souhaite la bienvenue. D'abord veuillez vous identifier en me donnant simplement votre prénom et votre langue préférée afin que je puisse mémoriser vos préférences dans la base de données interne.";
-
-        function setL(l) {
-            currentLang = l;
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(l === 'fr-FR' ? 'btn-fr' : 'btn-ht').classList.add('active');
+        function toggleS() { document.getElementById('side').classList.toggle('active'); }
+        function showP(id, btn) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(id).classList.add('active-page');
+            if(btn) { document.querySelectorAll('nav button').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
         }
 
         function speak(t) {
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(t);
-            u.lang = currentLang; u.rate = 0.9;
-            u.onstart = () => document.getElementById('orb').classList.add('talk');
-            u.onend = () => document.getElementById('orb').classList.remove('talk');
+            u.lang = uLang; u.rate = 0.9;
+            u.onstart = () => document.getElementById('orb').classList.add('talking');
+            u.onend = () => document.getElementById('orb').classList.remove('talking');
             window.speechSynthesis.speak(u);
         }
 
-        function accessSystem() {
-            userName = document.getElementById('user-name').value.trim();
-            if(!userName) { alert("Veuillez entrer un prénom."); return; }
-            
-            localStorage.setItem('obs_user', userName);
-            localStorage.setItem('obs_lang', currentLang);
-            
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('user-greet').innerText = "BIENVENUE, " + userName.toUpperCase();
-            
-            const greet = (currentLang === 'fr-FR') 
-                ? `Parfait ${userName}, vos préférences sont enregistrées. Je suis prêt à vous servir.`
-                : `Parfait ${userName}, preferans ou anrejistre. Mwen pare pou m sèvi ou.`;
-            speak(greet);
+        function startSession() {
+            uName = document.getElementById('p-name').value.trim();
+            uLang = document.getElementById('p-lang').value;
+            if(!uName) return alert("Nom requis.");
+            document.getElementById('id-screen').style.display = 'none';
+            document.getElementById('user-greet').innerText = "UNITÉ : " + uName.toUpperCase();
+            speak(uLang === 'fr-FR' ? `Bienvenue ${uName}. Tous les flux sont opérationnels.` : `Byenvini ${uName.toUpperCase()}. Tout sistèm yo pare.`);
         }
 
-        function showP(id, btn) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-            document.getElementById(id).classList.add('active-page');
-            document.querySelectorAll('nav button').forEach(nb => nb.classList.remove('sel'));
-            btn.classList.add('sel');
+        function openNav() {
+            let url = document.getElementById('webUrl').value;
+            if(!url) return;
+            if(!url.startsWith('http')) url = 'https://www.google.com/search?igu=1&q=' + url;
+            document.getElementById('mediaPlayer').style.display = 'none';
+            const f = document.getElementById('webFrame');
+            f.src = url; f.style.display = 'block';
+            speak(uLang === 'fr-FR' ? "Accès web activé." : "Mwen ouvè paj la.");
         }
 
-        function startListen() {
+        function loadMedia(e) {
+            const file = e.target.files[0];
+            const url = URL.createObjectURL(file);
+            document.getElementById('webFrame').style.display = 'none';
+            const p = document.getElementById('mediaPlayer');
+            p.src = url; p.style.display = 'block';
+            p.play();
+            speak(uLang === 'fr-FR' ? "Lecture du fichier galerie lancée." : "M ap li fichye a kounye a.");
+        }
+
+        function startVoice() {
             const Rec = window.webkitSpeechRecognition || window.SpeechRecognition;
             if(!Rec) return;
-            const r = new Rec(); r.lang = currentLang;
+            const r = new Rec(); r.lang = uLang;
             r.onresult = (e) => {
                 const t = e.results[0][0].transcript.toLowerCase();
-                document.getElementById('out').innerText = `"${t}"`;
-                
-                if(t.includes("ça va") || t.includes("ki jan ou ye")) {
-                    speak(currentLang === 'fr-FR' ? "Je fonctionne à pleine capacité pour vous." : "Mwen ap fonksyone byen pou ou.");
-                } else {
-                    speak(currentLang === 'fr-FR' ? "J'assimile votre demande et je l'ajoute à mes calculs." : "Mwen resevwa mesaj la, m ap mete l nan memwa mwen.");
-                }
+                document.getElementById('tx-out').innerText = `"${t}"`;
+                if(t.includes("ça va")) speak(uLang === 'fr-FR' ? "Je suis à votre service, Créateur." : "Mwen anfòm, m ap travay.");
+                else speak("J'assimile cette donnée.");
             };
             r.start();
         }
 
-        function saveNote() { localStorage.setItem('obs_notes', document.getElementById('note-area').value); alert("Note archivée."); }
+        function saveN() { localStorage.setItem('o_notes', document.getElementById('notes-db').value); alert("Note archivée."); }
+        function checkPanic() { pCount++; setTimeout(()=>pCount=0, 1000); if(pCount===3) location.reload(); }
 
-        window.onload = () => {
-            document.getElementById('welcome-txt').innerText = welcomeMsg;
-            document.getElementById('note-area').value = localStorage.getItem('obs_notes') || "";
-            // Le majordome lit le message de bienvenue dès que l'utilisateur clique quelque part (contrainte navigateur)
+        function initSystem() {
+            document.getElementById('welcome-txt').innerText = wMsg;
+            document.getElementById('notes-db').value = localStorage.getItem('o_notes') || "";
             document.body.addEventListener('click', () => {
-                if(document.getElementById('login-screen').style.display !== 'none') speak(welcomeMsg);
+                if(document.getElementById('id-screen').style.display !== 'none') speak(wMsg);
             }, {once: true});
-        };
+            setInterval(() => {
+                const n = new Date();
+                document.getElementById('xl-time').innerText = n.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+                document.getElementById('xl-date').innerText = n.toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'}).toUpperCase();
+            }, 1000);
+        }
     </script>
 </body>
 </html>
