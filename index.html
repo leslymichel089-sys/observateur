@@ -3,42 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>L'OBSERVATEUR</title>
+    <title>L'OBSERVATEUR - STATION SUPRÊME</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #d4af37; --bg: #050505; --card: #121212; --blue: #00d4ff; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         body { background-color: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* HEADER & DASHBOARD */
+        /* HEADER & DASHBOARD XL */
         header { padding: 25px; text-align: center; border-bottom: 3px solid var(--gold); background: #000; position: relative; }
         header h1 { font-size: 1.4em; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; }
-        .dash-xl { display: grid; grid-template-columns: 1fr 1fr; padding: 15px; background: rgba(20,20,20,0.9); border-bottom: 2px solid var(--gold); text-align: center; }
-        .dash-xl div { font-size: 1em; font-weight: 900; color: var(--blue); }
-        .date-xl { grid-column: 1 / span 2; font-size: 1.3em !important; color: var(--gold) !important; margin-bottom: 5px; }
+        .dash-xl { display: grid; grid-template-columns: 1fr 1fr; padding: 15px; background: rgba(20,20,20,0.9); border-bottom: 2px solid var(--gold); text-align: center; font-weight: 900; }
+        .date-xl { grid-column: 1 / span 2; font-size: 1.3em; color: var(--gold); margin-bottom: 5px; }
 
         /* SIDEBAR */
         .sidebar { position: fixed; top: 0; left: -100%; width: 85%; height: 100%; background: var(--card); border-right: 3px solid var(--gold); transition: 0.4s; z-index: 10000; padding: 25px; overflow-y: auto; }
         .sidebar.active { left: 0; }
         .side-tool { width: 100%; padding: 15px; background: #000; border: 1px solid var(--gold); color: #fff; margin-bottom: 12px; border-radius: 10px; cursor: pointer; text-align: left; font-weight: 700; }
 
-        /* ANIMA-CŒUR CSS (ZERO IMAGE) */
-        .anima-box { height: 150px; display: flex; align-items: center; justify-content: center; position: relative; }
-        .orb { width: 80px; height: 80px; background: var(--blue); border-radius: 50%; box-shadow: 0 0 40px var(--blue); transition: 0.3s; z-index: 5; }
-        .orb.talking { animation: speak-pulse 0.4s infinite alternate; background: var(--gold); box-shadow: 0 0 60px var(--gold); }
-        @keyframes speak-pulse { from { transform: scale(1); } to { transform: scale(1.2); } }
+        /* ANIMA-CŒUR PULSANT (ZÉRO IMAGE) */
+        .anima-box { height: 160px; display: flex; align-items: center; justify-content: center; position: relative; }
+        .orb { width: 85px; height: 85px; background: var(--blue); border-radius: 50%; box-shadow: 0 0 40px var(--blue); transition: 0.3s; z-index: 5; }
+        .orb.talking { animation: speak-vibrate 0.3s infinite alternate; background: var(--gold); box-shadow: 0 0 60px var(--gold); }
+        @keyframes speak-vibrate { from { transform: scale(1); } to { transform: scale(1.25); } }
 
-        /* PAGES & CARDS */
+        /* PAGES */
         .page { display: none; flex: 1; overflow-y: auto; padding: 20px; animation: fadeIn 0.3s ease; }
         .active-page { display: block; }
         .card { background: var(--card); border: 1px solid #333; border-radius: 20px; padding: 20px; margin-bottom: 15px; text-align: center; }
 
-        /* CALCULATRICE */
-        .calc-res { background: #000; color: var(--gold); padding: 15px; text-align: right; font-size: 1.5em; border: 1px solid var(--gold); margin-bottom: 10px; min-height: 60px; border-radius: 8px; }
-        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .c-btn { padding: 15px; background: #222; border: 1px solid #444; color: white; border-radius: 8px; font-weight: bold; }
+        /* OUTILS MULTIMÉDIA & WEB */
+        #webFrame, #mediaPlayer { width: 100%; height: 350px; border: 2px solid var(--gold); border-radius: 15px; margin-top: 15px; display: none; background: #000; }
 
-        /* LOGIN SCREEN */
+        /* CALCULATRICE */
+        .calc-res { background: #000; color: var(--gold); padding: 15px; text-align: right; font-size: 1.5em; border: 1px solid var(--gold); margin-bottom: 10px; border-radius: 10px; min-height: 60px; }
+        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .c-btn { padding: 15px; background: #222; border: 1px solid #444; color: white; border-radius: 8px; font-weight: 900; }
+
+        /* LOGIN */
         #id-screen { position: fixed; inset: 0; background: #000; z-index: 20000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; }
         .input-supreme { width: 100%; max-width: 300px; padding: 15px; background: #111; border: 2px solid var(--gold); color: #fff; text-align: center; border-radius: 10px; margin-bottom: 15px; }
 
@@ -47,7 +49,7 @@
         nav button.active { color: var(--gold); }
         nav button span { font-size: 28px; margin-bottom: 5px; }
 
-        iframe, video { width: 100%; height: 300px; border: 2px solid var(--gold); border-radius: 15px; margin-top: 15px; display: none; background: #000; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body onload="initSystem()">
@@ -60,42 +62,43 @@
             <option value="fr-FR">FRANÇAIS</option>
             <option value="ht-HT">KREYÒL AYISYEN</option>
         </select>
-        <button onclick="startSession()" style="background:var(--gold); padding:18px; border-radius:35px; border:none; font-weight:900; width:100%; max-width:300px; color:#000;">ACCÉDER AU SYSTÈME</button>
+        <button onclick="startSession()" style="background:var(--gold); padding:18px; border-radius:35px; border:none; font-weight:900; width:100%; max-width:300px; cursor:pointer; color:#000;">DÉMARRER L'UNITÉ</button>
     </div>
 
     <div id="side" class="sidebar">
-        <h2 style="color:var(--gold); border-bottom:2px solid var(--gold); padding-bottom:10px; margin-bottom:20px;">MATRICE D'OUTILS</h2>
+        <h2 style="color:var(--gold); border-bottom:2px solid var(--gold); padding-bottom:10px; margin-bottom:20px;">MENU MAÎTRE</h2>
         <button class="side-tool" onclick="window.open('https://www.larousse.fr')">📖 DICTIONNAIRE</button>
         <button class="side-tool" onclick="window.open('https://fr.wikipedia.org')">🌐 ENCYCLOPÉDIE</button>
         <button class="side-tool" onclick="showP('vault'); toggleS();">🔐 ACCÈS CAVERNE</button>
-        <button class="btn-gold" style="background:var(--gold); padding:15px; border-radius:10px; width:100%; border:none; font-weight:900; margin-top:20px;" onclick="toggleS()">RETOUR</button>
+        <button class="side-tool" onclick="showP('settings'); toggleS();">⚙️ RÉGLAGES</button>
+        <button class="btn-gold" style="background:var(--gold); padding:15px; border-radius:10px; width:100%; border:none; font-weight:900; margin-top:20px;" onclick="toggleS()">FERMER</button>
     </div>
 
-    <header>
+    <header onclick="checkPanic()">
         <button onclick="toggleS()" style="position:absolute; left:20px; top:35px; background:none; border:none; color:var(--gold); font-size:30px;">☰</button>
         <h1>L'OBSERVATEUR</h1>
     </header>
 
     <div class="dash-xl">
         <div id="xl-date" class="date-xl">CHARGEMENT...</div>
-        <div id="xl-time">00:00</div>
-        <div id="xl-temp">SYSTÈME OPÉRATIONNEL</div>
+        <div id="xl-time" style="color:var(--blue);">00:00</div>
+        <div id="xl-temp" style="color:var(--blue);">MÉTÉO : 22°C</div>
     </div>
 
     <div id="home" class="page active-page">
         <div class="anima-box"><div id="orb" class="orb"></div></div>
         <div class="card">
-            <h3 id="user-greet" style="color:var(--gold); margin-bottom:10px;">FLUX DE COMMANDEMENT</h3>
-            <input type="text" id="webUrl" style="width:100%; padding:12px; background:#000; border:1px solid var(--gold); color:#fff; border-radius:10px; margin-bottom:10px; text-align:center;" placeholder="Recherche Web...">
+            <h3 id="user-greet" style="color:var(--gold); margin-bottom:10px;">CENTRE DE FLUX</h3>
+            <input type="text" id="webUrl" style="width:100%; padding:12px; background:#000; border:1px solid var(--gold); color:#fff; border-radius:10px; margin-bottom:10px; text-align:center;" placeholder="Recherche ou URL...">
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px;">
-                <button class="side-tool" style="text-align:center; background:var(--gold); color:#000; font-size:0.75em;" onclick="openNav()">🌐 WEB PRIVÉ</button>
-                <button class="side-tool" style="text-align:center; background:var(--blue); color:#000; font-size:0.75em;" onclick="document.getElementById('fileIn').click()">📂 GALERIE</button>
+                <button class="side-tool" style="text-align:center; background:var(--gold); color:#000; font-size:0.7em;" onclick="openNav()">🌐 NAV. PRIVÉE</button>
+                <button class="side-tool" style="text-align:center; background:var(--blue); color:#000; font-size:0.7em;" onclick="document.getElementById('fileIn').click()">📂 GALERIE</button>
             </div>
             <input type="file" id="fileIn" style="display:none;" accept="video/*,audio/*" onchange="loadMedia(event)">
             <iframe id="webFrame"></iframe>
             <video id="mediaPlayer" controls></video>
-            <button onclick="startVoice()" style="width:75px; height:75px; border-radius:50%; background:var(--gold); border:none; font-size:35px; box-shadow: 0 0 20px var(--gold); margin-top:10px;">🎙️</button>
-            <p id="tx-out" style="color:var(--blue); font-style:italic; font-weight:bold; margin-top:10px; min-height:1em;"></p>
+            <button onclick="startVoice()" style="width:75px; height:75px; border-radius:50%; background:var(--gold); border:none; font-size:35px; box-shadow: 0 0 20px var(--gold);">🎙️</button>
+            <p id="tx-out" style="color:var(--blue); font-style:italic; font-weight:bold; margin-top:10px;"></p>
         </div>
     </div>
 
@@ -104,35 +107,44 @@
             <h3 style="color:var(--gold); margin-bottom:15px;">🧮 CALCULATRICE</h3>
             <div id="c-res" class="calc-res">0</div>
             <div class="calc-grid">
-                <button class="c-btn" onclick="calc('C')">C</button><button class="c-btn" onclick="calc('/')">/</button><button class="c-btn" onclick="calc('*')">*</button><button class="c-btn" onclick="calc('-')">-</button>
-                <button class="c-btn" onclick="calc(7)">7</button><button class="c-btn" onclick="calc(8)">8</button><button class="c-btn" onclick="calc(9)">9</button><button class="c-btn" onclick="calc('+')">+</button>
-                <button class="c-btn" onclick="calc(4)">4</button><button class="c-btn" onclick="calc(5)">5</button><button class="c-btn" onclick="calc(6)">6</button><button class="c-btn" onclick="calc('=')" style="background:var(--gold); color:#000;">=</button>
-                <button class="c-btn" onclick="calc(1)">1</button><button class="c-btn" onclick="calc(2)">2</button><button class="c-btn" onclick="calc(3)">3</button><button class="c-btn" onclick="calc(0)">0</button>
+                <button class="c-btn" onclick="k('C')">C</button><button class="c-btn" onclick="k('/')">/</button><button class="c-btn" onclick="k('*')">*</button><button class="c-btn" onclick="k('-')">-</button>
+                <button class="c-btn" onclick="k(7)">7</button><button class="c-btn" onclick="k(8)">8</button><button class="c-btn" onclick="k(9)">9</button><button class="c-btn" onclick="k('+')">+</button>
+                <button class="c-btn" onclick="k(4)">4</button><button class="c-btn" onclick="k(5)">5</button><button class="c-btn" onclick="k(6)">6</button><button class="c-btn" onclick="k('=')" style="background:var(--gold); color:#000;">=</button>
+                <button class="c-btn" onclick="k(1)">1</button><button class="c-btn" onclick="k(2)">2</button><button class="c-btn" onclick="k(3)">3</button><button class="c-btn" onclick="k(0)">0</button>
             </div>
         </div>
         <div class="card">
-            <h3 style="color:var(--gold);">📝 ARCHIVES</h3>
+            <h3 style="color:var(--gold);">📝 NOTES</h3>
             <textarea id="notes-db" style="width:100%; height:100px; background:#000; color:var(--blue); border:1px solid #333; padding:15px; border-radius:10px;"></textarea>
             <button onclick="saveN()" style="width:100%; padding:15px; background:var(--gold); border:none; font-weight:bold; margin-top:10px; border-radius:10px;">SAUVEGARDER</button>
         </div>
     </div>
 
+    <div id="settings" class="page">
+        <div class="card">
+            <h3 style="color:var(--gold);">⚙️ PERSONNALISATION</h3>
+            <p style="margin-top:20px; font-size:0.8em;">COULEUR D'ACCENT</p>
+            <input type="color" onchange="document.documentElement.style.setProperty('--blue', this.value)" style="width:100%; height:50px; border:none; background:none;">
+        </div>
+    </div>
+
+    <footer>© 2026 LESLY MICHEL - TOUS DROITS RÉSERVÉS</footer>
+
     <nav>
-        <button class="active" id="nh" onclick="showP('home', this)"><span>🏠</span>ACCUEIL</button>
-        <button id="nv" onclick="showP('vault', this)"><span>🔐</span>CAVERNE</button>
-        <button onclick="location.reload()"><span>🔄</span>RESET</button>
+        <button class="active" id="nh" onclick="showP('home', this)"><span>🏠</span>Accueil</button>
+        <button id="nv" onclick="showP('vault', this)"><span>🔐</span>Caverne</button>
+        <button onclick="location.reload()"><span>🔄</span>Reset</button>
     </nav>
 
     <script>
-        let uLang = 'fr-FR', uName = "", exp = "";
+        let uLang = 'fr-FR', uName = "", exp = "", pCount = 0;
         const wMsg = "Salut, je suis L'OBSERVATEUR, un majordome numérique créé par PDG Lesly Michel, je vous souhaite la bienvenue. D'abord veuillez vous identifier en me donnant simplement votre prénom et votre langue préférée afin que je puisse mémoriser vos préférences dans la base de données interne";
 
         function toggleS() { document.getElementById('side').classList.toggle('active'); }
         function showP(id, btn) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
             document.getElementById(id).classList.add('active-page');
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            if(btn) { document.querySelectorAll('nav button').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
         }
 
         function speak(t) {
@@ -149,8 +161,8 @@
             uLang = document.getElementById('p-lang').value;
             if(!uName) return alert("Nom requis.");
             document.getElementById('id-screen').style.display = 'none';
-            document.getElementById('user-greet').innerText = "BIENVENUE, " + uName.toUpperCase();
-            speak(uLang === 'fr-FR' ? `Bienvenue ${uName}. Tous les systèmes sont à votre disposition.` : `Byenvini ${uName}. Tout sistèm yo pare pou ou.`);
+            document.getElementById('user-greet').innerText = "UNITÉ ACTIVE : " + uName.toUpperCase();
+            speak(uLang === 'fr-FR' ? `Bienvenue ${uName}. Tous les flux sont scellés.` : `Byenvini ${uName}. Tout sistèm yo pare.`);
         }
 
         function openNav() {
@@ -165,24 +177,23 @@
             const file = e.target.files[0];
             const url = URL.createObjectURL(file);
             document.getElementById('webFrame').style.display = 'none';
-            const p = document.getElementById('mediaPlayer'); p.src = url; p.style.display = 'block';
-            p.play();
+            const p = document.getElementById('mediaPlayer'); p.src = url; p.style.display = 'block'; p.play();
         }
 
         function startVoice() {
-            const Rec = window.webkitSpeechRecognition || window.SpeechRecognition;
+            const Rec = window.webkitSpeechRecognition || window.Recognition;
             if(!Rec) return;
             const r = new Rec(); r.lang = uLang;
             r.onresult = (e) => {
                 const t = e.results[0][0].transcript.toLowerCase();
                 document.getElementById('tx-out').innerText = `"${t}"`;
-                if(t.includes("ça va") || t.includes("ki jan ou ye")) speak(uLang === 'fr-FR' ? "Je fonctionne parfaitement, Créateur." : "Mwen anfòm, m ap travay byen.");
-                else speak("J'assimile votre requête.");
+                if(t.includes("ça va")) speak(uLang === 'fr-FR' ? "Je suis à votre service." : "Mwen la pou m sèvi ou.");
+                else speak("J'assimile.");
             };
             r.start();
         }
 
-        function calc(v) {
+        function k(v) {
             const s = document.getElementById('c-res');
             if(v==='C'){exp=""; s.innerText="0";}
             else if(v==='='){try{exp=eval(exp); s.innerText=exp;}catch(e){s.innerText="Err";exp="";}}
@@ -190,6 +201,7 @@
         }
 
         function saveN() { localStorage.setItem('o_notes', document.getElementById('notes-db').value); alert("Note archivée."); }
+        function checkPanic() { pCount++; setTimeout(()=>pCount=0, 1000); if(pCount===3) location.reload(); }
 
         function initSystem() {
             document.getElementById('welcome-txt').innerText = wMsg;
