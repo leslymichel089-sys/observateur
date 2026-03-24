@@ -3,75 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L'OBSERVATEUR - PRESTIGE</title>
-    <link rel="manifest" href="manifest.json">
+    <title>L'OBSERVATEUR - OMNISCIENT</title>
     <style>
-        body { 
-            background-color: #0c0e12; /* Noir Profond */
-            color: #d4af37; /* Or */
-            font-family: 'Montserrat', sans-serif; /* Plus moderne */
-            display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; 
-        }
-        .pin-container { 
-            text-align: center; border: 3px solid #d4af37; /* Cadre Or */
-            padding: 40px; border-radius: 20px; 
-            background: linear-gradient(145deg, #0f1217, #0a0c0f); /* Effet 3D */
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); 
-            animation: glowPulse 3s infinite;
-        }
-        @keyframes glowPulse { 0% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); } 50% { box-shadow: 0 0 45px rgba(212, 175, 55, 0.7); } 100% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); } }
-        h1.title { letter-spacing: 5px; margin-bottom: 40px; text-transform: uppercase; text-shadow: 2px 2px 8px #000; font-weight: 900; }
-        input { font-size: 32px; width: 140px; text-align: center; margin-bottom: 30px; border-radius: 10px; border: 3px solid #d4af37; padding: 12px; background: #0c0e12; color: #d4af37; transition: 0.3s; }
-        input:focus { border-color: #7FDBFF; box-shadow: 0 0 15px #7FDBFF; outline: none; }
-        button { background: linear-gradient(to right, #d4af37, #f7d78a); color: #0c0e12; border: none; padding: 18px 50px; font-size: 22px; border-radius: 10px; cursor: pointer; transition: 0.3s; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
-        button:hover { background: linear-gradient(to right, #7FDBFF, #0074D9); color: white; transform: scale(1.05); }
-        #mainContent { display: none; text-align: center; animation: fadeInSuprême 1.5s; width: 80%; max-width: 600px; }
-        @keyframes fadeInSuprême { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .command-status { background-color: #1a1e26; border: 1px solid #d4af37; padding: 20px; border-radius: 10px; margin-top: 30px; text-align: left; }
-        .command-status p { margin: 10px 0; color: #DDDDDD; }
-        .status-on { color: #2ecc71; font-weight: bold; }
+        body { background-color: #0c0e12; color: #d4af37; font-family: 'Montserrat', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
+        .pin-container { text-align: center; border: 3px solid #d4af37; padding: 40px; border-radius: 20px; background: linear-gradient(145deg, #0f1217, #0a0c0f); box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); }
+        h1.title { letter-spacing: 5px; margin-bottom: 40px; text-transform: uppercase; font-weight: 900; }
+        input { font-size: 32px; width: 140px; text-align: center; margin-bottom: 30px; border-radius: 10px; border: 3px solid #d4af37; padding: 12px; background: #0c0e12; color: #d4af37; outline: none; }
+        button { background: linear-gradient(to right, #d4af37, #f7d78a); color: #0c0e12; border: none; padding: 18px 50px; font-size: 20px; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        #mainContent { display: none; text-align: center; width: 90%; max-width: 600px; animation: fadeIn 1.5s; }
+        .info-card { background: rgba(26, 30, 38, 0.9); border: 1px solid #d4af37; padding: 15px; border-radius: 10px; margin: 10px 0; display: flex; justify-content: space-around; font-size: 0.9em; }
+        .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .project-btn { background: #1a1e26; border: 1px solid #7FDBFF; color: #7FDBFF; padding: 15px; border-radius: 8px; font-size: 0.8em; cursor: pointer; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="loginScreen" class="pin-container">
         <h1 class="title">L'OBSERVATEUR</h1>
         <input type="password" id="pinInput" maxlength="4" placeholder="••••">
         <br>
-        <button onclick="checkPin()">Identification Suprême</button>
+        <button onclick="checkPin()">IDENTIFICATION</button>
     </div>
 
     <div id="mainContent">
-        <h1 class="title" style="color: #7FDBFF;">UNITÉ SUPRÊME</h1>
-        <h2 style="margin-top: 20px; font-size: 2em; color: #d4af37;">Salutations, Créateur.</h2>
-        <p style="font-size: 1.3em; color: #FFFFFF; font-weight: 700;">Le système vous obéit fidèlement.</p>
+        <h1 style="color: #7FDBFF; margin-bottom: 5px;">UNITÉ OMNISCIENTE</h1>
+        <h3 id="welcomeMsg" style="color: #d4af37;">Salutations, Créateur.</h3>
         
-        <div class="command-status">
-            <h3 style="color: #d4af37; margin-top: 0;">État des Commandes</h3>
-            <p>🛰️ Surveillance Globale : <span class="status-on">ACTIVE</span></p>
-            <p>🛡️ Pare-feu Crypto : <span class="status-on">ACTIF</span></p>
-            <p>🤖 Protocoles d'IA : <span class="status-on">OPÉRATIONNELS</span></p>
-            <p>👤 Identification de l'Opérateur : <span class="status-on">CRÉATEUR SUPRÊME [Lesly Michel]</span></p>
+        <div class="info-card">
+            <div id="clock">--:--</div>
+            <div id="weather">📡 Analyse météo...</div>
         </div>
-        
-        <p style="margin-top: 30px; color: #888;">Niveau d'Accès : OMNISCIENCE</p>
+
+        <div class="project-grid">
+            <div class="project-btn">🖼️ PROGÉNÉRATEUR D'IMAGES<br><small>(En attente d'API)</small></div>
+            <div class="project-btn">📜 PWOVÈB JOUNEN AN<br><small>(Module Prêt)</small></div>
+            <div class="project-btn">📊 TENDANCES WEB<br><small>(Scan en cours)</small></div>
+            <div class="project-btn">🛡️ TORO509 AI<br><small>(Lien système)</small></div>
+        </div>
     </div>
 
     <script>
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = "🕒 " + now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'});
+        }
+
+        async function getStats() {
+            // Simulation météo pour Greensboro (ou via API OpenWeather si vous avez une clé)
+            document.getElementById('weather').innerText = "☀️ 18°C - Greensboro";
+        }
+
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'fr-FR';
+            utterance.rate = 0.9;
+            window.speechSynthesis.speak(utterance);
+        }
+
         function checkPin() {
             const pin = document.getElementById('pinInput').value;
-            // Votre nouveau code secret : 1575
             if (pin === '1575') {
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
+                
+                const now = new Date();
+                const heure = now.getHours() + " heures " + now.getMinutes();
+                const rapport = "Identification réussie. Salutations Créateur Suprême. Il est actuellement " + heure + ". La météo à Greensboro est de 18 degrés avec un ciel dégagé. Le système est prêt pour vos projets.";
+                
+                updateClock();
+                getStats();
+                speak(rapport);
             } else {
-                alert('ACCÈS REFUSÉ : Identité non reconnue ou tentative hostile détectée.');
+                speak("Accès refusé.");
                 document.getElementById('pinInput').value = '';
             }
         }
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
+        setInterval(updateClock, 60000);
     </script>
 </body>
 </html>
