@@ -9,11 +9,19 @@
         .pin-container { text-align: center; border: 3px solid #d4af37; padding: 40px; border-radius: 20px; background: linear-gradient(145deg, #0f1217, #0a0c0f); box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); }
         h1.title { letter-spacing: 5px; margin-bottom: 40px; text-transform: uppercase; font-weight: 900; }
         input { font-size: 32px; width: 140px; text-align: center; margin-bottom: 30px; border-radius: 10px; border: 3px solid #d4af37; padding: 12px; background: #0c0e12; color: #d4af37; outline: none; }
-        button { background: linear-gradient(to right, #d4af37, #f7d78a); color: #0c0e12; border: none; padding: 18px 50px; font-size: 20px; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        #mainContent { display: none; text-align: center; width: 90%; max-width: 600px; animation: fadeIn 1.5s; }
-        .info-card { background: rgba(26, 30, 38, 0.9); border: 1px solid #d4af37; padding: 15px; border-radius: 10px; margin: 10px 0; display: flex; justify-content: space-around; font-size: 0.9em; }
-        .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .project-btn { background: #1a1e26; border: 1px solid #7FDBFF; color: #7FDBFF; padding: 15px; border-radius: 8px; font-size: 0.8em; cursor: pointer; }
+        button.login-btn { background: linear-gradient(to right, #d4af37, #f7d78a); color: #0c0e12; border: none; padding: 18px 50px; font-size: 20px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        
+        #mainContent { display: none; text-align: center; width: 95%; max-width: 800px; animation: fadeIn 1s; height: 90vh; overflow-y: auto; padding-right: 10px; }
+        .info-card { background: rgba(26, 30, 38, 0.9); border: 1px solid #d4af37; padding: 10px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-around; font-size: 0.8em; }
+        
+        /* IMAGE GEN MODULE */
+        .image-gen-panel { background: #1a1e26; border: 2px solid #7FDBFF; padding: 20px; border-radius: 15px; margin-bottom: 20px; text-align: left; }
+        .gen-input { width: 100%; padding: 15px; background: #0c0e12; border: 1px solid #7FDBFF; color: white; border-radius: 8px; margin-bottom: 15px; font-family: inherit; box-sizing: border-box;}
+        .gen-btn { background: linear-gradient(to right, #0074D9, #7FDBFF); color: white; border: none; padding: 15px 30px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; text-transform: uppercase;}
+        .image-preview { width: 100%; height: 300px; border: 2px dashed #d4af37; border-radius: 10px; margin-top: 15px; display: flex; align-items: center; justify-content: center; color: #888; background-size: cover; background-position: center; }
+
+        .proverbe-box { background: rgba(212, 175, 55, 0.1); border-left: 5px solid #d4af37; padding: 15px; margin-bottom: 20px; border-radius: 5px; text-align: left; font-size: 0.9em;}
+        
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
@@ -23,40 +31,53 @@
         <h1 class="title">L'OBSERVATEUR</h1>
         <input type="password" id="pinInput" maxlength="4" placeholder="••••">
         <br>
-        <button onclick="checkPin()">IDENTIFICATION</button>
+        <button class="login-btn" onclick="checkPin()">IDENTIFICATION</button>
     </div>
 
     <div id="mainContent">
-        <h1 style="color: #7FDBFF; margin-bottom: 5px;">UNITÉ OMNISCIENTE</h1>
-        <h3 id="welcomeMsg" style="color: #d4af37;">Salutations, Créateur.</h3>
-        
+        <h1 style="color: #d4af37; margin-bottom: 5px; font-size: 1.5em;">CENTRE DE CONTRÔLE OMNISCIENT</h1>
         <div class="info-card">
             <div id="clock">--:--</div>
-            <div id="weather">📡 Analyse météo...</div>
+            <div id="weather">☀️ 18°C - Greensboro</div>
+            <div style="color: #2ecc71;">👤 LESLY MICHEL</div>
         </div>
 
-        <div class="project-grid">
-            <div class="project-btn">🖼️ PROGÉNÉRATEUR D'IMAGES<br><small>(En attente d'API)</small></div>
-            <div class="project-btn">📜 PWOVÈB JOUNEN AN<br><small>(Module Prêt)</small></div>
-            <div class="project-btn">📊 TENDANCES WEB<br><small>(Scan en cours)</small></div>
-            <div class="project-btn">🛡️ TORO509 AI<br><small>(Lien système)</small></div>
+        <div class="proverbe-box">
+            <h4 style="margin: 0; color: #d4af37;">📜 PWOVÈB JOUNEN AN</h4>
+            <p id="pwovebText" style="font-style: italic; color: white; margin: 5px 0 0 0;"></p>
         </div>
+
+        <div class="image-gen-panel">
+            <h3 style="color: #7FDBFF; margin-top: 0; text-transform: uppercase;">🖼️ Générateur d'Images Suprême</h3>
+            <p style="color: #ccc; font-size: 0.8em; margin-bottom: 15px;">Décrivez le visuel à créer pour PWOVÈB JOUNEN AN ou Toro509.</p>
+            <textarea id="imagePrompt" class="gen-input" rows="3" placeholder="Exemple : Un vieux sage haïtien dessinant dans le sable au coucher du soleil, style peinture réaliste, lumière dorée..."></textarea>
+            <button class="gen-btn" onclick="generateImage()">Générer Visuel Suprême</button>
+            
+            <div id="imagePreview" class="image-preview">
+                <span id="previewLabel">Le visuel généré apparaîtra ici...</span>
+                <div id="loadingApi" style="display:none; color: #7FDBFF;">📡 Connexion API en cours...</div>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').innerText = "🕒 " + now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'});
+        const pwovebList = [
+            "Piti piti, zwazo fè nich li.",
+            "Dèyè mòn, gen mòn.",
+            "Bondye bay, li pa mande.",
+            "Kreyòl pale, kreyòl konprann.",
+            "Sak vid pa kanpe."
+        ];
+
+        function getPwoveb() {
+            const day = new Date().getDate() % pwovebList.length;
+            return pwovebList[day];
         }
 
-        async function getStats() {
-            // Simulation météo pour Greensboro (ou via API OpenWeather si vous avez une clé)
-            document.getElementById('weather').innerText = "☀️ 18°C - Greensboro";
-        }
-
-        function speak(text) {
+        function speak(text, lang = 'fr-FR') {
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'fr-FR';
+            utterance.lang = lang;
             utterance.rate = 0.9;
             window.speechSynthesis.speak(utterance);
         }
@@ -68,18 +89,44 @@
                 document.getElementById('mainContent').style.display = 'block';
                 
                 const now = new Date();
-                const heure = now.getHours() + " heures " + now.getMinutes();
-                const rapport = "Identification réussie. Salutations Créateur Suprême. Il est actuellement " + heure + ". La météo à Greensboro est de 18 degrés avec un ciel dégagé. Le système est prêt pour vos projets.";
+                const clock = now.getHours() + ":" + (now.getMinutes()<10?'0':'') + now.getMinutes();
+                document.getElementById('clock').innerText = "🕒 " + clock;
                 
-                updateClock();
-                getStats();
-                speak(rapport);
+                const currentPwoveb = getPwoveb();
+                document.getElementById('pwovebText').innerText = currentPwoveb;
+
+                speak("Identification réussie. Salutations Créateur Suprême Lesly Michel.", "fr-FR");
             } else {
-                speak("Accès refusé.");
+                speak("Accès refusé.", "fr-FR");
                 document.getElementById('pinInput').value = '';
             }
         }
-        setInterval(updateClock, 60000);
+
+        // --- FONCTION IMAGE GEN (PARTIELLE) ---
+        function generateImage() {
+            const prompt = document.getElementById('imagePrompt').value;
+            if (!prompt) {
+                alert("Créateur, veuillez décrire l'image à générer.");
+                return;
+            }
+
+            // Interface de chargement
+            document.getElementById('previewLabel').style.display = 'none';
+            document.getElementById('loadingApi').style.display = 'block';
+            document.getElementById('imagePreview').style.border = '2px solid #7FDBFF';
+
+            speak("Lancement du protocole de génération visuelle. Connexion au moteur d'intelligence artificielle.", "fr-FR");
+
+            // --- NOTE TECHNIQUE AU CRÉATEUR SUPRÊME ---
+            // Pour activer la génération réelle, nous devons insérer votre clé API
+            // et le code d'appel système (fetch) ici.
+            // Pour l'instant, le système simule la connexion.
+            
+            setTimeout(() => {
+                document.getElementById('loadingApi').innerHTML = "❌ ERREUR : Clé API manquante.<br><small>Le connecteur n'est pas finalisé.</small>";
+                speak("Erreur système. La génération a échoué car la clé de connexion API est manquante.", "fr-FR");
+            }, 5000);
+        }
     </script>
 </body>
 </html>
