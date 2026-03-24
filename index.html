@@ -3,121 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>L'OBSERVATEUR - SYSTÈME MAÎTRE</title>
+    <title>L'OBSERVATEUR - LIAISON VOCALE</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #d4af37; --bg: #0c0e12; --card: #1a1e26; --blue: #7FDBFF; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        header { padding: 25px; text-align: center; border-bottom: 2px solid var(--gold); background: #0f1217; }
+        .creator-tag { color: var(--blue); font-size: 0.8em; font-weight: bold; margin-top: 5px; text-transform: uppercase; }
         
-        /* HEADER AVEC RETOUR */
-        header { padding: 25px; text-align: center; border-bottom: 2px solid var(--gold); background: #0f1217; position: relative; display: flex; align-items: center; justify-content: center; min-height: 100px; }
-        #backBtn { position: absolute; left: 20px; background: none; border: 2px solid var(--gold); color: var(--gold); border-radius: 50%; width: 50px; height: 50px; font-size: 24px; display: none; align-items: center; justify-content: center; cursor: pointer; z-index: 100; }
-        header h1 { margin: 0; font-size: 1.3em; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; }
-        .creator-tag { position: absolute; bottom: 5px; width: 100%; text-align: center; color: var(--blue); font-size: 0.7em; font-weight: bold; letter-spacing: 1px; }
+        .page { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        .card { background: var(--card); border: 2px solid var(--gold); border-radius: 25px; padding: 40px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
 
-        /* CONTENU */
-        .page { display: none; flex: 1; overflow-y: auto; padding: 25px; animation: fadeIn 0.3s ease; }
-        .active-page { display: block; }
-        .card { background: var(--card); border: 2px solid rgba(212,175,55,0.3); border-radius: 25px; padding: 30px; margin-bottom: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* BOUTON MICROPHONE AMÉLIORÉ */
+        #micBtn { width: 120px; height: 120px; border-radius: 50%; background: var(--gold); border: 4px solid #000; font-size: 50px; cursor: pointer; transition: 0.3s; position: relative; z-index: 10; }
+        .listening { background: #ff4d4d !important; animation: pulse 1s infinite; box-shadow: 0 0 50px #ff4d4d; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        /* INTERACTION VOCALE */
-        .mic-btn { width: 110px; height: 110px; border-radius: 50%; background: var(--gold); border: none; font-size: 45px; color: #000; cursor: pointer; box-shadow: 0 0 25px var(--gold); margin: 30px auto; display: block; }
-        .mic-active { background: #ff4d4d; box-shadow: 0 0 40px #ff4d4d; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
-        /* NAVIGATION BASSE (GÉANTE) */
-        nav { display: flex; background: #0f1217; border-top: 3px solid var(--gold); height: 115px; padding-bottom: env(safe-area-inset-bottom); }
-        nav button { flex: 1; background: none; border: none; color: #555; font-size: 13px; font-weight: 900; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
-        nav button.active { color: var(--gold); }
-        nav button span { font-size: 35px; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        #transcript { margin-top: 30px; font-weight: 900; color: var(--blue); font-size: 1.2em; min-height: 1.5em; text-transform: uppercase; }
+        #status { font-size: 0.7em; letter-spacing: 2px; margin-bottom: 15px; color: #777; }
+        
+        nav { display: flex; background: #0f1217; border-top: 3px solid var(--gold); height: 110px; width: 100%; }
+        nav button { flex: 1; background: none; border: none; color: var(--gold); font-weight: 900; font-size: 14px; }
     </style>
 </head>
 <body>
 
     <header>
-        <button id="backBtn" onclick="showPage('home')">←</button>
-        <h1>L'OBSERVATEUR</h1>
+        <h1 style="margin:0; color:var(--gold); letter-spacing:5px;">L'OBSERVATEUR</h1>
         <div class="creator-tag">Lesly Michel [Créateur Suprême]</div>
     </header>
 
-    <div id="home" class="page active-page">
+    <div class="page">
         <div class="card">
-            <h2 id="welcomeMsg" style="color:var(--gold);">Unité Opérationnelle</h2>
-            <button id="micBtn" class="mic-btn" onclick="toggleSpeech()">🎙️</button>
-            <p id="transcript" style="color:var(--blue); font-style:italic; min-height:20px;"></p>
-        </div>
-        <div class="card" onclick="showPage('academy')">
-            <h3>📖 ACCÉDER AU SAVOIR</h3>
-            <p>Encyclopédie et Lexique</p>
+            <div id="status">SYSTÈME PRÊT</div>
+            <button id="micBtn" onclick="activateVocal()">🎙️</button>
+            <div id="transcript">Appuyez pour parler</div>
         </div>
     </div>
 
-    <div id="academy" class="page">
-        <div class="card">
-            <h3>📚 RECHERCHE & TRADUCTION</h3>
-            <input type="text" id="wikiIn" style="width:100%; padding:20px; border-radius:15px; border:2px solid var(--blue); background:#000; color:#fff; font-size:18px;" placeholder="Votre question...">
-            <button onclick="askWiki()" style="width:100%; background:var(--gold); padding:20px; border:none; border-radius:15px; margin-top:15px; font-weight:900;">INTERROGER</button>
-            <div id="wikiOut" style="margin-top:20px; text-align:left; color:#ccc; border-left:3px solid var(--gold); padding-left:15px; display:none;"></div>
-        </div>
-    </div>
-
-    <nav>
-        <button id="nav-home" class="active" onclick="showPage('home')"><span>🏠</span>Accueil</button>
-        <button id="nav-academy" onclick="showPage('academy')"><span>📚</span>Savoir</button>
-        <button onclick="location.reload()"><span>🔒</span>Sortie</button>
-    </nav>
+    <nav><button onclick="location.reload()">🔒 RÉINITIALISER</button></nav>
 
     <script>
-        let uLang = 'fr-FR';
-        const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const rec = Recognition ? new Recognition() : null;
+        let userLang = 'fr-FR';
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        
+        recognition.lang = userLang;
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
 
-        function speak(t) {
+        // SYNTHÈSE VOCALE (RÉPONSE)
+        function respond(text) {
             window.speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(t);
-            u.lang = uLang;
-            u.rate = uLang === 'ht-HT' ? 0.75 : 0.9; // Rythme lent pour le créole
-            window.speechSynthesis.speak(u);
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = userLang;
+            msg.rate = (userLang === 'ht-HT') ? 0.8 : 0.95;
+            window.speechSynthesis.speak(msg);
         }
 
-        if (rec) {
-            rec.onresult = (e) => {
-                const cmd = e.results[0][0].transcript.toLowerCase();
-                document.getElementById('transcript').innerText = `"${cmd}"`;
-                if(cmd.includes("kreyòl")) { uLang = 'ht-HT'; speak("Mwen pale kreyòl kounye a."); }
-                else if(cmd.includes("savoir")) { showPage('academy'); }
-            };
-            rec.onend = () => document.getElementById('micBtn').classList.remove('mic-active');
+        function activateVocal() {
+            // Débloquer l'audio sur mobile (obligatoire sur iPhone/Android)
+            respond(""); 
+            try {
+                recognition.start();
+                document.getElementById('micBtn').classList.add('listening');
+                document.getElementById('status').innerText = "L'UNITÉ ÉCOUTE...";
+            } catch (e) {
+                recognition.stop();
+            }
         }
 
-        function toggleSpeech() {
-            if(!rec) return alert("Vocal non supporté.");
-            document.getElementById('micBtn').classList.add('mic-active');
-            rec.lang = uLang;
-            rec.start();
-        }
-
-        function askWiki() {
-            const q = document.getElementById('wikiIn').value;
-            const out = document.getElementById('wikiOut');
-            out.style.display = 'block';
-            out.innerText = "Analyse des archives en cours...";
-            speak("Recherche lancée.");
-        }
-
-        function showPage(p) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active-page'));
-            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(p).classList.add('active-page');
-            document.getElementById('nav-' + p)?.classList.add('active');
+        recognition.onresult = (event) => {
+            const result = event.results[0][0].transcript.toLowerCase();
+            document.getElementById('transcript').innerText = result;
             
-            // Gestion du bouton RETOUR
-            document.getElementById('backBtn').style.display = (p === 'home') ? 'none' : 'flex';
-            speak("Module " + p + " actif.");
-        }
+            // LOGIQUE DE RÉPONSE IMMÉDIATE
+            if (result.includes("bonjour")) {
+                respond("Salutations, Créateur Suprême. L'unité est opérationnelle.");
+            } else if (result.includes("kreyòl")) {
+                userLang = 'ht-HT';
+                recognition.lang = 'ht-HT';
+                respond("Respe. Mwen pale kreyòl kounye a.");
+            } else {
+                respond("J'ai entendu : " + result + ". Analyse en cours.");
+            }
+        };
+
+        recognition.onend = () => {
+            document.getElementById('micBtn').classList.remove('listening');
+            document.getElementById('status').innerText = "SYSTÈME PRÊT";
+        };
+
+        recognition.onerror = () => {
+            document.getElementById('micBtn').classList.remove('listening');
+        };
     </script>
 </body>
 </html>
