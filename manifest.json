@@ -1,0 +1,18 @@
+{
+  "name": "L'OBSERVATEUR",
+  "short_name": "OBSERVATEUR",
+  "description": "Système privé de PDG Lesly Michel",
+  "start_url": "index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#050505",
+  "theme_color": "#00f2ff",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/508/508790.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
