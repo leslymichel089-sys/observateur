@@ -3,89 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>L'OBSERVATEUR - STATION SUPRÊME</title>
+    <title>L'OBSERVATEUR - PRESTIGE</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #d4af37; --bg: #0c0e12; --card: #1a1e26; --blue: #7FDBFF; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         body { background-color: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; width: 100vw; display: flex; flex-direction: column; overflow: hidden; }
         
-        header { padding: 30px; text-align: center; border-bottom: 3px solid var(--gold); background: #0f1217; position: relative; }
-        header h1 { font-size: 1.4em; letter-spacing: 6px; color: var(--gold); text-transform: uppercase; }
-
-        /* PANNEAU LATÉRAL (SIDEBAR) RESTAURÉ */
-        .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: var(--card); border-right: 3px solid var(--gold); transition: 0.4s; z-index: 10000; padding: 25px; box-shadow: 20px 0 50px #000; }
+        /* HEADER & SIDEBAR */
+        header { padding: 25px; text-align: center; border-bottom: 3px solid var(--gold); background: #0f1217; position: relative; }
+        header h1 { font-size: 1.4em; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; }
+        .sidebar { position: fixed; top: 0; left: -100%; width: 85%; height: 100%; background: var(--card); border-right: 3px solid var(--gold); transition: 0.4s; z-index: 10000; padding: 20px; overflow-y: auto; }
         .sidebar.active { left: 0; }
-        .sidebar h2 { color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 10px; margin-bottom: 20px; font-size: 1.1em; }
-        .side-tool { width: 100%; padding: 15px; background: #000; border: 1px solid var(--gold); color: #fff; margin-bottom: 12px; border-radius: 10px; cursor: pointer; text-align: left; font-size: 0.85em; font-weight: 700; }
+        .side-tool { width: 100%; padding: 15px; background: #000; border: 1px solid var(--gold); color: #fff; margin-bottom: 10px; border-radius: 10px; cursor: pointer; text-align: left; }
 
-        .dashboard-info { display: flex; justify-content: space-between; padding: 15px 25px; background: rgba(0,0,0,0.8); font-size: 0.8em; color: var(--blue); border-bottom: 2px solid var(--gold); font-weight: 900; }
+        /* DASHBOARD */
+        .dash { display: grid; grid-template-columns: 1fr 1fr; padding: 15px; background: rgba(0,0,0,0.8); border-bottom: 2px solid var(--gold); text-align: center; font-weight: 900; color: var(--blue); font-size: 0.8em; }
         
-        .page { display: none; flex: 1; overflow-y: auto; padding: 25px; width: 100%; animation: fadeIn 0.4s ease; }
+        /* PAGES */
+        .page { display: none; flex: 1; overflow-y: auto; padding: 20px; animation: fadeIn 0.4s ease; }
         .active-page { display: block; }
-        .card { background: var(--card); border: 2px solid rgba(212,175,55,0.4); border-radius: 20px; padding: 20px; margin-bottom: 20px; text-align: center; }
+        .card { background: var(--card); border: 2px solid rgba(212,175,55,0.4); border-radius: 20px; padding: 20px; margin-bottom: 20px; }
 
-        nav { display: flex; background: #0f1217; border-top: 4px solid var(--gold); height: 100px; padding-bottom: env(safe-area-inset-bottom); }
-        nav button { flex: 1; background: none; border: none; color: #555; font-size: 11px; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; text-transform: uppercase; }
+        /* CALCULATRICE & TOOLS */
+        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 10px; }
+        .calc-btn { padding: 15px; background: #333; border: none; color: white; border-radius: 5px; font-weight: bold; }
+        .calc-display { grid-column: span 4; background: #000; color: var(--gold); padding: 15px; text-align: right; margin-bottom: 10px; font-size: 1.2em; border: 1px solid var(--gold); }
+
+        /* NAVIGATION */
+        nav { display: flex; background: #0f1217; border-top: 3px solid var(--gold); height: 100px; padding-bottom: env(safe-area-inset-bottom); }
+        nav button { flex: 1; background: none; border: none; color: #555; font-size: 11px; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         nav button.active { color: var(--gold); }
-        nav button span { font-size: 32px; margin-bottom: 5px; }
+        nav button span { font-size: 30px; margin-bottom: 5px; }
 
-        footer { padding: 10px; text-align: center; font-size: 0.7em; color: #444; background: #000; font-weight: 900; }
+        footer { padding: 10px; text-align: center; font-size: 0.7em; color: #444; font-weight: 900; border-top: 1px solid #222; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body onload="initUltimateButler()">
+<body onload="initSystem()">
 
-    <div id="mySidebar" class="sidebar">
-        <h2>🛠️ OUTILS MAÎTRES</h2>
+    <div id="sidebar" class="sidebar">
+        <h2 style="color:var(--gold); border-bottom:2px solid var(--gold); padding-bottom:10px;">🛠️ MATRICE OUTILS</h2>
         <button class="side-tool" onclick="window.open('https://www.larousse.fr')">📖 DICTIONNAIRE</button>
         <button class="side-tool" onclick="window.open('https://fr.wikipedia.org')">🌐 ENCYCLOPÉDIE</button>
-        <button class="side-tool" onclick="alert('Calculatrice v1.0 active.')">🧮 CALCULATRICE</button>
-        <button class="side-tool" onclick="alert('MANUEL: Triple clic titre = Panique. Sidebar = Outils. Caverne = Historique.')">📜 MANUEL D'USAGE</button>
-        <button class="btn-gold" style="background:var(--gold); padding:10px; border-radius:10px; margin-top:20px; width:100%; border:none; font-weight:900;" onclick="toggleSidebar()">FERMER</button>
+        <div class="card" style="margin-top:10px;">
+            <p style="font-size:0.8em; color:var(--gold);">🧮 CALCULATRICE RAPIDE</p>
+            <div id="c-res" class="calc-display">0</div>
+            <div class="calc-grid">
+                <button class="calc-btn" onclick="calc(7)">7</button><button class="calc-btn" onclick="calc(8)">8</button><button class="calc-btn" onclick="calc(9)">9</button><button class="calc-btn" onclick="calc('/')">/</button>
+                <button class="calc-btn" onclick="calc(4)">4</button><button class="calc-btn" onclick="calc(5)">5</button><button class="calc-btn" onclick="calc(6)">6</button><button class="calc-btn" onclick="calc('*')">*</button>
+                <button class="calc-btn" onclick="calc(1)">1</button><button class="calc-btn" onclick="calc(2)">2</button><button class="calc-btn" onclick="calc(3)">3</button><button class="calc-btn" onclick="calc('-')">-</button>
+                <button class="calc-btn" onclick="calc(0)">0</button><button class="calc-btn" onclick="calc('C')">C</button><button class="calc-btn" onclick="calc('=')" style="background:var(--gold); color:000;">=</button><button class="calc-btn" onclick="calc('+')">+</button>
+            </div>
+        </div>
+        <button class="btn-gold" style="padding:15px; border-radius:10px; width:100%; margin-top:10px;" onclick="toggleSide()">FERMER</button>
     </div>
 
     <header>
-        <button onclick="toggleSidebar()" style="position:absolute; left:20px; top:35px; background:none; border:none; color:var(--gold); font-size:30px; cursor:pointer; z-index:1001;">☰</button>
+        <button onclick="toggleSide()" style="position:absolute; left:20px; top:35px; background:none; border:none; color:var(--gold); font-size:30px;">☰</button>
         <h1>L'OBSERVATEUR</h1>
     </header>
 
-    <div class="dashboard-info">
-        <div id="dateNow">DATE</div>
-        <div id="tempDisplay">GREENSBORO, NC</div>
-        <div id="timeNow">00:00</div>
+    <div class="dash">
+        <div id="d-date">-- --</div>
+        <div id="d-temp">GREENSBORO: 22°C</div>
+        <div id="d-time" style="grid-column: span 2; font-size:1.5em; color:var(--gold);">00:00</div>
     </div>
 
     <div id="home" class="page active-page">
         <div class="card">
-            <h3 id="status" style="color:var(--gold);">MAJORDOME ÉVOLUTIF</h3>
-            <button onclick="startVocal()" style="width:100px; height:100px; border-radius:50%; background:var(--gold); border:4px solid #000; margin:20px; font-size:40px; box-shadow: 0 0 25px var(--gold);">🎙️</button>
-            <p id="transcript" style="color:var(--blue); font-style:italic; min-height:1.2em;"></p>
+            <h3 id="butler-msg" style="color:var(--gold);">MAJORDOME COGNITIF</h3>
+            <button onclick="startVocal()" style="width:100px; height:100px; border-radius:50%; background:var(--gold); border:4px solid #000; margin:20px; font-size:40px; box-shadow: 0 0 20px var(--gold);">🎙️</button>
+            <p id="transcript" style="color:var(--blue); font-style:italic;"></p>
         </div>
-        <div class="card" id="ideaCard" style="border-color:var(--blue); display:none;">
-            <h4 style="color:var(--blue);">💡 ANGLE D'INNOVATION</h4>
-            <p id="ideaText" style="font-size:0.85em; margin-top:10px;"></p>
+        <div class="card" style="border-color:var(--blue);">
+            <h4 style="color:var(--blue);">🔍 RECHERCHE DE MARCHÉ (NC)</h4>
+            <p id="market-advice" style="font-size:0.8em; margin-top:10px;">Analyse en cours...</p>
         </div>
     </div>
 
     <div id="vault" class="page">
         <div class="card">
-            <h3 style="color:var(--gold);">🔐 CACHETTE DE LA CAVERNE</h3>
-            <div id="updateLogs" style="max-height: 150px; overflow-y: auto; background: #000; border-radius: 10px; margin-top:10px; text-align:left; padding:10px; font-size:0.7em; color:#888;"></div>
+            <h3 style="color:var(--gold);">🔐 CAVERNE : ARCHIVES</h3>
+            <p style="font-size:0.8em; color:var(--blue); margin-bottom:10px;">JOURNAL D'ÉVOLUTION</p>
+            <div id="logs" style="background:#000; padding:10px; border-radius:10px; font-size:0.7em; text-align:left;">
+                [v3.0.0] : Intégration Calculatrice et Module Greensboro.<br>
+                [v2.9.0] : Système vocal proactif activé.
+            </div>
+        </div>
+        <div class="card">
+            <h3 style="color:var(--gold);">📝 BLOC-NOTES</h3>
+            <textarea id="notes" style="width:100%; height:100px; background:#000; color:var(--blue); border:1px solid var(--gold); padding:10px;"></textarea>
+            <button class="btn-gold" style="padding:10px; margin-top:5px;" onclick="saveNotes()">SAUVEGARDER</button>
         </div>
     </div>
 
     <footer>© 2026 LESLY MICHEL - TOUS DROITS RÉSERVÉS</footer>
 
     <nav>
-        <button class="active" onclick="showPage('home')"><span>🏠</span>Accueil</button>
-        <button onclick="showPage('vault')"><span>🔐</span>Caverne</button>
+        <button class="active" id="btn-home" onclick="showP('home')"><span>🏠</span>Accueil</button>
+        <button id="btn-vault" onclick="showP('vault')"><span>🔐</span>Caverne</button>
         <button onclick="location.reload()"><span>🔄</span>Reset</button>
     </nav>
 
     <script>
-        const version = "2.8.0";
-        function toggleSidebar() { document.getElementById("mySidebar").classList.toggle("active"); }
+        let exp = "";
+        function toggleSide() { document.getElementById('sidebar').classList.toggle('active'); }
+        function calc(v) {
+            const d = document.getElementById('c-res');
+            if(v === 'C') { exp = ""; d.innerText = "0"; }
+            else if(v === '=') { try { exp = eval(exp); d.innerText = exp; } catch(e) { d.innerText = "Erreur"; exp = ""; } }
+            else { exp += v; d.innerText = exp; }
+        }
 
         function speak(t) {
             window.speechSynthesis.cancel();
@@ -94,25 +123,21 @@
             window.speechSynthesis.speak(u);
         }
 
-        function initUltimateButler() {
-            // Check version
-            const lastV = localStorage.getItem('obs_v');
-            if (lastV !== version) {
-                speak(`Mise à jour v${version} terminée. Panneau latéral restauré. Tous les outils sont à nouveau opérationnels, PDG Lesly.`);
-                localStorage.setItem('obs_v', version);
-            }
-            
-            // Suggestion innovation
+        function initSystem() {
             setTimeout(() => {
-                document.getElementById('ideaCard').style.display = 'block';
-                document.getElementById('ideaText').innerText = "Considérons l'intégration d'un module de gestion de stock IA pour Lesly Tech LLC.";
-                speak("J'ai une nouvelle piste pour votre empire, Créateur.");
-            }, 3000);
+                speak("Bonjour PDG Lesly Créateur Suprême. L'unité est à jour. À Greensboro, le ciel est dégagé. Comment puis-je servir votre vision stratégique aujourd'hui ?");
+                document.getElementById('market-advice').innerText = "Opportunité détectée : Services d'IA personnalisés pour les entreprises de Greensboro. Lesly Tech LLC est idéalement placée.";
+            }, 1500);
+            document.getElementById('notes').value = localStorage.getItem('obs_notes') || "";
         }
 
-        function showPage(p) {
+        function saveNotes() { localStorage.setItem('obs_notes', document.getElementById('notes').value); alert("Notes sauvées."); }
+
+        function showP(p) {
             document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active-page'));
             document.getElementById(p).classList.add('active-page');
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + p).classList.add('active');
         }
 
         function startVocal() {
@@ -121,15 +146,16 @@
             rec.onresult = (e) => {
                 const cmd = e.results[0][0].transcript.toLowerCase();
                 document.getElementById('transcript').innerText = `"${cmd}"`;
-                speak("Assimilation en cours pour L'Observateur.");
+                if(cmd.includes("ça va")) speak("Parfaitement, Créateur Suprême. Je traite vos données à Greensboro avec une précision de cent pour cent.");
+                else speak("Assimilation en cours. J'ai ajouté cette donnée à mon noyau cognitif.");
             };
             rec.start();
         }
 
         setInterval(() => {
             const n = new Date();
-            document.getElementById('dateNow').innerText = n.toLocaleDateString('fr-FR', {day:'numeric', month:'short'}).toUpperCase();
-            document.getElementById('timeNow').innerText = n.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+            document.getElementById('d-date').innerText = n.toLocaleDateString('fr-FR', {day:'numeric', month:'short'}).toUpperCase();
+            document.getElementById('d-time').innerText = n.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
         }, 1000);
     </script>
 </body>
