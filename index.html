@@ -1,23 +1,40 @@
 <div class="card" style="border-color: #ff4d4d;">
-    <h3 style="color:#ff4d4d;">📡 RAPPORT DE SURVEILLANCE</h3>
-    <p style="font-size:0.7em; margin-bottom:10px;">Cliquez pour copier le rapport d'erreur pour le Créateur.</p>
-    <button class="btn-gold" style="background:#ff4d4d; color:#fff;" onclick="copyDiagnostic()">GÉNÉRER RAPPORT BUG</button>
+    <h3 style="color:#ff4d4d;">📡 RÉGISTRE DE SURVEILLANCE</h3>
+    <div id="errorLog" style="text-align:left; font-size:10px; color:#ff4d4d; background:#000; padding:10px; border-radius:10px; height:60px; overflow-y:auto; margin-bottom:10px; font-family:monospace;">
+        [SYSTÈME] : Noyau stable. Aucune erreur détectée.
+    </div>
+    <button class="btn-gold" style="background:#ff4d4d; color:#fff; font-size:10px;" onclick="copyFullReport()">COPIER RAPPORT POUR GEMINI</button>
+</div>
+
+<div class="card">
+    <h3 style="color:var(--gold);">🛠️ OUTILS DE PUISSANCE</h3>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+        <button class="btn-gold" style="font-size:10px;" onclick="speak('Structure CV prête.')">📄 CV PRO</button>
+        <button class="btn-gold" style="font-size:10px;" onclick="window.open('https://wa.me/')">💬 WHATSAPP</button>
+    </div>
 </div>
 
 <script>
-    // MODULE DE DIAGNOSTIC POUR GEMINI
-    function copyDiagnostic() {
+    // SYSTÈME DE TRAÇABILITÉ DES ERREURS
+    let errors = [];
+    window.onerror = function(msg, url, line) {
+        let err = `[${new Date().toLocaleTimeString()}] ERR: ${msg} (L:${line})`;
+        errors.push(err);
+        const logDiv = document.getElementById('errorLog');
+        logDiv.innerHTML = errors.join('<br>');
+        logDiv.scrollTop = logDiv.scrollHeight;
+        return false;
+    };
+
+    function copyFullReport() {
         const report = {
-            unite: "L'OBSERVATEUR v3.0",
-            status: "Actif",
+            unite: "L'OBSERVATEUR v3.5 Prestige",
+            etat: "Surveillance Active",
             langue: uLang,
-            ecran: window.innerWidth + "x" + window.innerHeight,
-            caverne: "Chargée",
-            animaCoeur: "Active",
-            date: new Date().toISOString()
+            resolution: window.innerWidth + "x" + window.innerHeight,
+            historique: errors.length > 0 ? errors : "Aucun incident"
         };
-        const textReport = JSON.stringify(report, null, 2);
-        navigator.clipboard.writeText(textReport);
-        speak("Rapport de surveillance copié. Donnez-le à Gemini.");
+        navigator.clipboard.writeText(JSON.stringify(report, null, 2));
+        speak("Rapport de surveillance copié. Transmettez-le à Gemini.");
     }
 </script>
