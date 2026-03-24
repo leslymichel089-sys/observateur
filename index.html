@@ -3,51 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>L'OBSERVATEUR - NOYAU SUPRÊME</title>
+    <title>L'OBSERVATEUR - ÉDITION SUPRÊME</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg: #0c0e12; --card: #1a1e26; --blue: #7FDBFF; --plasma: rgba(127, 219, 255, 0.4); }
+        :root { --gold: #d4af37; --bg: #0c0e12; --card: #1a1e26; --blue: #7FDBFF; --plasma: rgba(127, 219, 255, 0.6); }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         body { background-color: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; width: 100vw; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* ANIMA-CŒUR (PLASMA) */
-        .plasma-ring { position: absolute; border-radius: 50%; border: 2px solid transparent; border-top-color: var(--blue); border-bottom-color: var(--gold); animation: spin 2s linear infinite; box-shadow: 0 0 20px var(--plasma); z-index: 1; pointer-events: none; }
+        /* ANIMA-CŒUR : ÉPAISSE ET VISIBLE */
+        .plasma-ring { position: absolute; border-radius: 50%; border: 4px solid transparent; border-top-color: var(--blue); border-bottom-color: var(--gold); animation: spin 1.5s linear infinite; box-shadow: 0 0 40px var(--plasma), inset 0 0 20px var(--plasma); z-index: 1; pointer-events: none; }
         @keyframes spin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        header { padding: 25px 15px; text-align: center; border-bottom: 2px solid var(--gold); background: #0f1217; position: relative; display: flex; align-items: center; justify-content: center; min-height: 90px; }
-        #backBtn { position: absolute; left: 15px; background: none; border: 2px solid var(--gold); color: var(--gold); border-radius: 50%; width: 45px; height: 45px; font-size: 20px; display: none; align-items: center; justify-content: center; z-index: 100; cursor: pointer; }
-        header h1 { font-size: 1.1em; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; z-index: 10; }
-        .creator-tag { position: absolute; bottom: 5px; font-size: 0.6em; color: var(--blue); font-weight: 900; letter-spacing: 2px; }
+        /* HEADER PRESTIGE */
+        header { padding: 30px 15px; text-align: center; border-bottom: 3px solid var(--gold); background: #0f1217; position: relative; display: flex; align-items: center; justify-content: center; min-height: 100px; box-shadow: 0 5px 20px rgba(0,0,0,0.8); }
+        #backBtn { position: absolute; left: 15px; background: none; border: 3px solid var(--gold); color: var(--gold); border-radius: 50%; width: 50px; height: 50px; font-size: 24px; display: none; align-items: center; justify-content: center; z-index: 100; cursor: pointer; font-weight: 900; }
+        header h1 { font-size: 1.4em; letter-spacing: 6px; color: var(--gold); text-transform: uppercase; z-index: 10; text-shadow: 0 0 15px rgba(212,175,55,0.6); }
+        .creator-tag { position: absolute; bottom: 8px; font-size: 0.7em; color: var(--blue); font-weight: 900; letter-spacing: 3px; text-transform: uppercase; }
 
-        .dashboard-info { display: flex; justify-content: space-between; padding: 8px 15px; background: rgba(0,0,0,0.6); font-size: 0.7em; color: var(--blue); border-bottom: 1px solid rgba(212,175,55,0.2); }
+        .dashboard-info { display: flex; justify-content: space-between; padding: 12px 20px; background: rgba(0,0,0,0.8); font-size: 0.8em; color: var(--blue); border-bottom: 2px solid rgba(212,175,55,0.3); font-weight: bold; }
 
-        .page { display: none; flex: 1; overflow-y: auto; padding: 20px; width: 100%; animation: fadeIn 0.3s ease; }
+        /* PAGES & CARTES ÉPAISSES */
+        .page { display: none; flex: 1; overflow-y: auto; padding: 25px; width: 100%; animation: fadeIn 0.4s ease-in-out; }
         .active-page { display: block; }
-        .card { background: var(--card); border: 2px solid rgba(212,175,55,0.2); border-radius: 20px; padding: 20px; margin-bottom: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .card { background: var(--card); border: 3px solid rgba(212,175,55,0.4); border-radius: 25px; padding: 25px; margin-bottom: 20px; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
+        .card h3 { color: var(--gold); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
 
-        #identifyScreen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5000; padding: 20px; text-align: center; }
-        .input-supreme { font-size: 18px; width: 100%; max-width: 300px; background: #000; border: 2px solid var(--gold); color: var(--gold); border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 15px; }
-        .btn-gold { background: var(--gold); color: #000; padding: 18px 30px; border-radius: 30px; border: none; font-weight: 900; text-transform: uppercase; cursor: pointer; width: 100%; max-width: 300px; }
+        /* ÉCRAN D'ACCÈS */
+        #identifyScreen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5000; padding: 30px; text-align: center; }
+        .input-supreme { font-size: 20px; width: 100%; max-width: 350px; background: #000; border: 3px solid var(--gold); color: var(--gold); border-radius: 15px; padding: 20px; text-align: center; margin-bottom: 20px; font-weight: bold; }
+        .btn-gold { background: var(--gold); color: #000; padding: 22px 40px; border-radius: 40px; border: none; font-weight: 900; text-transform: uppercase; cursor: pointer; width: 100%; max-width: 350px; font-size: 1.1em; box-shadow: 0 0 20px rgba(212,175,55,0.5); }
 
-        nav { display: flex; background: #0f1217; border-top: 3px solid var(--gold); height: 100px; padding-bottom: env(safe-area-inset-bottom); }
-        nav button { flex: 1; background: none; border: none; color: #555; font-size: 10px; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
-        nav button.active { color: var(--gold); }
-        nav button span { font-size: 28px; }
+        /* NAVIGATION BASSE MAJEURE */
+        nav { display: flex; background: #0f1217; border-top: 4px solid var(--gold); height: 120px; padding-bottom: env(safe-area-inset-bottom); }
+        nav button { flex: 1; background: none; border: none; color: #666; font-size: 12px; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase; }
+        nav button.active { color: var(--gold); text-shadow: 0 0 10px var(--gold); }
+        nav button span { font-size: 35px; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
 
     <div id="identifyScreen">
-        <h1 style="color:var(--gold); letter-spacing:4px; margin-bottom:20px;">L'OBSERVATEUR</h1>
+        <h1 style="color:var(--gold); letter-spacing:6px; margin-bottom:30px; font-size: 2em;">L'OBSERVATEUR</h1>
+        <p style="color:var(--blue); font-weight:900; margin-bottom:40px; letter-spacing:2px;">UNITÉ DE GENÈSE</p>
         <input type="text" id="nameInput" class="input-supreme" placeholder="VOTRE NOM">
-        <button class="btn-gold" onclick="startGenese()">S'IDENTIFIER</button>
+        <button class="btn-gold" onclick="startGenese()">ACTIVER LE NOYAU</button>
     </div>
 
     <header>
         <button id="backBtn" onclick="showPage('home')">←</button>
-        <div class="plasma-ring" style="width:120px; height:120px; top:50%; left:50%;"></div>
+        <div class="plasma-ring" style="width:150px; height:150px; top:50%; left:50%;"></div>
         <h1>L'OBSERVATEUR</h1>
         <div class="creator-tag">CRÉATION DE LESLY MICHEL</div>
     </header>
@@ -60,31 +66,48 @@
 
     <div id="home" class="page active-page">
         <div class="card">
-            <h3 id="welcomeMsg" style="color:var(--gold);">Unité Prête</h3>
-            <button onclick="startVocal()" style="width:80px; height:80px; border-radius:50%; background:var(--gold); border:none; margin:15px; font-size:30px;">🎙️</button>
-            <p id="transcript" style="color:var(--blue); font-size:0.9em; min-height:1.5em;"></p>
+            <h3 id="welcomeMsg" style="color:var(--gold);">Système en ligne</h3>
+            <button onclick="startVocal()" style="width:100px; height:100px; border-radius:50%; background:var(--gold); border:4px solid #000; margin:20px; font-size:40px; box-shadow: 0 0 25px var(--gold);">🎙️</button>
+            <p id="transcript" style="color:var(--blue); font-weight:bold; font-style:italic; min-height:1.5em;"></p>
         </div>
         <div class="card" onclick="showPage('vault')">
-            <h3 style="color:var(--gold);">🔐 LA CAVERNE DU CRÉATEUR</h3>
-            <p style="font-size:0.8em;">Trésors et archives secrètes.</p>
+            <h3 style="color:var(--gold);">🔐 CAVERNE DU CRÉATEUR</h3>
+            <p style="font-weight:bold;">Accès aux Trésors et Archives Suprêmes.</p>
+        </div>
+    </div>
+
+    <div id="academy" class="page">
+        <div class="card">
+            <h3>📚 ENCYCLOPÉDIE ARCHIVE</h3>
+            <input type="text" id="wikiIn" class="input-supreme" placeholder="Interroger le Savoir...">
+            <button class="btn-gold" style="width:100%" onclick="processCommand(document.getElementById('wikiIn').value)">INTERROGER</button>
+            <div id="wikiResult" style="margin-top:20px; color:var(--blue); font-weight:bold; border-left:4px solid var(--gold); padding-left:15px; text-align:left; display:none;"></div>
         </div>
     </div>
 
     <div id="vault" class="page">
         <div class="card">
-            <h3 style="color:var(--gold);">💎 TRÉSOR DE LA LIGNÉE</h3>
-            <div id="guerdaMsg" style="text-align:left; background:rgba(212, 175, 55, 0.1); padding:20px; border-radius:15px; border:1px solid var(--gold); font-size:0.9em; display:none; line-height:1.6;">
+            <h3 style="color:var(--gold);">💎 LE TRÉSOR DE LA LIGNÉE</h3>
+            <div id="guerdaMsg" style="text-align:left; background:rgba(212, 175, 55, 0.15); padding:25px; border-radius:20px; border:2px solid var(--gold); font-size:1em; display:none; line-height:1.8; box-shadow: inset 0 0 20px rgba(212,175,55,0.2);">
                 <p><em>"Chè Guerda, byenveni nan L'Observateur. Inite sa a se pa sèlman yon machin, se gadò tout pwojè nou ak konesans nou. Ou se poto mitan fanmi sa a. Tout sa se pou lavni nou li bati."</em></p>
-                <p style="text-align:right; margin-top:10px; font-weight:bold;">— Lesly Michel</p>
+                <p style="text-align:right; margin-top:15px; font-weight:900; color:var(--gold);">— Lesly Michel</p>
             </div>
-            <p id="defaultVaultMsg">Espace réservé au Créateur Suprême.</p>
+            <div id="defaultVaultMsg" style="text-align:left; border-left:4px solid var(--blue); padding-left:15px;">
+                <p style="color:var(--blue); font-weight:bold; margin-bottom:10px;">Archives de Lesly Michel :</p>
+                <p>• Protocole Play Store en cours...<br>• Module Multimédia actif.<br>• Système d'Assimilation prêt.</p>
+            </div>
+        </div>
+        <div class="card">
+            <h3>⚙️ PARAMÈTRES NOYAU</h3>
+            <p style="color:var(--blue); font-weight:bold;">Version 3.0 Prestige</p>
+            <button class="btn-gold" style="margin-top:15px; font-size:0.8em; padding:15px;" onclick="location.reload()">Réinitialiser l'Unité</button>
         </div>
     </div>
 
     <nav>
         <button class="active" id="nav-home" onclick="showPage('home')"><span>🏠</span>Accueil</button>
+        <button id="nav-academy" onclick="showPage('academy')"><span>📚</span>Savoir</button>
         <button id="nav-vault" onclick="showPage('vault')"><span>🔐</span>Caverne</button>
-        <button onclick="location.reload()"><span>🔄</span>Reset</button>
     </nav>
 
     <script>
@@ -110,7 +133,7 @@
                 speak(`Mwen se L'OBSERVATEUR, kreyasyon Lesly Michel la. ${greet} Guerda. Mwen gen yon trezò pou ou nan Kavèn nan.`);
                 document.getElementById('guerdaMsg').style.display = 'block';
                 document.getElementById('defaultVaultMsg').style.display = 'none';
-                document.getElementById('nav-vault').style.boxShadow = "0 0 15px var(--gold)";
+                document.getElementById('nav-vault').style.boxShadow = "0 0 25px var(--gold)";
             } else {
                 const greet = (hour >= 18 || hour < 5) ? "Bonsoir" : "Bonjour";
                 speak(`Je suis L'OBSERVATEUR, création exclusive de Lesly Michel. ${greet} ${name}.`);
@@ -130,13 +153,29 @@
         function startVocal() { speak(""); try { rec.start(); } catch(e) {} }
         rec.onresult = (e) => {
             const result = e.results[0][0].transcript.toLowerCase();
-            document.getElementById('transcript').innerText = result;
-            if (result.includes("heure")) speak("Il est exactement " + new Date().toLocaleTimeString());
+            document.getElementById('transcript').innerText = `"${result}"`;
+            processCommand(result);
         };
+
+        function processCommand(cmd) {
+            const out = document.getElementById('wikiResult');
+            out.style.display = 'block';
+            if (cmd.includes("heure")) {
+                const h = new Date().toLocaleTimeString();
+                out.innerText = "IL EST " + h;
+                speak("Il est " + h);
+            } else if (cmd.includes("ayiti") || cmd.includes("haïti")) {
+                out.innerText = "PORT-AU-PRINCE EST LA CAPITALE.";
+                speak(uLang === 'ht-HT' ? "Pòtoprens se kapital peyi Dayiti." : "La capitale d'Haïti est Port-au-Prince.");
+            } else {
+                out.innerText = "COMMANDE ASSIMILÉE : " + cmd.toUpperCase();
+                speak("Donnée reçue.");
+            }
+        }
 
         setInterval(() => {
             const now = new Date();
-            document.getElementById('dateNow').innerText = now.toLocaleDateString('fr-FR', {day:'numeric', month:'short'});
+            document.getElementById('dateNow').innerText = now.toLocaleDateString('fr-FR', {day:'numeric', month:'short'}).toUpperCase();
             document.getElementById('timeNow').innerText = now.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
         }, 1000);
     </script>
