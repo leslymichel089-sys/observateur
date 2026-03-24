@@ -10,29 +10,25 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         body { background-color: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; width: 100vw; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* --- ANIMATION PLASMA (L'ANIMA-CŒUR) --- */
-        .plasma-ring { position: absolute; border-radius: 50%; border: 2px solid transparent; border-top-color: var(--blue); border-bottom-color: var(--gold); animation: spin 2s linear infinite; box-shadow: 0 0 20px var(--plasma); z-index: 1; }
+        /* ANIMA-CŒUR (PLASMA) */
+        .plasma-ring { position: absolute; border-radius: 50%; border: 2px solid transparent; border-top-color: var(--blue); border-bottom-color: var(--gold); animation: spin 2s linear infinite; box-shadow: 0 0 20px var(--plasma); z-index: 1; pointer-events: none; }
         @keyframes spin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        /* --- HEADER & NAVIGATION --- */
         header { padding: 25px 15px; text-align: center; border-bottom: 2px solid var(--gold); background: #0f1217; position: relative; display: flex; align-items: center; justify-content: center; min-height: 90px; }
-        #backBtn { position: absolute; left: 15px; background: none; border: 2px solid var(--gold); color: var(--gold); border-radius: 50%; width: 45px; height: 45px; font-size: 20px; display: none; align-items: center; justify-content: center; z-index: 100; }
+        #backBtn { position: absolute; left: 15px; background: none; border: 2px solid var(--gold); color: var(--gold); border-radius: 50%; width: 45px; height: 45px; font-size: 20px; display: none; align-items: center; justify-content: center; z-index: 100; cursor: pointer; }
         header h1 { font-size: 1.1em; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; z-index: 10; }
         .creator-tag { position: absolute; bottom: 5px; font-size: 0.6em; color: var(--blue); font-weight: 900; letter-spacing: 2px; }
 
         .dashboard-info { display: flex; justify-content: space-between; padding: 8px 15px; background: rgba(0,0,0,0.6); font-size: 0.7em; color: var(--blue); border-bottom: 1px solid rgba(212,175,55,0.2); }
 
-        /* --- PAGES --- */
         .page { display: none; flex: 1; overflow-y: auto; padding: 20px; width: 100%; animation: fadeIn 0.3s ease; }
         .active-page { display: block; }
         .card { background: var(--card); border: 2px solid rgba(212,175,55,0.2); border-radius: 20px; padding: 20px; margin-bottom: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-        /* --- ÉCRAN D'ACCÈS --- */
         #identifyScreen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5000; padding: 20px; text-align: center; }
         .input-supreme { font-size: 18px; width: 100%; max-width: 300px; background: #000; border: 2px solid var(--gold); color: var(--gold); border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 15px; }
-        .btn-gold { background: var(--gold); color: #000; padding: 18px 30px; border-radius: 30px; border: none; font-weight: 900; text-transform: uppercase; cursor: pointer; }
+        .btn-gold { background: var(--gold); color: #000; padding: 18px 30px; border-radius: 30px; border: none; font-weight: 900; text-transform: uppercase; cursor: pointer; width: 100%; max-width: 300px; }
 
-        /* --- NAVIGATION BASSE (GÉANTE) --- */
         nav { display: flex; background: #0f1217; border-top: 3px solid var(--gold); height: 100px; padding-bottom: env(safe-area-inset-bottom); }
         nav button { flex: 1; background: none; border: none; color: #555; font-size: 10px; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
         nav button.active { color: var(--gold); }
@@ -53,7 +49,7 @@
         <button id="backBtn" onclick="showPage('home')">←</button>
         <div class="plasma-ring" style="width:120px; height:120px; top:50%; left:50%;"></div>
         <h1>L'OBSERVATEUR</h1>
-        <div class="creator-tag">Création de Lesly Michel</div>
+        <div class="creator-tag">CRÉATION DE LESLY MICHEL</div>
     </header>
 
     <div class="dashboard-info">
@@ -64,30 +60,22 @@
 
     <div id="home" class="page active-page">
         <div class="card">
-            <h3 id="welcomeMsg" style="color:var(--gold);">Unité Opérationnelle</h3>
+            <h3 id="welcomeMsg" style="color:var(--gold);">Unité Prête</h3>
             <button onclick="startVocal()" style="width:80px; height:80px; border-radius:50%; background:var(--gold); border:none; margin:15px; font-size:30px;">🎙️</button>
             <p id="transcript" style="color:var(--blue); font-size:0.9em; min-height:1.5em;"></p>
         </div>
         <div class="card" onclick="showPage('vault')">
             <h3 style="color:var(--gold);">🔐 LA CAVERNE DU CRÉATEUR</h3>
-            <p style="font-size:0.8em;">Accès aux trésors et archives secrètes.</p>
-        </div>
-    </div>
-
-    <div id="academy" class="page">
-        <div class="card">
-            <h3>📚 ENCYCLOPÉDIE</h3>
-            <input type="text" id="wikiIn" class="input-supreme" placeholder="Question...">
-            <button class="btn-gold" style="width:100%" onclick="speak('Recherche en cours...')">INTERROGER</button>
+            <p style="font-size:0.8em;">Trésors et archives secrètes.</p>
         </div>
     </div>
 
     <div id="vault" class="page">
         <div class="card">
             <h3 style="color:var(--gold);">💎 TRÉSOR DE LA LIGNÉE</h3>
-            <div id="guerdaMsg" style="text-align:left; background:rgba(212, 175, 55, 0.1); padding:15px; border-radius:10px; border:1px solid var(--gold); font-size:0.85em; display:none;">
+            <div id="guerdaMsg" style="text-align:left; background:rgba(212, 175, 55, 0.1); padding:20px; border-radius:15px; border:1px solid var(--gold); font-size:0.9em; display:none; line-height:1.6;">
                 <p><em>"Chè Guerda, byenveni nan L'Observateur. Inite sa a se pa sèlman yon machin, se gadò tout pwojè nou ak konesans nou. Ou se poto mitan fanmi sa a. Tout sa se pou lavni nou li bati."</em></p>
-                <p style="text-align:right; margin-top:10px;">— Lesly Michel</p>
+                <p style="text-align:right; margin-top:10px; font-weight:bold;">— Lesly Michel</p>
             </div>
             <p id="defaultVaultMsg">Espace réservé au Créateur Suprême.</p>
         </div>
@@ -95,19 +83,19 @@
 
     <nav>
         <button class="active" id="nav-home" onclick="showPage('home')"><span>🏠</span>Accueil</button>
-        <button id="nav-academy" onclick="showPage('academy')"><span>📚</span>Savoir</button>
         <button id="nav-vault" onclick="showPage('vault')"><span>🔐</span>Caverne</button>
+        <button onclick="location.reload()"><span>🔄</span>Reset</button>
     </nav>
 
     <script>
         let uLang = 'fr-FR';
-        const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const Recognition = window.webkitSpeechRecognition || window.SpeechRecognition;
         const rec = new Recognition();
 
         function speak(t) {
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(t);
-            u.lang = uLang; u.rate = (uLang === 'ht-HT' ? 0.8 : 0.95);
+            u.lang = uLang; u.rate = (uLang === 'ht-HT' ? 0.75 : 0.95);
             window.speechSynthesis.speak(u);
         }
 
@@ -119,7 +107,7 @@
             if(isGuerda) {
                 uLang = 'ht-HT';
                 const greet = (hour >= 18 || hour < 5) ? "Bonswa" : "Bonjou";
-                speak(`Mwen se L'OBSERVATEUR, kreyasyon Lesly Michel la. ${greet} Guerda. Gen yon trezò pou ou nan Kavèn nan.`);
+                speak(`Mwen se L'OBSERVATEUR, kreyasyon Lesly Michel la. ${greet} Guerda. Mwen gen yon trezò pou ou nan Kavèn nan.`);
                 document.getElementById('guerdaMsg').style.display = 'block';
                 document.getElementById('defaultVaultMsg').style.display = 'none';
                 document.getElementById('nav-vault').style.boxShadow = "0 0 15px var(--gold)";
@@ -127,7 +115,6 @@
                 const greet = (hour >= 18 || hour < 5) ? "Bonsoir" : "Bonjour";
                 speak(`Je suis L'OBSERVATEUR, création exclusive de Lesly Michel. ${greet} ${name}.`);
             }
-            
             document.getElementById('identifyScreen').style.display = 'none';
             document.getElementById('welcomeMsg').innerText = (uLang === 'ht-HT' ? "Respe, " : "Bienvenue, ") + name;
         }
@@ -140,7 +127,12 @@
             document.getElementById('backBtn').style.display = (p === 'home') ? 'none' : 'flex';
         }
 
-        function startVocal() { speak("L'unité vous écoute."); try { rec.start(); } catch(e) {} }
+        function startVocal() { speak(""); try { rec.start(); } catch(e) {} }
+        rec.onresult = (e) => {
+            const result = e.results[0][0].transcript.toLowerCase();
+            document.getElementById('transcript').innerText = result;
+            if (result.includes("heure")) speak("Il est exactement " + new Date().toLocaleTimeString());
+        };
 
         setInterval(() => {
             const now = new Date();
