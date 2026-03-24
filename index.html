@@ -3,161 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>L'OBSERVATEUR</title>
+    <title>L'OBSERVATEUR - SYSTEM</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg: #050505; --card: #121212; --blue: #00d4ff; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-        body { background-color: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        :root { --gold: #d4af37; --bg: #050505; --card: #111; --blue: #00d4ff; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
+        body { background: var(--bg); color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         
-        /* ANIMA-CŒUR PULSANT (REMPLACE L'IMAGE) */
-        .anima-container { height: 200px; display: flex; align-items: center; justify-content: center; position: relative; background: #000; border-bottom: 2px solid var(--gold); }
-        .pulse-ring { position: absolute; width: 120px; height: 120px; border: 4px solid var(--gold); border-radius: 50%; animation: pulse 2s infinite; box-shadow: 0 0 20px var(--gold); }
-        .core { width: 60px; height: 60px; background: var(--blue); border-radius: 50%; box-shadow: 0 0 30px var(--blue); z-index: 2; transition: transform 0.3s; }
-        .speaking { animation: wave 0.5s infinite alternate !important; }
-        @keyframes pulse { 0% { transform: scale(0.8); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
-        @keyframes wave { from { transform: scale(1); box-shadow: 0 0 20px var(--blue); } to { transform: scale(1.3); box-shadow: 0 0 50px var(--blue); } }
+        /* ECRAN D'IDENTIFICATION OBLIGATOIRE */
+        #login-screen { position: fixed; inset: 0; background: #000; z-index: 20000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; }
+        .input-box { width: 100%; max-width: 300px; padding: 15px; background: #111; border: 2px solid var(--gold); color: #fff; border-radius: 10px; margin: 10px 0; text-align: center; font-size: 1.1em; }
+        .lang-select { display: flex; gap: 10px; margin-bottom: 20px; }
+        .lang-btn { padding: 10px 20px; border: 1px solid var(--gold); background: none; color: var(--gold); border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .lang-btn.active { background: var(--gold); color: #000; }
 
-        header { padding: 20px; text-align: center; background: #000; border-bottom: 1px solid #222; }
-        header h1 { font-size: 1.2em; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; }
+        /* INTERFACE PRINCIPALE */
+        .aura { height: 220px; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, #1a1a1a 0%, #050505 100%); border-bottom: 2px solid var(--gold); position: relative; }
+        .core-orb { width: 80px; height: 80px; background: var(--blue); border-radius: 50%; box-shadow: 0 0 40px var(--blue); z-index: 5; transition: 0.4s; }
+        .core-orb.talk { animation: vibrate 0.3s infinite alternate; background: var(--gold); box-shadow: 0 0 60px var(--gold); }
+        @keyframes vibrate { from { transform: scale(1); } to { transform: scale(1.2); } }
 
-        .page { display: none; flex: 1; overflow-y: auto; padding: 20px; animation: fadeIn 0.3s ease; }
+        header { padding: 15px; text-align: center; font-weight: 900; letter-spacing: 4px; color: var(--gold); border-bottom: 1px solid #222; text-transform: uppercase; }
+        .page { display: none; flex: 1; overflow-y: auto; padding: 20px; }
         .active-page { display: block; }
-        .card { background: var(--card); border: 1px solid #333; border-radius: 15px; padding: 20px; margin-bottom: 15px; }
+        .card { background: var(--card); border: 1px solid #333; border-radius: 15px; padding: 20px; margin-bottom: 15px; text-align: center; }
 
-        /* CALCULATRICE RÉELLE */
-        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
-        .calc-btn { padding: 15px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 8px; font-weight: bold; font-size: 1.1em; }
-        .calc-res { grid-column: span 4; background: #000; color: var(--gold); padding: 15px; text-align: right; font-size: 1.5em; border: 1px solid var(--gold); margin-bottom: 10px; min-height: 60px; }
-
-        /* NAVIGATION BASSE */
-        nav { display: flex; background: #000; border-top: 2px solid var(--gold); height: 80px; }
-        nav button { flex: 1; background: none; border: none; color: #666; font-size: 10px; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
-        nav button.active { color: var(--gold); }
-        nav button span { font-size: 24px; }
-
-        /* SIDEBAR */
-        .sidebar { position: fixed; top: 0; left: -100%; width: 80%; height: 100%; background: #000; border-right: 2px solid var(--gold); z-index: 1000; transition: 0.4s; padding: 20px; }
-        .sidebar.active { left: 0; }
-        .side-item { width: 100%; padding: 15px; background: #111; border: 1px solid #222; color: #fff; margin-bottom: 10px; border-radius: 8px; text-align: left; }
-
-        footer { font-size: 0.7em; color: #444; text-align: center; padding: 10px; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        nav { display: flex; background: #000; border-top: 2px solid var(--gold); height: 85px; }
+        nav button { flex: 1; background: none; border: none; color: #555; font-size: 10px; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        nav button.sel { color: var(--gold); }
+        nav button span { font-size: 24px; margin-bottom: 5px; }
     </style>
 </head>
 <body>
 
-    <div id="sidebar" class="sidebar">
-        <h2 style="color:var(--gold); margin-bottom:20px;">MATRICE</h2>
-        <button class="side-item" onclick="window.open('https://www.larousse.fr')">DICTIONNAIRE</button>
-        <button class="side-item" onclick="window.open('https://fr.wikipedia.org')">ENCYCLOPÉDIE</button>
-        <button class="side-item" onclick="showP('params')">PARAMÈTRES</button>
-        <button onclick="toggleSide()" style="color:var(--gold); margin-top:20px; background:none; border:none;">FERMER</button>
+    <div id="login-screen">
+        <h1 style="color:var(--gold); margin-bottom:20px; letter-spacing:3px;">L'OBSERVATEUR</h1>
+        <p id="welcome-txt" style="font-size:0.9em; line-height:1.6; color:#aaa; margin-bottom:20px; max-width:400px;"></p>
+        <input type="text" id="user-name" class="input-box" placeholder="Votre prénom">
+        <div class="lang-select">
+            <button class="lang-btn active" id="btn-fr" onclick="setL('fr-FR')">FRANÇAIS</button>
+            <button class="lang-btn" id="btn-ht" onclick="setL('ht-HT')">KREYÒL</button>
+        </div>
+        <button onclick="accessSystem()" style="background:var(--gold); border:none; padding:15px 40px; border-radius:30px; font-weight:900; cursor:pointer; width:100%; max-width:300px;">ACCÉDER AU NOYAU</button>
     </div>
 
-    <div class="anima-container">
-        <div class="pulse-ring"></div>
-        <div id="core" class="core"></div>
-        <button onclick="toggleSide()" style="position:absolute; left:20px; top:20px; background:none; border:none; color:var(--gold); font-size:25px;">☰</button>
+    <div class="aura">
+        <div id="orb" class="core-orb"></div>
     </div>
 
-    <header>
-        <h1 id="title">L'OBSERVATEUR</h1>
-    </header>
+    <header>L'OBSERVATEUR</header>
 
     <div id="home" class="page active-page">
         <div class="card">
-            <h3 id="msg" style="color:var(--gold); margin-bottom:10px;">MAJORDOME PRÊT</h3>
-            <button onclick="startVocal()" style="width:80px; height:80px; border-radius:50%; background:var(--gold); border:none; font-size:30px; margin:10px auto; display:block;">🎙️</button>
-            <p id="transcript" style="color:var(--blue); font-size:0.9em; text-align:center; min-height:1em;"></p>
+            <h3 id="user-greet" style="color:var(--gold); margin-bottom:15px;">SESSION ACTIVE</h3>
+            <button onclick="startListen()" style="width:90px; height:90px; border-radius:50%; background:var(--gold); border:none; font-size:40px; box-shadow: 0 0 20px var(--gold);">🎙️</button>
+            <p id="out" style="color:var(--blue); margin-top:15px; font-style:italic; font-weight:bold;"></p>
         </div>
     </div>
 
     <div id="vault" class="page">
         <div class="card">
             <h3 style="color:var(--gold);">🔐 CAVERNE</h3>
-            <div id="calc" style="margin-top:15px;">
-                <div id="res" class="calc-res">0</div>
-                <div class="calc-grid">
-                    <button class="calc-btn" onclick="c('C')">C</button><button class="calc-btn" onclick="c('/')">/</button><button class="calc-btn" onclick="c('*')">*</button><button class="calc-btn" onclick="c('-')">-</button>
-                    <button class="calc-btn" onclick="c(7)">7</button><button class="calc-btn" onclick="c(8)">8</button><button class="calc-btn" onclick="c(9)">9</button><button class="calc-btn" onclick="c('+')">+</button>
-                    <button class="calc-btn" onclick="c(4)">4</button><button class="calc-btn" onclick="c(5)">5</button><button class="calc-btn" onclick="c(6)">6</button><button class="calc-btn" onclick="c('=')" style="background:var(--gold); color:#000;">=</button>
-                    <button class="calc-btn" onclick="c(1)">1</button><button class="calc-btn" onclick="c(2)">2</button><button class="calc-btn" onclick="c(3)">3</button><button class="calc-btn" onclick="c(0)">0</button>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <h3 style="color:var(--gold);">📝 NOTES</h3>
-            <textarea id="nt" style="width:100%; height:80px; background:#000; color:var(--blue); border:1px solid #333; padding:10px; margin-top:10px;"></textarea>
-            <button onclick="sn()" style="width:100%; padding:10px; background:var(--blue); border:none; border-radius:5px; margin-top:5px; color:#000; font-weight:bold;">SAUVEGARDER</button>
+            <textarea id="note-area" style="width:100%; height:120px; background:#000; color:var(--blue); border:1px solid #333; padding:15px; margin-top:15px; border-radius:10px;"></textarea>
+            <button onclick="saveNote()" style="width:100%; padding:15px; background:var(--gold); border:none; margin-top:10px; font-weight:bold; border-radius:10px;">ARCHIVER DANS LA MÉMOIRE</button>
         </div>
     </div>
-
-    <div id="params" class="page">
-        <div class="card">
-            <h3 style="color:var(--gold);">⚙️ RÉGLAGES</h3>
-            <p style="margin-top:10px;">COULEUR ACCENT</p>
-            <input type="color" onchange="document.documentElement.style.setProperty('--blue', this.value)" style="width:100%; height:40px; background:none; border:none;">
-            <p style="margin-top:10px;">LANGUE : FRANÇAIS / CRÉOLE</p>
-            <button class="side-item" onclick="toggleLang()">BASCULER LANGUE</button>
-        </div>
-    </div>
-
-    <footer>© 2026 LESLY MICHEL - TOUS DROITS RÉSERVÉS</footer>
 
     <nav>
-        <button class="active" onclick="showP('home', this)"><span>🏠</span>ACCUEIL</button>
-        <button onclick="showP('vault', this)"><span>🔐</span>CAVERNE</button>
+        <button class="sel" id="nh" onclick="showP('home', this)"><span>🏠</span>ACCUEIL</button>
+        <button id="nv" onclick="showP('vault', this)"><span>🔐</span>CAVERNE</button>
         <button onclick="location.reload()"><span>🔄</span>RESET</button>
     </nav>
 
     <script>
-        let l = 'fr-FR', exp = "";
-        function toggleSide() { document.getElementById('sidebar').classList.toggle('active'); }
-        function showP(id, btn) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-            document.getElementById(id).classList.add('active-page');
-            if(btn) {
-                document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            }
-            if(id === 'params') toggleSide();
+        let currentLang = 'fr-FR';
+        let userName = "";
+
+        const welcomeMsg = "Salut, je suis L'OBSERVATEUR, un majordome numérique créé par PDG Lesly Michel, je vous souhaite la bienvenue. D'abord veuillez vous identifier en me donnant simplement votre prénom et votre langue préférée afin que je puisse mémoriser vos préférences dans la base de données interne.";
+
+        function setL(l) {
+            currentLang = l;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(l === 'fr-FR' ? 'btn-fr' : 'btn-ht').classList.add('active');
         }
-        function c(v) {
-            const r = document.getElementById('res');
-            if(v === 'C') { exp = ""; r.innerText = "0"; }
-            else if(v === '=') { try { exp = eval(exp); r.innerText = exp; } catch(e) { r.innerText = "Error"; exp = ""; } }
-            else { exp += v; r.innerText = exp; }
-        }
-        function sn() { localStorage.setItem('o_n', document.getElementById('nt').value); alert("Note fixée."); }
-        function toggleLang() { l = (l === 'fr-FR' ? 'ht-HT' : 'fr-FR'); alert("Langue : " + l); }
-        
+
         function speak(t) {
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(t);
-            u.lang = l; u.rate = 0.9;
-            const core = document.getElementById('core');
-            u.onstart = () => core.classList.add('speaking');
-            u.onend = () => core.classList.remove('speaking');
+            u.lang = currentLang; u.rate = 0.9;
+            u.onstart = () => document.getElementById('orb').classList.add('talk');
+            u.onend = () => document.getElementById('orb').classList.remove('talk');
             window.speechSynthesis.speak(u);
         }
 
-        function startVocal() {
+        function accessSystem() {
+            userName = document.getElementById('user-name').value.trim();
+            if(!userName) { alert("Veuillez entrer un prénom."); return; }
+            
+            localStorage.setItem('obs_user', userName);
+            localStorage.setItem('obs_lang', currentLang);
+            
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('user-greet').innerText = "BIENVENUE, " + userName.toUpperCase();
+            
+            const greet = (currentLang === 'fr-FR') 
+                ? `Parfait ${userName}, vos préférences sont enregistrées. Je suis prêt à vous servir.`
+                : `Parfait ${userName}, preferans ou anrejistre. Mwen pare pou m sèvi ou.`;
+            speak(greet);
+        }
+
+        function showP(id, btn) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(id).classList.add('active-page');
+            document.querySelectorAll('nav button').forEach(nb => nb.classList.remove('sel'));
+            btn.classList.add('sel');
+        }
+
+        function startListen() {
             const Rec = window.webkitSpeechRecognition || window.SpeechRecognition;
             if(!Rec) return;
-            const r = new Rec();
+            const r = new Rec(); r.lang = currentLang;
             r.onresult = (e) => {
                 const t = e.results[0][0].transcript.toLowerCase();
-                document.getElementById('transcript').innerText = `"${t}"`;
-                if(t.includes("ça va")) speak("Tout est en ordre, PDG Lesly. Je suis prêt.");
-                else speak("Assimilation terminée.");
+                document.getElementById('out').innerText = `"${t}"`;
+                
+                if(t.includes("ça va") || t.includes("ki jan ou ye")) {
+                    speak(currentLang === 'fr-FR' ? "Je fonctionne à pleine capacité pour vous." : "Mwen ap fonksyone byen pou ou.");
+                } else {
+                    speak(currentLang === 'fr-FR' ? "J'assimile votre demande et je l'ajoute à mes calculs." : "Mwen resevwa mesaj la, m ap mete l nan memwa mwen.");
+                }
             };
             r.start();
         }
 
+        function saveNote() { localStorage.setItem('obs_notes', document.getElementById('note-area').value); alert("Note archivée."); }
+
         window.onload = () => {
-            document.getElementById('nt').value = localStorage.getItem('o_n') || "";
-            speak("L'OBSERVATEUR est prêt, Créateur.");
+            document.getElementById('welcome-txt').innerText = welcomeMsg;
+            document.getElementById('note-area').value = localStorage.getItem('obs_notes') || "";
+            // Le majordome lit le message de bienvenue dès que l'utilisateur clique quelque part (contrainte navigateur)
+            document.body.addEventListener('click', () => {
+                if(document.getElementById('login-screen').style.display !== 'none') speak(welcomeMsg);
+            }, {once: true});
         };
     </script>
 </body>
