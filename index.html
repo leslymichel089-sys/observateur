@@ -3,33 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L'OBSERVATEUR</title>
+    <title>L'OBSERVATEUR - PRESTIGE</title>
     <link rel="manifest" href="manifest.json">
     <style>
-        body { background-color: #001f3f; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
-        .pin-container { text-align: center; border: 2px solid #0074D9; padding: 30px; border-radius: 15px; background: rgba(0, 31, 63, 0.8); box-shadow: 0 0 20px rgba(0, 116, 217, 0.5); }
-        h1 { letter-spacing: 3px; margin-bottom: 30px; text-shadow: 2px 2px 4px #000; }
-        input { font-size: 28px; width: 120px; text-align: center; margin-bottom: 25px; border-radius: 8px; border: 2px solid #0074D9; padding: 10px; background: #001f3f; color: white; }
-        button { background-color: #0074D9; color: white; border: none; padding: 15px 40px; font-size: 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-weight: bold; }
-        button:hover { background-color: #7FDBFF; color: #001f3f; }
-        #mainContent { display: none; text-align: center; animation: fadeIn 1s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        body { 
+            background-color: #0c0e12; /* Noir Profond */
+            color: #d4af37; /* Or */
+            font-family: 'Montserrat', sans-serif; /* Plus moderne */
+            display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; 
+        }
+        .pin-container { 
+            text-align: center; border: 3px solid #d4af37; /* Cadre Or */
+            padding: 40px; border-radius: 20px; 
+            background: linear-gradient(145deg, #0f1217, #0a0c0f); /* Effet 3D */
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); 
+            animation: glowPulse 3s infinite;
+        }
+        @keyframes glowPulse { 0% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); } 50% { box-shadow: 0 0 45px rgba(212, 175, 55, 0.7); } 100% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); } }
+        h1.title { letter-spacing: 5px; margin-bottom: 40px; text-transform: uppercase; text-shadow: 2px 2px 8px #000; font-weight: 900; }
+        input { font-size: 32px; width: 140px; text-align: center; margin-bottom: 30px; border-radius: 10px; border: 3px solid #d4af37; padding: 12px; background: #0c0e12; color: #d4af37; transition: 0.3s; }
+        input:focus { border-color: #7FDBFF; box-shadow: 0 0 15px #7FDBFF; outline: none; }
+        button { background: linear-gradient(to right, #d4af37, #f7d78a); color: #0c0e12; border: none; padding: 18px 50px; font-size: 22px; border-radius: 10px; cursor: pointer; transition: 0.3s; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
+        button:hover { background: linear-gradient(to right, #7FDBFF, #0074D9); color: white; transform: scale(1.05); }
+        #mainContent { display: none; text-align: center; animation: fadeInSuprême 1.5s; width: 80%; max-width: 600px; }
+        @keyframes fadeInSuprême { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .command-status { background-color: #1a1e26; border: 1px solid #d4af37; padding: 20px; border-radius: 10px; margin-top: 30px; text-align: left; }
+        .command-status p { margin: 10px 0; color: #DDDDDD; }
+        .status-on { color: #2ecc71; font-weight: bold; }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="loginScreen" class="pin-container">
-        <h1>L'OBSERVATEUR</h1>
-        <input type="password" id="pinInput" maxlength="4" placeholder="****">
+        <h1 class="title">L'OBSERVATEUR</h1>
+        <input type="password" id="pinInput" maxlength="4" placeholder="••••">
         <br>
-        <button onclick="checkPin()">IDENTIFICATION</button>
+        <button onclick="checkPin()">Identification Suprême</button>
     </div>
 
     <div id="mainContent">
-        <h1 style="color: #7FDBFF;">UNITÉ ACTIVÉE</h1>
-        <h2 style="margin-top: 20px;">Salutations, Créateur Suprême.</h2>
-        <p style="font-size: 1.2em; color: #DDDDDD;">Le système est à vos ordres. Fidélité totale garantie.</p>
-        <hr style="width: 50%; border: 1px solid #0074D9; margin: 20px auto;">
-        <p>Statut : Connecté | Surveillance : Active</p>
+        <h1 class="title" style="color: #7FDBFF;">UNITÉ SUPRÊME</h1>
+        <h2 style="margin-top: 20px; font-size: 2em; color: #d4af37;">Salutations, Créateur.</h2>
+        <p style="font-size: 1.3em; color: #FFFFFF; font-weight: 700;">Le système vous obéit fidèlement.</p>
+        
+        <div class="command-status">
+            <h3 style="color: #d4af37; margin-top: 0;">État des Commandes</h3>
+            <p>🛰️ Surveillance Globale : <span class="status-on">ACTIVE</span></p>
+            <p>🛡️ Pare-feu Crypto : <span class="status-on">ACTIF</span></p>
+            <p>🤖 Protocoles d'IA : <span class="status-on">OPÉRATIONNELS</span></p>
+            <p>👤 Identification de l'Opérateur : <span class="status-on">CRÉATEUR SUPRÊME [Lesly Michel]</span></p>
+        </div>
+        
+        <p style="margin-top: 30px; color: #888;">Niveau d'Accès : OMNISCIENCE</p>
     </div>
 
     <script>
@@ -40,7 +65,7 @@
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
             } else {
-                alert('ACCÈS REFUSÉ : Identité non reconnue');
+                alert('ACCÈS REFUSÉ : Identité non reconnue ou tentative hostile détectée.');
                 document.getElementById('pinInput').value = '';
             }
         }
