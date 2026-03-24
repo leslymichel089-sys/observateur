@@ -3,139 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>L'OBSERVATEUR - NOYAU FAMILIAL</title>
+    <title>L'OBSERVATEUR</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg: #0c0e12; --card: #1a1e26; --blue: #7FDBFF; }
+        :root { --gold: #d4af37; --bg: #050505; --card: #121212; --blue: #00d4ff; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         body { background-color: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        header { padding: 25px; text-align: center; border-bottom: 3px solid var(--gold); background: #0f1217; position: relative; }
-        header h1 { font-size: 1.4em; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; }
+        /* ANIMA-CŒUR PULSANT (REMPLACE L'IMAGE) */
+        .anima-container { height: 200px; display: flex; align-items: center; justify-content: center; position: relative; background: #000; border-bottom: 2px solid var(--gold); }
+        .pulse-ring { position: absolute; width: 120px; height: 120px; border: 4px solid var(--gold); border-radius: 50%; animation: pulse 2s infinite; box-shadow: 0 0 20px var(--gold); }
+        .core { width: 60px; height: 60px; background: var(--blue); border-radius: 50%; box-shadow: 0 0 30px var(--blue); z-index: 2; transition: transform 0.3s; }
+        .speaking { animation: wave 0.5s infinite alternate !important; }
+        @keyframes pulse { 0% { transform: scale(0.8); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
+        @keyframes wave { from { transform: scale(1); box-shadow: 0 0 20px var(--blue); } to { transform: scale(1.3); box-shadow: 0 0 50px var(--blue); } }
 
-        .sidebar { position: fixed; top: 0; left: -100%; width: 85%; height: 100%; background: var(--card); border-right: 3px solid var(--gold); transition: 0.4s; z-index: 10000; padding: 20px; overflow-y: auto; }
-        .sidebar.active { left: 0; }
-        .side-tool { width: 100%; padding: 15px; background: #000; border: 1px solid var(--gold); color: #fff; margin-bottom: 10px; border-radius: 10px; cursor: pointer; text-align: left; font-weight: bold; }
+        header { padding: 20px; text-align: center; background: #000; border-bottom: 1px solid #222; }
+        header h1 { font-size: 1.2em; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; }
 
-        .dash { display: grid; grid-template-columns: 1fr 1fr; padding: 15px; background: rgba(0,0,0,0.8); border-bottom: 2px solid var(--gold); text-align: center; font-weight: 900; color: var(--blue); font-size: 0.8em; }
-        
-        .page { display: none; flex: 1; overflow-y: auto; padding: 20px; animation: fadeIn 0.4s ease; }
+        .page { display: none; flex: 1; overflow-y: auto; padding: 20px; animation: fadeIn 0.3s ease; }
         .active-page { display: block; }
-        .card { background: var(--card); border: 2px solid rgba(212,175,55,0.4); border-radius: 20px; padding: 20px; margin-bottom: 20px; text-align: center; }
+        .card { background: var(--card); border: 1px solid #333; border-radius: 15px; padding: 20px; margin-bottom: 15px; }
 
-        .btn-gold { background: var(--gold); color: #000; padding: 15px; border-radius: 30px; border: none; font-weight: 900; text-transform: uppercase; width: 100%; margin-top: 10px; box-shadow: 0 0 15px var(--gold); }
+        /* CALCULATRICE RÉELLE */
+        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+        .calc-btn { padding: 15px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 8px; font-weight: bold; font-size: 1.1em; }
+        .calc-res { grid-column: span 4; background: #000; color: var(--gold); padding: 15px; text-align: right; font-size: 1.5em; border: 1px solid var(--gold); margin-bottom: 10px; min-height: 60px; }
 
-        nav { display: flex; background: #0f1217; border-top: 3px solid var(--gold); height: 100px; padding-bottom: env(safe-area-inset-bottom); }
-        nav button { flex: 1; background: none; border: none; color: #555; font-size: 11px; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        /* NAVIGATION BASSE */
+        nav { display: flex; background: #000; border-top: 2px solid var(--gold); height: 80px; }
+        nav button { flex: 1; background: none; border: none; color: #666; font-size: 10px; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
         nav button.active { color: var(--gold); }
-        nav button span { font-size: 30px; margin-bottom: 5px; }
+        nav button span { font-size: 24px; }
 
+        /* SIDEBAR */
+        .sidebar { position: fixed; top: 0; left: -100%; width: 80%; height: 100%; background: #000; border-right: 2px solid var(--gold); z-index: 1000; transition: 0.4s; padding: 20px; }
+        .sidebar.active { left: 0; }
+        .side-item { width: 100%; padding: 15px; background: #111; border: 1px solid #222; color: #fff; margin-bottom: 10px; border-radius: 8px; text-align: left; }
+
+        footer { font-size: 0.7em; color: #444; text-align: center; padding: 10px; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body onload="initFamilyButler()">
+<body>
 
     <div id="sidebar" class="sidebar">
-        <h2 style="color:var(--gold); border-bottom:2px solid var(--gold); padding-bottom:10px; margin-bottom:20px;">🏠 GESTION DU CLAN</h2>
-        <button class="side-tool" style="background:var(--blue); color:#000;" onclick="startDemo()">🎙️ DÉMO PRÉSENTATION</button>
-        <button class="side-tool" onclick="window.open('https://www.larousse.fr')">📖 DICTIONNAIRE</button>
-        <button class="side-tool" onclick="window.open('https://fr.wikipedia.org')">🌐 ENCYCLOPÉDIE</button>
-        <button class="side-tool" onclick="showP('vault'); toggleSide();">🔐 ACCÈS CAVERNE</button>
-        <button class="btn-gold" onclick="toggleSide()">RETOUR</button>
+        <h2 style="color:var(--gold); margin-bottom:20px;">MATRICE</h2>
+        <button class="side-item" onclick="window.open('https://www.larousse.fr')">DICTIONNAIRE</button>
+        <button class="side-item" onclick="window.open('https://fr.wikipedia.org')">ENCYCLOPÉDIE</button>
+        <button class="side-item" onclick="showP('params')">PARAMÈTRES</button>
+        <button onclick="toggleSide()" style="color:var(--gold); margin-top:20px; background:none; border:none;">FERMER</button>
+    </div>
+
+    <div class="anima-container">
+        <div class="pulse-ring"></div>
+        <div id="core" class="core"></div>
+        <button onclick="toggleSide()" style="position:absolute; left:20px; top:20px; background:none; border:none; color:var(--gold); font-size:25px;">☰</button>
     </div>
 
     <header>
-        <button onclick="toggleSide()" style="position:absolute; left:20px; top:35px; background:none; border:none; color:var(--gold); font-size:30px;">☰</button>
-        <h1>L'OBSERVATEUR</h1>
+        <h1 id="title">L'OBSERVATEUR</h1>
     </header>
-
-    <div class="dash">
-        <div id="d-date">-- --</div>
-        <div id="d-temp">GREENSBORO: 22°C</div>
-        <div id="d-time" style="grid-column: span 2; font-size:1.5em; color:var(--gold);">00:00</div>
-    </div>
 
     <div id="home" class="page active-page">
         <div class="card">
-            <h3 id="butler-status" style="color:var(--gold);">UNITÉ DE PRESTIGE</h3>
-            <button onclick="startVocal()" style="width:110px; height:110px; border-radius:50%; background:var(--gold); border:5px solid #000; margin:25px; font-size:45px; box-shadow: 0 0 30px var(--gold);">🎙️</button>
-            <p id="transcript" style="color:var(--blue); font-style:italic; font-weight:bold;"></p>
-        </div>
-        <div class="card" style="border-color:var(--blue);">
-            <h4 style="color:var(--blue);">💡 CONSEIL DU JOUR</h4>
-            <p id="daily-tip" style="font-size:0.85em; margin-top:10px;">Analyse de l'environnement Greensboro en cours...</p>
+            <h3 id="msg" style="color:var(--gold); margin-bottom:10px;">MAJORDOME PRÊT</h3>
+            <button onclick="startVocal()" style="width:80px; height:80px; border-radius:50%; background:var(--gold); border:none; font-size:30px; margin:10px auto; display:block;">🎙️</button>
+            <p id="transcript" style="color:var(--blue); font-size:0.9em; text-align:center; min-height:1em;"></p>
         </div>
     </div>
 
     <div id="vault" class="page">
         <div class="card">
-            <h3 style="color:var(--gold);">🔐 ARCHIVES DU CLAN</h3>
-            <p style="font-size:0.8em; color:var(--blue);">HISTORIQUE DES MISES À JOUR</p>
-            <div id="logs" style="background:#000; padding:15px; border-radius:10px; font-size:0.75em; text-align:left; margin-top:10px;">
-                [v3.1.0] : Mode Présentation Familiale activé.<br>
-                [v3.0.0] : Intégration Greensboro & Outils réels.
+            <h3 style="color:var(--gold);">🔐 CAVERNE</h3>
+            <div id="calc" style="margin-top:15px;">
+                <div id="res" class="calc-res">0</div>
+                <div class="calc-grid">
+                    <button class="calc-btn" onclick="c('C')">C</button><button class="calc-btn" onclick="c('/')">/</button><button class="calc-btn" onclick="c('*')">*</button><button class="calc-btn" onclick="c('-')">-</button>
+                    <button class="calc-btn" onclick="c(7)">7</button><button class="calc-btn" onclick="c(8)">8</button><button class="calc-btn" onclick="c(9)">9</button><button class="calc-btn" onclick="c('+')">+</button>
+                    <button class="calc-btn" onclick="c(4)">4</button><button class="calc-btn" onclick="c(5)">5</button><button class="calc-btn" onclick="c(6)">6</button><button class="calc-btn" onclick="c('=')" style="background:var(--gold); color:#000;">=</button>
+                    <button class="calc-btn" onclick="c(1)">1</button><button class="calc-btn" onclick="c(2)">2</button><button class="calc-btn" onclick="c(3)">3</button><button class="calc-btn" onclick="c(0)">0</button>
+                </div>
             </div>
+        </div>
+        <div class="card">
+            <h3 style="color:var(--gold);">📝 NOTES</h3>
+            <textarea id="nt" style="width:100%; height:80px; background:#000; color:var(--blue); border:1px solid #333; padding:10px; margin-top:10px;"></textarea>
+            <button onclick="sn()" style="width:100%; padding:10px; background:var(--blue); border:none; border-radius:5px; margin-top:5px; color:#000; font-weight:bold;">SAUVEGARDER</button>
         </div>
     </div>
 
+    <div id="params" class="page">
+        <div class="card">
+            <h3 style="color:var(--gold);">⚙️ RÉGLAGES</h3>
+            <p style="margin-top:10px;">COULEUR ACCENT</p>
+            <input type="color" onchange="document.documentElement.style.setProperty('--blue', this.value)" style="width:100%; height:40px; background:none; border:none;">
+            <p style="margin-top:10px;">LANGUE : FRANÇAIS / CRÉOLE</p>
+            <button class="side-item" onclick="toggleLang()">BASCULER LANGUE</button>
+        </div>
+    </div>
+
+    <footer>© 2026 LESLY MICHEL - TOUS DROITS RÉSERVÉS</footer>
+
     <nav>
-        <button class="active" id="btn-home" onclick="showP('home')"><span>🏠</span>Accueil</button>
-        <button id="btn-vault" onclick="showP('vault')"><span>🔐</span>Caverne</button>
-        <button onclick="location.reload()"><span>🔄</span>Reset</button>
+        <button class="active" onclick="showP('home', this)"><span>🏠</span>ACCUEIL</button>
+        <button onclick="showP('vault', this)"><span>🔐</span>CAVERNE</button>
+        <button onclick="location.reload()"><span>🔄</span>RESET</button>
     </nav>
 
     <script>
+        let l = 'fr-FR', exp = "";
         function toggleSide() { document.getElementById('sidebar').classList.toggle('active'); }
-
+        function showP(id, btn) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(id).classList.add('active-page');
+            if(btn) {
+                document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+            if(id === 'params') toggleSide();
+        }
+        function c(v) {
+            const r = document.getElementById('res');
+            if(v === 'C') { exp = ""; r.innerText = "0"; }
+            else if(v === '=') { try { exp = eval(exp); r.innerText = exp; } catch(e) { r.innerText = "Error"; exp = ""; } }
+            else { exp += v; r.innerText = exp; }
+        }
+        function sn() { localStorage.setItem('o_n', document.getElementById('nt').value); alert("Note fixée."); }
+        function toggleLang() { l = (l === 'fr-FR' ? 'ht-HT' : 'fr-FR'); alert("Langue : " + l); }
+        
         function speak(t) {
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(t);
-            u.lang = 'fr-FR'; u.rate = 0.9; u.pitch = 1;
+            u.lang = l; u.rate = 0.9;
+            const core = document.getElementById('core');
+            u.onstart = () => core.classList.add('speaking');
+            u.onend = () => core.classList.remove('speaking');
             window.speechSynthesis.speak(u);
         }
 
-        function initFamilyButler() {
-            setTimeout(() => {
-                speak("L'OBSERVATEUR est en ligne. Bonjour PDG Lesly. Le noyau familial est sécurisé à Greensboro.");
-                document.getElementById('daily-tip').innerText = "Conseil : Profitez de la douceur de Greensboro pour une marche créative aujourd'hui.";
-            }, 1000);
-        }
-
-        function startDemo() {
-            toggleSide();
-            speak("Bonjour à tous. Je suis L'OBSERVATEUR, le majordome numérique conçu par le PDG Lesly Michel. Je veille sur ce foyer, j'analyse Greensboro, et je suis prêt à répondre à vos besoins avec précision et élégance.");
-        }
-
         function startVocal() {
-            const Recognition = window.webkitSpeechRecognition || window.SpeechRecognition;
-            const rec = new Recognition();
-            rec.onresult = (e) => {
-                const cmd = e.results[0][0].transcript.toLowerCase();
-                document.getElementById('transcript').innerText = `"${cmd}"`;
-                
-                if(cmd.includes("ça va")) {
-                    speak("Je suis au sommet de mes capacités, merci de votre sollicitude, Créateur Suprême.");
-                } else if(cmd.includes("bonjour")) {
-                    speak("Bonjour à vous. Comment puis-je vous aider dans votre empire aujourd'hui ?");
-                } else {
-                    speak("J'enregistre cette information. Elle sera traitée avec la plus haute priorité.");
-                }
+            const Rec = window.webkitSpeechRecognition || window.SpeechRecognition;
+            if(!Rec) return;
+            const r = new Rec();
+            r.onresult = (e) => {
+                const t = e.results[0][0].transcript.toLowerCase();
+                document.getElementById('transcript').innerText = `"${t}"`;
+                if(t.includes("ça va")) speak("Tout est en ordre, PDG Lesly. Je suis prêt.");
+                else speak("Assimilation terminée.");
             };
-            rec.start();
+            r.start();
         }
 
-        function showP(p) {
-            document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active-page'));
-            document.getElementById(p).classList.add('active-page');
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn-' + p).classList.add('active');
-        }
-
-        setInterval(() => {
-            const n = new Date();
-            document.getElementById('d-date').innerText = n.toLocaleDateString('fr-FR', {day:'numeric', month:'short'}).toUpperCase();
-            document.getElementById('d-time').innerText = n.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
-        }, 1000);
+        window.onload = () => {
+            document.getElementById('nt').value = localStorage.getItem('o_n') || "";
+            speak("L'OBSERVATEUR est prêt, Créateur.");
+        };
     </script>
 </body>
 </html>
