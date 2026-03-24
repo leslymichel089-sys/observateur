@@ -3,102 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>L'OBSERVATEUR - NOYAU OMNISCIENT</title>
+    <title>L'OBSERVATEUR - SYSTÈME SUPRÊME</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg: #0c0e12; --card: #1a1e26; --blue: #7FDBFF; }
+        :root { --gold: #d4af37; --bg: #0c0e12; --card: #1a1e26; --blue: #7FDBFF; --plasma: rgba(127, 219, 255, 0.5); }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        header { padding: 25px; text-align: center; border-bottom: 2px solid var(--gold); background: #0f1217; position: relative; }
-        header h1 { margin: 0; font-size: 1.4em; letter-spacing: 5px; color: var(--gold); }
-        .creator-tag { color: var(--blue); font-size: 0.7em; font-weight: bold; margin-top: 5px; text-transform: uppercase; }
+        /* ANIMA-CŒUR RESTAURÉ */
+        .plasma-ring { position: absolute; border-radius: 50%; border: 3px solid transparent; border-top-color: var(--blue); border-bottom-color: var(--gold); animation: spin 2s linear infinite; box-shadow: 0 0 30px var(--plasma); }
+        @keyframes spin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        .page { display: none; flex: 1; overflow-y: auto; padding: 25px; animation: fadeIn 0.3s ease; }
+        header { padding: 35px 20px; text-align: center; border-bottom: 2px solid var(--gold); background: #0f1217; position: relative; }
+        header h1 { margin: 0; font-size: 1.6em; letter-spacing: 6px; color: var(--gold); position: relative; z-index: 10; text-transform: uppercase; }
+        .creator-tag { color: var(--blue); font-size: 0.85em; font-weight: bold; margin-top: 8px; letter-spacing: 2px; }
+
+        .dashboard-info { display: flex; justify-content: space-between; padding: 12px 20px; background: rgba(0,0,0,0.6); font-size: 0.75em; color: var(--blue); border-bottom: 1px solid rgba(212,175,55,0.2); }
+
+        .page { display: none; flex: 1; overflow-y: auto; padding: 25px; animation: fadeIn 0.4s ease; }
         .active-page { display: block; }
-        .card { background: var(--card); border: 2px solid var(--gold); border-radius: 25px; padding: 30px; margin-bottom: 20px; text-align: center; }
+        .card { background: var(--card); border: 2px solid rgba(212,175,55,0.2); border-radius: 25px; padding: 30px; margin-bottom: 20px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.7); }
 
         /* BOUTON MICROPHONE MAJEUR */
-        .mic-btn { width: 120px; height: 120px; border-radius: 50%; background: var(--gold); border: 4px solid #000; font-size: 50px; cursor: pointer; margin: 20px auto; display: block; }
+        .mic-btn { width: 110px; height: 110px; border-radius: 50%; background: var(--gold); border: 4px solid #000; font-size: 45px; cursor: pointer; margin: 15px auto; display: block; box-shadow: 0 0 20px var(--gold); }
         .listening { background: #ff4d4d !important; animation: pulse 1s infinite; box-shadow: 0 0 40px #ff4d4d; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
 
-        #transcript { margin-top: 20px; font-weight: 900; color: var(--blue); font-size: 1.1em; min-height: 1.5em; text-transform: uppercase; }
+        #transcript { margin-top: 15px; font-weight: 900; color: var(--blue); font-size: 1.1em; text-transform: uppercase; min-height: 1.5em; }
 
-        nav { display: flex; background: #0f1217; border-top: 3px solid var(--gold); height: 115px; }
-        nav button { flex: 1; background: none; border: none; color: #555; font-size: 14px; font-weight: 900; }
+        /* NAVIGATION GÉANTE RESTAURÉE */
+        nav { display: flex; background: #0f1217; border-top: 3px solid var(--gold); height: 115px; padding-bottom: env(safe-area-inset-bottom); }
+        nav button { flex: 1; background: none; border: none; color: #555; font-size: 13px; font-weight: 900; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
         nav button.active { color: var(--gold); }
-        nav button span { font-size: 35px; display: block; }
+        nav button span { font-size: 32px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <header>
+        <div class="plasma-ring" style="width:140px; height:140px; top:50%; left:50%;"></div>
         <h1>L'OBSERVATEUR</h1>
         <div class="creator-tag">Lesly Michel [Créateur Suprême]</div>
     </header>
 
+    <div class="dashboard-info">
+        <div id="dateNow">Date</div>
+        <div id="timeNow">00:00</div>
+        <div id="tempNow">☀️ Greensboro: 22°C</div>
+    </div>
+
     <div id="home" class="page active-page">
         <div class="card">
-            <h3 id="status">SYSTÈME PRÊT</h3>
+            <h3 id="statusMsg">NOYAU VOCAL PRÊT</h3>
             <button id="micBtn" class="mic-btn" onclick="startVocal()">🎙️</button>
-            <div id="transcript">Appuyez pour parler au noyau</div>
+            <div id="transcript">Dites "Bonjour" ou demandez l'heure</div>
+        </div>
+        <div class="card" onclick="speak('Météo à Greensboro : Ciel dégagé, 22 degrés Celsius.')">
+            <h3>☀️ MÉTÉO NC</h3>
+            <p>Greensboro : Ensoleillé, 22°C</p>
         </div>
     </div>
 
     <div id="academy" class="page">
         <div class="card">
-            <h3>📖 ENCYCLOPÉDIE</h3>
-            <input type="text" id="wikiIn" style="width:100%; padding:20px; border-radius:15px; border:2px solid var(--blue); background:#000; color:#fff; font-size:18px;" placeholder="Posez votre question...">
-            <button onclick="manualSearch()" style="width:100%; background:var(--gold); padding:20px; border:none; border-radius:15px; margin-top:15px; font-weight:900;">INTERROGER</button>
+            <h3>📖 ARCHIVES & SAVOIR</h3>
+            <input type="text" id="wikiIn" style="width:100%; padding:20px; border-radius:15px; border:2px solid var(--blue); background:#000; color:#fff; font-size:18px;" placeholder="Question sur Haïti, Bangkok...">
+            <button onclick="processCommand(document.getElementById('wikiIn').value)" style="width:100%; background:var(--gold); padding:20px; border:none; border-radius:15px; margin-top:15px; font-weight:900;">INTERROGER</button>
+        </div>
+    </div>
+
+    <div id="vault" class="page">
+        <div class="card">
+            <h3 style="color:var(--blue);">🔐 LA CAVERNE SECRÈTE</h3>
+            <p>Accès restreint au Créateur Suprême.</p>
+            <textarea style="width:100%; height:150px; background:#000; color:var(--gold); border:1px solid var(--gold); border-radius:10px; padding:10px;" placeholder="Notes confidentielles..."></textarea>
         </div>
     </div>
 
     <nav>
-        <button class="active" onclick="showPage('home')"><span>🏠</span>Accueil</button>
-        <button onclick="showPage('academy')"><span>📚</span>Savoir</button>
+        <button class="active" id="nav-home" onclick="showPage('home')"><span>🏠</span>Accueil</button>
+        <button id="nav-academy" onclick="showPage('academy')"><span>📚</span>Savoir</button>
+        <button id="nav-vault" onclick="showPage('vault')"><span>🔐</span>Caverne</button>
         <button onclick="location.reload()"><span>🔄</span>Reset</button>
     </nav>
 
     <script>
-        let userLang = 'fr-FR';
+        let uLang = 'fr-FR';
         const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const rec = new Recognition();
-        rec.lang = userLang;
+        rec.lang = uLang;
 
         function speak(t) {
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(t);
-            u.lang = userLang;
-            u.rate = (userLang === 'ht-HT') ? 0.75 : 0.95;
+            u.lang = uLang;
+            u.rate = (uLang === 'ht-HT') ? 0.8 : 0.95;
             window.speechSynthesis.speak(u);
         }
 
         function processCommand(cmd) {
+            cmd = cmd.toLowerCase();
             const now = new Date();
-            // LOGIQUE DE RÉPONSE IMMÉDIATE
-            if (cmd.includes("heure")) {
+
+            if (cmd.includes("heure") || cmd.includes("lè")) {
                 const time = now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'});
-                speak(userLang === 'ht-HT' ? `Li fè ${time} nan Greensboro.` : `Il est exactement ${time}.`);
+                speak(uLang === 'ht-HT' ? `Li fè ${time}.` : `Il est exactement ${time}.`);
             } 
+            else if (cmd.includes("météo") || cmd.includes("temps") || cmd.includes("tan")) {
+                speak(uLang === 'ht-HT' ? "Nan Greensboro, syèl la bèl, li fè 22 degre." : "À Greensboro, le ciel est dégagé et il fait 22 degrés Celsius.");
+            }
             else if (cmd.includes("haïti") || cmd.includes("ayiti")) {
-                const resp = "La capitale d'Haïti est Port-au-Prince.";
-                speak(userLang === 'ht-HT' ? "Chèf lye peyi Dayiti se Pòtoprens." : resp);
+                speak(uLang === 'ht-HT' ? "Chèf lye peyi Dayiti se Pòtoprens. Li te pran endepandans li an 1804." : "La capitale d'Haïti est Port-au-Prince. Indépendance : 1er janvier 1804.");
             }
             else if (cmd.includes("bangkok")) {
-                speak("La capitale de la Thaïlande est Bangkok.");
+                speak("Bangkok est la capitale de la Thaïlande.");
             }
             else if (cmd.includes("kreyòl")) {
-                userLang = 'ht-HT'; rec.lang = 'ht-HT';
-                speak("Respe Créateur. Mwen pale kreyòl kounye a.");
+                uLang = 'ht-HT'; rec.lang = 'ht-HT';
+                speak("Respe kreyòl. Mwen pare.");
             }
             else {
-                speak(userLang === 'ht-HT' ? "Mwen tande ou, men m ap chache repons lan." : "J'ai entendu votre demande, Créateur.");
+                speak(uLang === 'ht-HT' ? "Mwen tande sa ou di a, m ap analize li." : "J'ai bien entendu, Créateur.");
             }
         }
 
         function startVocal() {
-            speak(""); // Wake up audio
+            speak(""); 
             try { rec.start(); document.getElementById('micBtn').classList.add('listening'); } catch(e) { rec.stop(); }
         }
 
@@ -108,17 +140,20 @@
             processCommand(result);
         };
 
-        rec.onend = () => { document.getElementById('micBtn').classList.remove('listening'); };
-
-        function manualSearch() {
-            const q = document.getElementById('wikiIn').value.toLowerCase();
-            processCommand(q);
-        }
+        rec.onend = () => document.getElementById('micBtn').classList.remove('listening');
 
         function showPage(p) {
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active-page'));
             document.getElementById(p).classList.add('active-page');
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById('nav-' + p).classList.add('active');
         }
+
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('dateNow').innerText = now.toLocaleDateString('fr-FR', {day:'numeric', month:'long'});
+            document.getElementById('timeNow').innerText = now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'});
+        }, 1000);
     </script>
 </body>
 </html>
