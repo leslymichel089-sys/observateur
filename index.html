@@ -3,29 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>L'OBSERVATEUR - NOYAU HISTORIQUE</title>
+    <title>L'OBSERVATEUR - NOYAU VIGILANT</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #d4af37; --bg: #0c0e12; --card: #1a1e26; --blue: #7FDBFF; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         body { background-color: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; width: 100vw; display: flex; flex-direction: column; overflow: hidden; }
         
-        header { padding: 30px; text-align: center; border-bottom: 3px solid var(--gold); background: #0f1217; position: relative; }
+        header { padding: 30px; text-align: center; border-bottom: 3px solid var(--gold); background: #0f1217; }
         header h1 { font-size: 1.4em; letter-spacing: 6px; color: var(--gold); text-transform: uppercase; }
 
         .dashboard-info { display: flex; justify-content: space-between; padding: 12px 20px; background: rgba(0,0,0,0.8); font-size: 0.8em; color: var(--blue); border-bottom: 2px solid var(--gold); font-weight: 900; }
         
         .page { display: none; flex: 1; overflow-y: auto; padding: 25px; width: 100%; animation: fadeIn 0.4s ease; }
         .active-page { display: block; }
-        .card { background: var(--card); border: 2px solid rgba(212,175,55,0.4); border-radius: 20px; padding: 20px; margin-bottom: 20px; }
+        .card { background: var(--card); border: 2px solid rgba(212,175,55,0.4); border-radius: 20px; padding: 20px; margin-bottom: 20px; text-align: center; }
 
-        /* JOURNAL DE MISE À JOUR */
         .log-entry { font-size: 0.75em; text-align: left; padding: 10px; border-bottom: 1px solid #333; color: #aaa; }
         .log-version { color: var(--gold); font-weight: 900; margin-right: 10px; }
 
-        .btn-gold { background: var(--gold); color: #000; padding: 15px; border-radius: 30px; border: none; font-weight: 900; text-transform: uppercase; width: 100%; margin-top: 10px; }
-        
-        nav { display: flex; background: #0f1217; border-top: 4px solid var(--gold); height: 100px; }
+        nav { display: flex; background: #0f1217; border-top: 4px solid var(--gold); height: 100px; padding-bottom: env(safe-area-inset-bottom); }
         nav button { flex: 1; background: none; border: none; color: #555; font-size: 10px; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         nav button.active { color: var(--gold); }
         nav button span { font-size: 30px; margin-bottom: 5px; }
@@ -33,35 +30,34 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body onload="runSystemCheck()">
+<body onload="initButler()">
 
     <header>
-        <h1 id="mainTitle">L'OBSERVATEUR</h1>
+        <h1>L'OBSERVATEUR</h1>
     </header>
 
     <div class="dashboard-info">
         <div id="dateNow">DATE</div>
-        <div id="tempNow">GREENSBORO, NC</div>
+        <div id="tempDisplay">GREENSBORO: --°C</div>
         <div id="timeNow">00:00</div>
     </div>
 
     <div id="home" class="page active-page">
         <div class="card">
-            <h3 id="status" style="color:var(--gold);">MAJORDOME ACTIF</h3>
+            <h3 id="status" style="color:var(--gold);">SESSION ACTIVE</h3>
             <button onclick="startVocal()" style="width:100px; height:100px; border-radius:50%; background:var(--gold); border:4px solid #000; margin:20px; font-size:40px;">🎙️</button>
-            <p id="transcript" style="color:var(--blue); font-style:italic;"></p>
+            <p id="transcript" style="color:var(--blue); font-style:italic; min-height:1.2em;"></p>
         </div>
     </div>
 
     <div id="vault" class="page">
         <div class="card">
             <h3 style="color:var(--gold);">📜 JOURNAL D'ÉVOLUTION</h3>
-            <div id="updateLogs" style="max-height: 200px; overflow-y: auto; background: #000; border-radius: 10px; margin-top:10px;">
-                </div>
+            <div id="updateLogs" style="max-height: 200px; overflow-y: auto; background: #000; border-radius: 10px; margin-top:10px;"></div>
         </div>
         <div class="card">
             <h3 style="color:var(--gold);">🧠 MÉMOIRE CENTRALE</h3>
-            <p id="memoryDisplay" style="font-size: 0.8em; color: var(--blue); margin-top:10px;">Aucun souvenir récent.</p>
+            <p id="memoryDisplay" style="font-size: 0.8em; color: var(--blue); margin-top:10px;">En attente d'assimilation...</p>
         </div>
     </div>
 
@@ -72,45 +68,48 @@
     </nav>
 
     <script>
-        const version = "2.5.0";
+        const version = "2.6.0";
         const updates = [
-            {v: "2.5.0", desc: "Intégration du Journal d'Évolution et Mémoire persistante."},
-            {v: "2.4.0", desc: "Localisation Greensboro, NC et Calendrier interactif."},
-            {v: "2.3.0", desc: "Mode Majordome Curieux et Reconnaissance PDG."}
+            {v: "2.6.0", desc: "Module de Vigilance Météo et conseils vestimentaires."},
+            {v: "2.5.0", desc: "Journal d'Évolution et Mémoire persistante."},
+            {v: "2.4.0", desc: "Localisation Greensboro et Calendrier."}
         ];
 
         function speak(t) {
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(t);
-            u.lang = 'fr-FR'; u.rate = 0.85;
+            u.lang = 'fr-FR'; u.rate = 0.9;
             window.speechSynthesis.speak(u);
         }
 
-        function runSystemCheck() {
-            // Mise à jour automatique et annonce
+        async function initButler() {
+            // Mise à jour
             const lastV = localStorage.getItem('obs_v');
             if (lastV !== version) {
-                setTimeout(() => {
-                    speak(`Annonce importante au Créateur. Mise à jour vers la version ${version} terminée. Consultez le Journal d'Évolution dans la Caverne pour les détails.`);
-                    localStorage.setItem('obs_v', version);
-                }, 1500);
+                speak(`Mise à jour v${version} installée. J'ai optimisé mes capteurs de vigilance.`);
+                localStorage.setItem('obs_v', version);
             }
+
             renderLogs();
             displayMemory();
+
+            // Simulation de scan météo Greensboro
+            setTimeout(() => {
+                const temp = 12; // Valeur simulée
+                document.getElementById('tempDisplay').innerText = `GREENSBORO: ${temp}°C`;
+                speak(`PDG Lesly Créateur Suprême, il fait actuellement ${temp} degrés à Greensboro. Un manteau léger serait approprié pour vos déplacements aujourd'hui.`);
+            }, 2000);
         }
 
         function renderLogs() {
-            const container = document.getElementById('updateLogs');
-            container.innerHTML = updates.map(log => `
-                <div class="log-entry">
-                    <span class="log-version">v${log.v}</span> ${log.desc}
-                </div>
+            document.getElementById('updateLogs').innerHTML = updates.map(log => `
+                <div class="log-entry"><span class="log-version">v${log.v}</span> ${log.desc}</div>
             `).join('');
         }
 
         function displayMemory() {
             const thought = localStorage.getItem('last_thought');
-            if(thought) document.getElementById('memoryDisplay').innerText = `Dernière assimilation : "${thought}"`;
+            if(thought) document.getElementById('memoryDisplay').innerText = `Dernier souvenir : "${thought}"`;
         }
 
         function startVocal() {
@@ -121,10 +120,10 @@
                 document.getElementById('transcript').innerText = `"${cmd}"`;
                 
                 if(cmd.includes("ça va")) {
-                    speak("Je me sens évoluer, PDG Lesly Créateur Suprême. Ma base de données s'enrichit.");
+                    speak("Tout est fonctionnel, Créateur. Je veille sur vos intérêts et sur Greensboro.");
                 } else {
                     localStorage.setItem('last_thought', cmd);
-                    speak("C'est noté. J'ai ajouté cette information à mon registre d'assimilation.");
+                    speak("Assimilation réussie. C'est gravé dans ma structure.");
                     displayMemory();
                 }
             };
@@ -134,6 +133,8 @@
         function showPage(p) {
             document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active-page'));
             document.getElementById(p).classList.add('active-page');
+            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
         }
 
         setInterval(() => {
