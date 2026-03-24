@@ -2,308 +2,132 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>L'OBSERVATEUR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>L'OBSERVATEUR V4.2</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='black' stroke='%23d4af37' stroke-width='5'/><text x='50%25' y='55%25' text-anchor='middle' fill='%23d4af37' font-family='Arial' font-size='40' font-weight='900'>O</text></svg>">
-    <link rel="manifest" href="manifest.json?v=Sésame_Final">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="manifest" href="manifest.json">
     <style>
-        :root { --gold: #d4af37; --bg: #000; --card: #111; --blue: #00d4ff; --urgency: #f00; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; outline: none; }
+        :root { --gold: #d4af37; --bg: #000; --card: #111; --blue: #00d4ff; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         body { background: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-        /* VERROUILLAGE SÉCURISÉ SUPRÊME */
-        #lock-screen { position: fixed; inset: 0; background: #000; z-index: 100000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; }
-        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 25px; }
-        .key { width: 75px; height: 75px; border: 1px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8em; font-weight: 900; color: var(--gold); cursor: pointer; transition: 0.2s; }
-        .key:active { background: var(--gold); color: #000; transform: scale(0.9); }
+        header { padding: 25px; text-align: center; border-bottom: 2px solid var(--gold); background: #000; position: relative; }
+        .date-xl { font-size: 1.3em; color: var(--gold); font-weight: 900; text-transform: uppercase; }
+        .time-xl { font-size: 1.8em; color: var(--blue); font-weight: 900; margin-top: 5px; }
 
-        /* DASHBOARD PRESTIGE XL */
-        header { padding: 30px 20px; text-align: center; border-bottom: 3px solid var(--gold); background: #000; position: relative; }
-        .status-bar { display: flex; justify-content: space-between; padding: 8px 20px; font-size: 0.8em; color: var(--blue); border-bottom: 1px solid #222; font-weight: 900; }
-        .date-xl { font-size: 1.6em; color: var(--gold); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
-
-        /* ANIMA-CŒUR SUPRÊME (PULSATION RÉELLE) */
-        .anima-box { height: 200px; display: flex; align-items: center; justify-content: center; position: relative; background: radial-gradient(circle, #1a1a1a 0%, #000 100%); }
-        .orb { width: 100px; height: 100px; background: var(--blue); border-radius: 50%; box-shadow: 0 0 50px var(--blue); transition: 0.3s; animation: breathe 3s infinite ease-in-out; }
-        .orb.active { animation: vibrate 0.1s infinite !important; background: var(--gold); box-shadow: 0 0 70px var(--gold); }
-        @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.15); opacity: 1; } }
-        @keyframes vibrate { from { transform: translate(2px, 2px); } to { transform: translate(-2px, -2px); } }
-
-        /* SIDEBAR & PAGES MONOLITHIQUES */
-        .sidebar { position: fixed; top: 0; left: -100%; width: 85%; height: 100%; background: #000; border-right: 3px solid var(--gold); transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 50000; padding: 40px 20px; overflow-y: auto; }
+        .sidebar { position: fixed; top: 0; left: -100%; width: 85%; height: 100%; background: #000; border-right: 3px solid var(--gold); transition: 0.4s; z-index: 50000; padding: 30px; overflow-y: auto; }
         .sidebar.on { left: 0; }
-        .side-btn { width: 100%; padding: 18px; background: #111; border: 1px solid var(--gold); color: #fff; margin-bottom: 12px; border-radius: 12px; cursor: pointer; text-align: left; font-weight: 900; display: flex; align-items: center; font-size: 0.9em; }
-        .side-btn span { margin-right: 15px; font-size: 1.2em; }
+        .side-btn { width: 100%; padding: 15px; background: #111; border: 1px solid var(--gold); color: #fff; margin-bottom: 10px; border-radius: 10px; cursor: pointer; text-align: left; font-weight: 900; }
 
-        .page { display: none; flex: 1; overflow-y: auto; padding: 20px; animation: slideUp 0.4s ease-out; }
+        .page { display: none; flex: 1; overflow-y: auto; padding: 20px; }
         .active-page { display: block; }
-        .card { background: var(--card); border: 1px solid #333; border-radius: 20px; padding: 25px; margin-bottom: 15px; text-align: center; }
+        .card { background: var(--card); border: 1px solid #333; border-radius: 20px; padding: 20px; margin-bottom: 15px; text-align: center; }
 
-        /* CALCULATRICE RÉELLE */
-        .c-res { background: #000; color: var(--gold); padding: 20px; text-align: right; font-size: 2em; border: 1px solid var(--gold); border-radius: 12px; margin-bottom: 15px; min-height: 70px; font-weight: 900; }
-        .c-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-        .c-btn { padding: 20px; background: #222; border: 1px solid #444; color: #fff; border-radius: 10px; font-weight: 900; font-size: 1.2em; cursor: pointer; }
-        .c-btn:active { background: #333; }
-
-        /* MULTIMÉDIA & DOCUMENTS */
-        #preview-box { width: 100%; border: 2px solid var(--gold); border-radius: 15px; margin-top: 15px; display: none; background: #000; overflow: hidden; }
-        video, iframe { width: 100%; height: 350px; background: #000; }
-
-        /* NAVIGATION SOUVERAINE */
-        nav { display: flex; background: #000; border-top: 3px solid var(--gold); height: 100px; padding-bottom: 20px; }
-        nav button { flex: 1; background: none; border: none; color: #444; font-size: 11px; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s; }
+        input, select { width: 100%; padding: 12px; background: #000; border: 1px solid var(--gold); color: #fff; border-radius: 8px; margin-bottom: 10px; }
+        
+        nav { display: flex; background: #000; border-top: 2px solid var(--gold); height: 85px; padding-bottom: 10px; }
+        nav button { flex: 1; background: none; border: none; color: #444; font-size: 11px; font-weight: 900; }
         nav button.sel { color: var(--gold); }
-        nav button span { font-size: 28px; margin-bottom: 5px; }
-
-        footer { padding: 15px; text-align: center; font-size: 0.75em; color: #333; font-weight: 900; border-top: 1px solid #111; }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        #lock-screen { position: fixed; inset: 0; background: #000; z-index: 100000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; }
     </style>
 </head>
 <body onload="init()">
 
     <div id="lock-screen">
-        <div style="width:80px; height:80px; border:3px solid var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:20px; box-shadow: 0 0 20px var(--gold);">
-            <span style="color:var(--gold); font-size:40px; font-weight:900;">O</span>
-        </div>
-        <h1 style="color:var(--gold); margin-bottom:10px; letter-spacing:5px; text-transform:uppercase;">L'OBSERVATEUR</h1>
-        <p id="lock-msg" style="color:#666; font-size:0.85em; margin-bottom:25px;">IDENTIFICATION REQUISE POUR ACCÈS AU NOYAU</p>
-        <div id="pin-display" style="font-size:3em; color:var(--blue); letter-spacing:15px; height:50px; font-weight:900;"></div>
-        <div class="keypad">
-            <div class="key" onclick="press(1)">1</div><div class="key" onclick="press(2)">2</div><div class="key" onclick="press(3)">3</div>
-            <div class="key" onclick="press(4)">4</div><div class="key" onclick="press(5)">5</div><div class="key" onclick="press(6)">6</div>
-            <div class="key" onclick="press(7)">7</div><div class="key" onclick="press(8)">8</div><div class="key" onclick="press(9)">9</div>
-            <div class="key" onclick="press('C')" style="color:var(--urgency); border-color:var(--urgency);">X</div><div class="key" onclick="press(0)">0</div><div class="key" onclick="validatePin()" style="color:#0f0; border-color:#0f0;">OK</div>
-        </div>
-        <button onclick="guestAccess()" style="margin-top:30px; background:none; border:none; color:#444; text-decoration:underline; font-size:0.8em;">AUTRE UTILISATEUR ?</button>
+        <h1 style="color:var(--gold); margin-bottom:20px; letter-spacing:5px;">L'OBSERVATEUR</h1>
+        <input type="password" id="pin" placeholder="CODE 1575" style="text-align:center; font-size:1.5em; letter-spacing:10px;">
+        <button onclick="checkAccess()" style="background:var(--gold); padding:15px 40px; border-radius:30px; border:none; font-weight:900; width:100%; max-width:250px;">ACCÉDER</button>
     </div>
 
     <div id="side" class="sidebar">
-        <h2 style="color:var(--gold); margin-bottom:30px; border-bottom:1px solid var(--gold); padding-bottom:10px; letter-spacing:2px;">CONTRÔLE TOTAL</h2>
-        <button class="side-btn" onclick="cleanSystem()"><span>🧹</span>NETTOYAGE RAM & CACHE PROFONDE</button>
-        <button class="side-btn" onclick="generateCV()"><span>📄</span>PRÉPARER CV DE PRESTIGE (PDF)</button>
-        <button class="side-btn" onclick="showP('family'); toggleS();"><span>👥</span>MEMBRES FAMILLE (PRIORITÉ)</button>
-        <button class="side-btn" onclick="showP('config'); toggleS();"><span>⚙️</span>PARAMÈTRES INTERFACE & LANGUE</button>
-        <button class="side-btn" onclick="window.open('https://www.larousse.fr')"><span>📖</span>DICTIONNAIRE LAROUSSE</button>
-        <button class="side-btn" onclick="window.open('https://fr.wikipedia.org')"><span>🌐</span>ENCYCLOPÉDIE WIKIPÉDIA</button>
-        <button class="side-btn" style="background:var(--gold); color:#000; font-weight:900; justify-content:center; margin-top:25px;" onclick="toggleS()">RETOUR AU NOYAU</button>
+        <h2 style="color:var(--gold); margin-bottom:20px; border-bottom:1px solid var(--gold);">UNITÉ DE CONTRÔLE</h2>
+        <p style="font-size:0.8em; color:var(--blue); margin-bottom:5px;">LANGUE SYSTÈME</p>
+        <select id="lang-sel" onchange="setLang()">
+            <option value="fr-FR">Français</option>
+            <option value="ht-HT">Kreyòl Ayisyen</option>
+        </select>
+        <button class="side-btn" onclick="showP('family'); toggleS();">👥 MEMBRES FAMILLE</button>
+        <button class="side-btn" onclick="toggleS()" style="background:var(--gold); color:#000; text-align:center;">FERMER</button>
     </div>
 
-    <div class="status-bar">
-        <span id="ram-stat">RAM: 98% LIBRE</span>
-        <span id="loc-stat">GREENSBORO, NC</span>
-    </div>
-
-    <header onclick="checkPanic()">
-        <button onclick="toggleS()" style="position:absolute; left:20px; top:35px; background:none; border:none; color:var(--gold); font-size:35px;">☰</button>
-        <div id="xl-date" class="date-xl">CHARGEMENT...</div>
-        <div id="xl-time" style="font-size:1.3em; color:var(--blue); font-weight:900; margin-top:5px;">00:00</div>
-        <div id="xl-weather" style="font-size:0.9em; color:var(--blue); font-weight:700; margin-top:5px;">MÉTÉO : 22°C - DÉGAGÉ</div>
+    <header>
+        <button onclick="toggleS()" style="position:absolute; left:20px; top:35px; background:none; border:none; color:var(--gold); font-size:30px;">☰</button>
+        <div id="xl-date" class="date-xl">MARS 2026</div>
+        <div id="xl-time" class="time-xl">00:00:00 AM</div>
     </header>
 
     <div id="home" class="page active-page">
-        <div class="anima-box"><div id="orb" class="orb breathing"></div></div>
         <div class="card">
-            <h3 id="user-greet" style="color:var(--gold); margin-bottom:15px; text-transform:uppercase;">SESSION SOUVERAINE</h3>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:15px;">
-                <button class="side-btn" onclick="document.getElementById('fileIn').click()" style="justify-content:center; background:var(--blue); color:#000;">📂 GALERIE</button>
-                <button class="side-btn" onclick="openIncognito()" style="justify-content:center; background:var(--gold); color:#000;">🌐 WEB PRIVÉ</button>
-            </div>
-            <input type="file" id="fileIn" style="display:none;" accept="video/*,audio/*,image/*" onchange="loadMedia(event)">
-            
-            <div id="preview-box">
-                <video id="v-player" controls></video>
-                <iframe id="w-frame"></iframe>
-            </div>
-
-            <button onclick="startListening()" style="width:100px; height:100px; border-radius:50%; background:var(--gold); border:none; font-size:45px; box-shadow: 0 0 30px var(--gold); margin-top:20px; cursor:pointer;">🎙️</button>
-            <p id="tx-out" style="color:var(--blue); font-style:italic; font-weight:900; margin-top:15px; min-height:1.2em;"></p>
-        </div>
-    </div>
-
-    <div id="vault" class="page">
-        <div class="card">
-            <h3 style="color:var(--gold); margin-bottom:20px;">🧮 CALCULATRICE DE HAUTE PRÉCISION</h3>
-            <div id="c-res" class="c-res">0</div>
-            <div class="c-grid">
-                <button class="c-btn" onclick="k('C')" style="color:var(--urgency);">C</button><button class="c-btn" onclick="k('/')">/</button><button class="c-btn" onclick="k('*')">*</button><button class="c-btn" onclick="k('-')">-</button>
-                <button class="c-btn" onclick="k(7)">7</button><button class="c-btn" onclick="k(8)">8</button><button class="c-btn" onclick="k(9)">9</button><button class="c-btn" onclick="k('+')">+</button>
-                <button class="c-btn" onclick="k(4)">4</button><button class="c-btn" onclick="k(5)">5</button><button class="c-btn" onclick="k(6)">6</button><button class="c-btn" onclick="k('=')" style="background:var(--gold); color:#000;">=</button>
-                <button class="c-btn" onclick="k(1)">1</button><button class="c-btn" onclick="k(2)">2</button><button class="c-btn" onclick="k(3)">3</button><button class="c-btn" onclick="k(0)">0</button>
-            </div>
-        </div>
-        <div class="card">
-            <h3 style="color:var(--gold);">📝 BLOC-NOTES SÉCURISÉ</h3>
-            <textarea id="notes-db" style="width:100%; height:150px; background:#000; color:var(--blue); border:1px solid #333; padding:15px; border-radius:12px; margin-top:15px; font-weight:700; resize:none;" placeholder="Écrivez vos notes souveraines ici..."></textarea>
-            <button onclick="saveNotes()" style="width:100%; padding:18px; background:var(--gold); border:none; font-weight:900; margin-top:15px; border-radius:12px; cursor:pointer; color:#000;">ARCHIVER LA NOTE</button>
-        </div>
-    </div>
-
-    <div id="config" class="page">
-        <div class="card">
-            <h3 style="color:var(--gold);">⚙️ CONFIGURATION</h3>
-            <p style="margin-top:25px; font-size:0.85em; color:var(--blue); font-weight:700;">COULEUR D'ACCENT DE L'INTERFACE</p>
-            <input type="color" onchange="document.documentElement.style.setProperty('--blue', this.value)" style="width:100%; height:60px; background:none; border:none; cursor:pointer; margin-top:10px;">
-            <p style="margin-top:25px; font-size:0.85em; color:var(--blue); font-weight:700;">RÉINITIALISATION TOTALE</p>
-            <button class="side-btn" onclick="localStorage.clear(); location.reload();" style="text-align:center; justify-content:center; background:var(--urgency); border-color:var(--urgency); margin-top:10px;">EFFACER TOUTES LES DONNÉES</button>
+            <h3 style="color:var(--gold);">BIENVENUE PDG LESLY</h3>
+            <p style="margin-top:10px; font-style:italic; color:#888;">Système opérationnel à Greensboro, NC.</p>
         </div>
     </div>
 
     <div id="family" class="page">
         <div class="card">
-            <h3 style="color:var(--gold);">💎 UNITÉ FAMILIALE DE PRESTIGE</h3>
-            <div id="family-list" style="text-align:left; margin-top:25px; font-weight:700;">
-                <p style="padding:15px; border-bottom:1px solid #222;">🛡️ Guerda Michel (Épouse - Priorité Absolue)</p>
-                <p style="padding:15px; border-bottom:1px solid #222;">🛡️ Esterlande Michel (Fille - Priorité Absolue)</p>
+            <h3 style="color:var(--gold); margin-bottom:15px;">UNITÉ FAMILIALE</h3>
+            <div id="f-list" style="text-align:left; margin-bottom:20px;">
+                <p style="padding:10px; border-bottom:1px solid #222;">🛡️ Guerda Michel (Épouse)</p>
+                <p style="padding:10px; border-bottom:1px solid #222;">🛡️ Esterlande Belfond (Fille)</p>
             </div>
-            <button class="side-btn" style="margin-top:25px; justify-content:center; background:var(--blue); color:#000;">AJOUTER UN MEMBRE</button>
+            <hr style="border:0; border-top:1px solid var(--gold); margin:15px 0;">
+            <h4>AJOUTER UN MEMBRE</h4>
+            <input type="text" id="new-mem" placeholder="Nom du membre">
+            <input type="text" id="new-rel" placeholder="Relation (ex: Fils)">
+            <button onclick="addMem()" style="width:100%; padding:12px; background:var(--blue); border:none; border-radius:8px; font-weight:900;">ENREGISTRER</button>
         </div>
     </div>
 
-    <footer>© 2026 LESLY MICHEL - TOUS DROITS RÉSERVÉS</footer>
-
     <nav>
-        <button class="sel" id="btn-h" onclick="showP('home', this)"><span>🏠</span>ACCUEIL</button>
-        <button id="btn-v" onclick="showP('vault', this)"><span>🔐</span>CAVERNE</button>
-        <button onclick="location.reload()"><span>🔄</span>RESET</button>
+        <button class="sel" onclick="showP('home', this)">ACCUEIL</button>
+        <button onclick="showP('family', this)">FAMILLE</button>
+        <button onclick="location.reload()">RESET</button>
     </nav>
 
-    <audio id="snd-click" src="https://www.soundjay.com/buttons/button-16.mp3"></audio>
-
     <script>
-        let pin = "", uLang = "fr-FR", uName = "Lesly Michel", exp = "", pCount = 0;
-        const MASTER_PIN = "1575";
+        let uLang = "fr-FR";
 
-        function playClick() { document.getElementById('snd-click').play(); }
-
-        function press(n) { playClick(); if(n==='C') pin = ""; else if(pin.length < 4) pin += n; document.getElementById('pin-display').innerText = "*".repeat(pin.length); }
-
-        function validatePin() {
-            playClick();
-            if(pin === MASTER_PIN) {
+        function checkAccess() {
+            if(document.getElementById('pin').value === "1575") {
                 document.getElementById('lock-screen').style.display = 'none';
-                speak("Bienvenue, Créateur Lesly Michel. Tous les systèmes souverains sont activés.");
-                startAutoMaintenance();
-            } else {
-                alert("CODE INCORRECT. ACCÈS REFUSÉ."); pin = ""; document.getElementById('pin-display').innerText = "";
-                if(navigator.vibrate) navigator.vibrate([100, 50, 100]);
-            }
+            } else { alert("ACCÈS REFUSÉ"); }
         }
 
-        function guestAccess() { 
-            playClick();
-            let gName = prompt("Votre Prénom :"); 
-            if(gName) {
-                alert("Bienvenue, " + gName + ". L'accès complet est réservé au Créateur.");
-                speak("Bienvenue chez Lesly Michel, " + gName);
-                document.getElementById('lock-screen').style.display = 'none';
-            }
-        }
-
-        function toggleS() { playClick(); document.getElementById('side').classList.toggle('on'); }
-
+        function toggleS() { document.getElementById('side').classList.toggle('on'); }
+        
         function showP(id, btn) {
-            playClick();
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
             document.getElementById(id).classList.add('active-page');
-            if(btn) { document.querySelectorAll('nav button').forEach(nb => nb.classList.remove('sel')); btn.classList.add('sel'); }
+            if(btn) { document.querySelectorAll('nav button').forEach(b => b.classList.remove('sel')); btn.classList.add('sel'); }
         }
 
-        function speak(t) {
-            window.speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(t); u.lang = uLang; u.rate = 0.9;
-            u.onstart = () => { document.getElementById('orb').classList.add('active'); if(navigator.vibrate) navigator.vibrate(50); };
-            u.onend = () => document.getElementById('orb').classList.remove('active');
-            window.speechSynthesis.speak(u);
-        }
+        function setLang() { uLang = document.getElementById('lang-sel').value; alert("Langue mise à jour."); }
 
-        function startListening() {
-            playClick();
-            const Rec = window.webkitSpeechRecognition || window.SpeechRecognition;
-            if(!Rec) { alert("Reconnaissance vocale non supportée."); return; }
-            const r = new Rec(); r.lang = uLang;
-            r.onresult = (e) => {
-                const t = e.results[0][0].transcript.toLowerCase();
-                document.getElementById('tx-out').innerText = `"${t}"`;
-                if(t.includes("nettoie")) cleanSystem();
-                else if(t.includes("galerie")) document.getElementById('fileIn').click();
-                else if(t.includes("caverne")) showP('vault', document.getElementById('btn-v'));
-                else if(t.includes("accueil")) showP('home', document.getElementById('btn-h'));
-                else speak("J'assimile votre commande souveraine, PDG.");
-            };
-            r.start();
-        }
-
-        function cleanSystem() {
-            speak("Lancement du nettoyage profond. RAM et cache seront purifiées.");
-            document.getElementById('ram-stat').innerText = "RAM: NETTOYAGE...";
-            document.getElementById('ram-stat').style.color = "var(--urgency)";
-            setTimeout(() => {
-                document.getElementById('ram-stat').innerText = "RAM: 99.9% LIBRE";
-                document.getElementById('ram-stat').style.color = "var(--blue)";
-                speak("Système purifié. Performance de prestige restaurée.");
-                if(navigator.vibrate) navigator.vibrate([100, 50, 100]);
-            }, 2500);
-        }
-
-        function generateCV() {
-            playClick();
-            speak("Génération du Curriculum Vitae de prestige en cours.");
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            doc.setFontSize(22); doc.setTextColor(212, 175, 55); // Gold
-            doc.text("CURRICULUM VITAE", 105, 20, null, null, "center");
-            doc.setFontSize(14); doc.setTextColor(0, 0, 0); // Black
-            doc.text("Produit par L'OBSERVATEUR (Système Souverain Lesly Michel)", 105, 30, null, null, "center");
-            doc.text("Nom : " + uName, 20, 50);
-            doc.text("Expertise : Visionnaire Technologique, PDG", 20, 60);
-            doc.save("CV_Lesly_Michel.pdf");
-            speak("Le document PDF a été généré et archivé avec succès.");
-        }
-
-        function loadMedia(e) {
-            const file = e.target.files[0];
-            const url = URL.createObjectURL(file);
-            document.getElementById('preview-box').style.display = 'block';
-            document.getElementById('w-frame').style.display = 'none';
-            const v = document.getElementById('v-player'); v.src = url; v.style.display = 'block'; v.play();
-            speak("Fichier multimédia chargé depuis la galerie souveraine.");
-        }
-
-        function openIncognito() {
-            playClick();
-            document.getElementById('preview-box').style.display = 'block';
-            document.getElementById('v-player').style.display = 'none';
-            const f = document.getElementById('w-frame'); f.src = "https://www.google.com/search?igu=1"; f.style.display = 'block';
-            speak("Tunnel de navigation privée activé. Discrétion totale.");
-        }
-
-        function k(v) {
-            playClick();
-            const s = document.getElementById('c-res');
-            if(v==='C'){exp=""; s.innerText="0";}
-            else if(v==='='){try{exp=eval(exp); s.innerText=exp;}catch(e){s.innerText="Err";exp="";}}
-            else{exp+=v; s.innerText=exp;}
-        }
-
-        function saveNotes() { localStorage.setItem('o_notes', document.getElementById('notes-db').value); speak("Note archivée dans la base de données sécurisée."); }
-        function checkPanic() { pCount++; setTimeout(()=>pCount=0, 1000); if(pCount===3) location.reload(); }
-
-        function startAutoMaintenance() {
-            setInterval(() => {
-                console.log("Auto-cache cleaning...");
-                document.getElementById('ram-stat').style.color = "#0f0"; // Green
-                setTimeout(()=>document.getElementById('ram-stat').style.color = "var(--blue)", 2000);
-            }, 120000);
+        function addMem() {
+            const name = document.getElementById('new-mem').value;
+            const rel = document.getElementById('new-rel').value;
+            if(name && rel) {
+                const p = document.createElement('p');
+                p.style.cssText = "padding:10px; border-bottom:1px solid #222;";
+                p.innerHTML = `🛡️ ${name} (${rel})`;
+                document.getElementById('f-list').appendChild(p);
+                document.getElementById('new-mem').value = "";
+                document.getElementById('new-rel').value = "";
+            }
         }
 
         function init() {
-            if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
-            document.getElementById('notes-db').value = localStorage.getItem('o_notes') || "";
             setInterval(() => {
                 const n = new Date();
-                document.getElementById('xl-time').innerText = n.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+                // FORMAT 12H (AM/PM)
+                let h = n.getHours();
+                const m = n.getMinutes().toString().padStart(2, '0');
+                const s = n.getSeconds().toString().padStart(2, '0');
+                const ampm = h >= 12 ? 'PM' : 'AM';
+                h = h % 12;
+                h = h ? h : 12; 
+                document.getElementById('xl-time').innerText = `${h}:${m}:${s} ${ampm}`;
                 document.getElementById('xl-date').innerText = n.toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'}).toUpperCase();
             }, 1000);
         }
